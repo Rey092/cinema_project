@@ -1,5 +1,5 @@
-include .env
-export $(shell sed 's/=.*//' .env)
+#include .env
+#export $(shell sed 's/=.*//' .env)
 
 MANAGE = python src/manage.py
 SOURCE = src
