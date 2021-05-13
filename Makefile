@@ -3,7 +3,7 @@
 
 MANAGE = python src/manage.py
 SOURCE = src
-MAIN = main
+MAIN = src
 
 # ##########################################################################
 # common commands
@@ -13,6 +13,9 @@ run:
 
 kill-port:
 	sudo fuser -k 8000/tcp
+
+start-app:
+	cd $(SOURCE) && $(MANAGE) startapp APP
 
 migrate:
 	$(MANAGE) makemigrations
