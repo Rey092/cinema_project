@@ -1,0 +1,97 @@
+.collection {
+    padding: 10px;
+    justify-content: center;
+}
+
+.movie_today {
+    margin-left: auto;
+    margin-right: auto;
+
+}
+
+.buy-ticket {
+    display: flex;
+    width: 70%;
+    margin: auto;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid green;
+}
+
+.buy-button {
+    padding-top: 10px;
+}
+
+p.today {
+    color: black;
+    font-size: 28px;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 4px;
+}
+
+/*.very-soon {*/
+/*    color: green;*/
+/*    font-size: 24px;*/
+/*    font-weight: bold;*/
+/*    margin: auto;*/
+/*    text-align: center;*/
+/*    padding-bottom: 4px;*/
+/*}*/
+
+.banner-container {
+    padding-right: 5px;
+    padding-top: 25px;
+    padding-bottom: 20px;
+}
+
+.vertical-menu {
+    display: block;
+    width: 100%;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    text-align: center;
+    font-size: 21px;
+
+}
+.vertical-menu a {
+    background-color: #eee; /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+    border: 3px dotted #04AA6D;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc; /* Dark grey background on mouse-over */
+    border: 3px dotted black;
+}
+
+.vertical-menu a.active {
+    background-color: #04AA6D; /* Add a green color to the "active/current" link */
+    color: white;
+    border: 3px dotted black;
+}
+
+.banner {
+    width: 100%;
+    position: relative;
+    object-fit: cover;
+}
+
+/*.ads-container {*/
+/*    height: 150px;*/
+/*}*/
+
+/*.ads {*/
+/*    min-width: 100%;*/
+/*    height: 120px;*/
+/*    position: relative;*/
+/*    object-fit: contain;*/
+/*}*/
+
+.wrapper {
+    width: 1400px;
+    margin: 0 auto;
+}

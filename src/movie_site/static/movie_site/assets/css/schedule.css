@@ -1,0 +1,11 @@
+.table-container{
+	border: 3px solid orange;
+}
+.schedule-text{
+    color: green;
+    font-size: 24px;
+    font-weight: bold;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 4px;
+}

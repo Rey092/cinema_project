@@ -1,0 +1,95 @@
+{% load static %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-3">
+                    <div>
+                        <a href={% url 'home_page' %}>
+                            <img style="background-color: rgba(255,255,255,0.85)"
+                                 src="{% static 'movie_site/assets/img/png/logo.png' %}" alt="My image">
+                        </a>
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-3" style="padding: 7px">
+                            <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                   aria-label="Search">
+                        </div>
+                        <div class="col-md-6" style="padding: 7px">
+                            <a href="#" class="fa fa-facebook"></a>
+                            <a href="#" class="fa fa-twitter"></a>
+                            <a href="#" class="fa fa-google"></a>
+                            <a href="#" class="fa fa-linkedin"></a>
+                            <a href="#" class="fa fa-youtube"></a>
+                            <a href="#" class="fa fa-reddit"></a>
+                        </div>
+                        <div class="col-md-3" style="padding: 7px; background-color: rgba(255,255,255,0.85);">
+                            <text class="phone">(048) 777-77-77</text>
+                            <br/>
+                            <text class="phone">(067) 777-77-77</text>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+                                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                        aria-expanded="false" aria-label="Toggle navigation">
+                                    <span class="navbar-toggler-icon"></span>
+                                </button>
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav mr-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'movies' %}">Афиша</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'schedule' %}">Расписание</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'movies_soon' %}">Скоро</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="#">Кинотеатры</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'movie' 1 %}">Акции</a>
+                                        </li>
+
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                               role="button" data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                О кинотеатре
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="#">Новости</a>
+                                                <a class="dropdown-item" href="#">Реклама</a>
+                                                <a class="dropdown-item" href="#">Кафе</a>
+                                                <a class="dropdown-item" href="#">Мобильное приложение</a>
+                                                <a class="dropdown-item" href="#">Контакты</a>
+
+                                            </div>
+                                        </li>
+                                        <li class="nav-item dropdown">
+                                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
+                                               role="button" data-toggle="dropdown" aria-haspopup="true"
+                                               aria-expanded="false">
+                                                Рус
+                                            </a>
+                                            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                                <a class="dropdown-item" href="#">Рус</a>
+                                                <a class="dropdown-item" href="#">Англ</a>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
