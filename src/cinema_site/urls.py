@@ -20,5 +20,6 @@ urlpatterns = [
     path('cinema/list/<int:cinema_slug>', views.CinemaDescriptionView.as_view(), name='cinema_description'),
     path('cinema/list/<int:cinema_slug>/<int:hall_id>', views.HallDescriptionView.as_view(), name='hall_description'),
 
-    path('events-and-discounts/', views.EventsAndDiscountsView.as_view(), name='events_and_discounts'),
+    path('events/', views.EventsView.as_view(), name='events_and_discounts'),
+    path('events/<int:event_slug>/', views.EventDescriptionView.as_view(), name='event_description'),
 ]
