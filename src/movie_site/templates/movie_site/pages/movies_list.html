@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'movie_site/assets/css/movies.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" href="{% static 'movie_site/assets/css/movies_list.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% block content %}
@@ -14,7 +14,7 @@
             <div style="background-color: #e0edf6" class="row">
                 <div class="col-md-2">
                     <div class="vertical-menu">
-                        <a href="{% url 'movies' %}" class="active">Афиша</a>
+                        <a href="{% url 'movies_list' %}" class="active">Афиша</a>
                         <a href="{% url 'movies_soon' %}">Скоро</a>
                     </div>
 
@@ -36,8 +36,7 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">
@@ -51,8 +50,7 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">
@@ -65,8 +63,7 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">
@@ -79,8 +76,7 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">
@@ -93,8 +89,7 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">
@@ -107,8 +102,20 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
+                                </div>
+                            </a>
+                            <div class="buy-button">
+                                <a class="btn btn-success buy-ticket" href="/" role="button">Купить билет</a>
+                            </div>
+                        </div>
+                        <div class="collection">
+                            <a class="image-should-set image-set" href="/">
+                                <img width="200"
+                                     src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
+                                     alt="">
+                                  <div class="info-overlay">
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">
@@ -121,8 +128,7 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">
@@ -135,22 +141,7 @@
                                      src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
                                      alt="">
                                 <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
-                                </div>
-                            </a>
-                            <div class="buy-button">
-                                <a class="btn btn-success buy-ticket" href="/" role="button">Купить билет</a>
-                            </div>
-                        </div>
-                        <div class="collection">
-                            <a class="image-should-set image-set" href="/">
-                                <img width="200"
-                                     src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"
-                                     alt="">
-                                <div class="info-overlay">
-                                    <div class="title">IMAX Posters &amp; Giveaways</div>
-                                    <div class="count">128 wallpapers</div>
+                                    <div class="title info-overlay">Фильм А</div>
                                 </div>
                             </a>
                             <div class="buy-button">

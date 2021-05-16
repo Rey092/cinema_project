@@ -1,0 +1,168 @@
+{% extends "movie_site/elements/base.html" %}
+{% load static %}
+
+{% block title %}
+    Расписание Сеансов
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'movie_site/assets/css/schedule.css' %}?{% now 'U' %}">
+{% endblock %}
+
+{% block content %}
+    <div class="container-fluid">
+        <div style="background-color: #e0edf6" class="row">
+
+            <div class="col-2">
+                <div class="banner-container">
+                    <img class="banner"
+                         src="https://s3.envato.com/files/179288362/5.jpg"
+                         alt="error">
+                </div>
+            </div>
+
+            <div class="col-8">
+                <div class="row">
+                    <div class="btn-group drop-list">
+                        <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            Кинотеатр
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+
+                    <div class="btn-group drop-list">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            Дата
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+
+                    <div class="btn-group drop-list">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            Фильм: все
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+
+                    <div class="btn-group drop-list">
+                        <button type="button" class="btn btn-info dropdown-toggle" data-toggle="dropdown"
+                                aria-haspopup="true"
+                                aria-expanded="false">
+                            Зал: все
+                        </button>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item" href="#">Action</a>
+                            <a class="dropdown-item" href="#">Another action</a>
+                            <a class="dropdown-item" href="#">Something else here</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="#">Separated link</a>
+                        </div>
+                    </div>
+
+                    <div class="drop-list">
+                        <p>Показывать только:</p>
+                    </div>
+                    <div class="drop-list">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                3D
+                            </label>
+                        </div>
+                    </div>
+                    <div class="drop-list">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                D-Box
+                            </label>
+                        </div>
+                    </div>
+                    <div class="drop-list">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                            <label class="form-check-label" for="flexCheckDefault">
+                                VIP
+                            </label>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="table-container">
+                    <div class="schedule-text">
+                        <h1>Расписание</h1>
+                    </div>
+
+                    <table class="table schedule-table">
+                        <thead>
+                        <tr>
+                            <th scope="col">Время</th>
+                            <th scope="col">Фильм</th>
+                            <th scope="col">Зал</th>
+                            <th scope="col">Цена</th>
+                            <th scope="col">Бронировать</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td>14:00</td>
+                            <td>Мортал Комбат 3D</td>
+                            <td>Зал №2</td>
+                            <td>120 грн</td>
+                            <td>Бронь</td>
+                        </tr>
+                        <tr>
+                            <td>14:00</td>
+                            <td>Мортал Комбат 3D</td>
+                            <td>Зал №2</td>
+                            <td>120 грн</td>
+                            <td>Бронь</td>
+                        </tr>
+                        <tr>
+                            <td>14:00</td>
+                            <td>Мортал Комбат 3D</td>
+                            <td>Зал №2</td>
+                            <td>120 грн</td>
+                            <td>Бронь</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </div>
+
+            <div class="col-2">
+                <div class="banner-container">
+                    <img class="banner"
+                         src="https://s3.envato.com/files/179288362/5.jpg"
+                         alt="error">
+                </div>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

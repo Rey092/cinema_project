@@ -9,8 +9,12 @@ urlpatterns = [
 
     path('', views.HomePageView.as_view(), name='home_page'),
 
-    path('movies', views.MoviesView.as_view(), name='movies'),
-    path('movies/<int:movie_slug>/', views.ConcreteMovieView.as_view(), name='movie'),
+    path('movies', views.MoviesView.as_view(), name='movies_list'),
+    path('movies/schedule/', views.MoviesScheduleView.as_view(), name='movies_schedule'),
     path('movies/soon', views.MoviesSoonView.as_view(), name='movies_soon'),
-    path('movies/schedule/', views.ScheduleMovieView.as_view(), name='schedule'),
+
+    path('movies/<int:movie_slug>/', views.MovieDescriptionView.as_view(), name='movie_description'),
+    path('movies/booking/<int:movie_slug>/', views.MovieBookingView.as_view(), name='movie_booking'),
+
+    path('cinema/list', views.CinemaListView.as_view(), name='cinema_list'),
 ]

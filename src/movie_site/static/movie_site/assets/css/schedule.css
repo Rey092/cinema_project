@@ -9,3 +9,12 @@
     text-align: center;
     padding-bottom: 4px;
 }
+.drop-list{
+    padding: 10px 15px;
+}
+.banner {
+    width: 100%;
+    position: relative;
+    object-fit: cover;
+    padding: 30px;
+}

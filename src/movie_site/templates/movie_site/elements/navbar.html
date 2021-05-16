@@ -42,19 +42,19 @@
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav mr-auto">
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'movies' %}">Афиша</a>
+                                            <a class="nav-link" href="{% url 'movies_list' %}">Афиша</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'schedule' %}">Расписание</a>
+                                            <a class="nav-link" href="{% url 'movies_schedule' %}">Расписание</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'movies_soon' %}">Скоро</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="#">Кинотеатры</a>
+                                            <a class="nav-link" href="{% url 'cinema_list' %}">Кинотеатры</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'movie' 1 %}">Акции</a>
+                                            <a class="nav-link" href="#">Акции</a>
                                         </li>
 
                                         <li class="nav-item dropdown">
@@ -82,6 +82,20 @@
                                                 <a class="dropdown-item" href="#">Рус</a>
                                                 <a class="dropdown-item" href="#">Англ</a>
                                             </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </nav>
+                            <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                                    <ul class="navbar-nav mr-auto">
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'movie_description' 1 %}">Описание
+                                                ф.</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'movie_booking' 1 %}">Бронь
+                                                ф.</a>
                                         </li>
                                     </ul>
                                 </div>

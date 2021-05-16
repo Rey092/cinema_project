@@ -1,0 +1,76 @@
+.collection {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+}
+
+.poster {
+      width: 400px;
+object-fit: cover;
+}
+
+.ads-container {
+    height: 150px;
+}
+
+.ads {
+    min-width: 100%;
+    height: 120px;
+    position: relative;
+    object-fit: contain;
+}
+
+.box {
+   position: relative;
+   overflow:hidden;
+    height: 300px;
+    justify-content: center;
+}
+
+.box img {
+    top:50%;
+    object-fit: cover;
+    margin: -330px 0 0 -250px;
+}
+
+.banner {
+    width: 80%;
+    position: relative;
+    object-fit: cover;
+    padding: 30px;
+}
+
+.mini-menu-bar{
+    padding: 5px;
+    justify-content: center;
+    position: relative;
+    border: 4px dotted #eadc1e;
+}
+
+.mini-menu{
+    padding-left: 35px;
+    padding-right: 35px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.order-table{
+    border: 3px solid orange
+}
+
+.booking_banner{
+    width: 100%;
+    position: relative;
+    object-fit: cover;
+    padding: 30px;
+}
+
+
+.info-overlay{
+    text-align: center;
+}
+
+.movie_today {
+    margin-left: auto;
+    margin-right: auto;
+}
