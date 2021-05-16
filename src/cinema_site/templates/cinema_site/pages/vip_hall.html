@@ -1,0 +1,122 @@
+{% extends "cinema_site/elements/base.html" %}
+{% load static %}
+
+{% block title %}
+    Фильм
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'cinema_site/assets/css/vip_hall.css' %}?{% now 'U' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container-fluid">
+
+        <div class="col-12">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+
+                    <div class="box">
+                        <img src="{% static 'cinema_site/assets/img/png/pub.png' %}" alt="">
+                    </div>
+                </div>
+                <div class="col-2"></div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-2">
+            </div>
+            <div style="background-color: #e0edf6;" class="col-md-6">
+                <h2 class="movie_today">VIP-Зал</h2>
+
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore
+                    et dolore magna aliqua. Cras adipiscing enim eu turpis egestas pretium aenean. Neque volutpat ac
+                    tincidunt vitae semper quis lectus. Sit amet risus nullam eget felis eget nunc lobortis mattis. Ac
+                    odio tempor orci dapibus ultrices in iaculis. Tortor aliquam nulla facilisi cras fermentum odio eu
+                    feugiat. Quam lacus suspendisse faucibus interdum posuere lorem ipsum dolor. In nisl nisi
+                    scelerisque eu ultrices vitae auctor eu augue. Ultrices in iaculis nunc sed augue lacus viverra.
+                    Odio ut sem nulla pharetra diam sit amet nisl. Aliquam sem fringilla ut morbi tincidunt. Sem et
+                    tortor consequat id. Mi bibendum neque egestas congue quisque egestas diam. Accumsan in nisl nisi
+                    scelerisque eu ultrices vitae auctor. Placerat vestibulum lectus mauris ultrices eros in. Consequat
+                    mauris nunc congue nisi vitae suscipit tellus. Sem fringilla ut morbi tincidunt augue interdum velit
+                    euismod.
+                </p>
+                <p>
+                    rna id volutpat lacus laoreet non. Laoreet non curabitur gravida arcu ac tortor. Habitant morbi
+                    tristique senectus et netus et malesuada fames ac. Faucibus a pellentesque sit amet. Leo urna
+                    molestie
+                    at elementum eu. Massa sed elementum tempus egestas sed sed. Velit aliquet sagittis id consectetur
+                    purus
+                    ut faucibus. Fusce id velit ut tortor pretium. Porta lorem mollis aliquam ut porttitor leo a diam
+                    sollicitudin. Egestas pretium aenean pharetra magna ac placerat vestibulum lectus mauris. Viverra
+                    suspendisse potenti nullam ac tortor vitae purus.</p>
+
+                <div style="padding-top: 14px;" class="row movie_today">
+
+                    <div class="collection">
+                        <img width="330" height="300"
+                             src="https://i.imgur.com/6LBAQSG.png"
+                             alt="">
+                    </div>
+                    <div class="collection">
+                        <img width="330" height="300"
+                             src="https://i.imgur.com/6LBAQSG.png"
+                             alt="">
+                    </div>
+                    <div class="collection">
+                        <img width="330" height="300"
+                             src="https://i.imgur.com/6LBAQSG.png"
+                             alt="">
+                    </div>
+                </div>
+
+
+                <div class="photo-gallery">
+                    <div class="container">
+                        <div class="intro">
+                            <h2 class="text-center">Gallery</h2>
+                        </div>
+                        <div class="row photos">
+                            <div class="col-sm-6 col-md-4 col-lg-3 item"><a
+                                    href="https://tpc.googlesyndication.com/simgad/7158518754444337508/downsize_200k_v1?w=1200&h=628"
+                                    data-lightbox="photos"><img class="img-fluid"
+                                                                src="https://unsplash.it/1200/768.jpg?image=253"></a>
+                            </div>
+                            <div class="col-sm-6 col-md-4 col-lg-3 item"><a
+                                    href="https://unsplash.it/1200/768.jpg?image=253" data-lightbox="photos"><img
+                                    class="img-fluid" src="https://unsplash.it/1200/768.jpg?image=253"></a></div>
+                            <div class="col-sm-6 col-md-4 col-lg-3 item"><a
+                                    href="https://unsplash.it/1200/768.jpg?image=254" data-lightbox="photos"><img
+                                    class="img-fluid" src="https://unsplash.it/1200/768.jpg?image=254"></a></div>
+                            <div class="col-sm-6 col-md-4 col-lg-3 item"><a
+                                    href="https://unsplash.it/1200/768.jpg?image=255" data-lightbox="photos"><img
+                                    class="img-fluid" src="https://unsplash.it/1200/768.jpg?image=255"></a></div>
+                            <div class="col-sm-6 col-md-4 col-lg-3 item"><a
+                                    href="https://unsplash.it/1200/768.jpg?image=256" data-lightbox="photos"><img
+                                    class="img-fluid" src="https://unsplash.it/1200/768.jpg?image=256"></a></div>
+                            <div class="col-sm-6 col-md-4 col-lg-3 item"><a
+                                    href="https://unsplash.it/1200/768.jpg?image=256" data-lightbox="photos"><img
+                                    class="img-fluid" src="https://unsplash.it/1200/768.jpg?image=256"></a></div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <div style="background-color: #e0edf6;" class="col-2">
+                <div class="banner-container">
+                    <img class="banner"
+                         src="https://s3.envato.com/files/179288362/5.jpg"
+                         alt="error">
+                </div>
+            </div>
+            <div class="col-2">
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
