@@ -112,3 +112,8 @@ class ChildrenRoomView(ListView):
 class AdvertisementInfoView(ListView):
     template_name = 'cinema_site/pages/advertisement_info.html'
     queryset = UserProfile
+
+
+class MobileAppInfoView(ListView):
+    template_name = 'cinema_site/pages/mobile_app_info.html'
+    queryset = UserProfile

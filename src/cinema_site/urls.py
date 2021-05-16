@@ -29,4 +29,5 @@ urlpatterns = [
     path('vip-hall/', views.VipHallView.as_view(), name='vip_hall'),
     path('children-room/', views.ChildrenRoomView.as_view(), name='children_room'),
     path('advertisement-info/', views.AdvertisementInfoView.as_view(), name='advertisement_info'),
+    path('mobile-app-info/', views.MobileAppInfoView.as_view(), name='mobile_app_info'),
 ]
