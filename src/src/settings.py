@@ -37,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'profiles',
-    'movie_site',
+    'cinema_site',
 ]
 
 MIDDLEWARE = [
@@ -118,7 +118,7 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'src', 'movie_site', 'static'),
+    os.path.join(BASE_DIR, 'src', 'cinema_site', 'static'),
 )
 
 # Default primary key field type

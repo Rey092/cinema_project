@@ -1,4 +1,4 @@
-{% extends "movie_site/elements/base.html" %}
+{% extends "cinema_site/elements/base.html" %}
 {% load static %}
 
 {% block title %}
@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'movie_site/assets/css/movie_booking.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" href="{% static 'cinema_site/assets/css/movie_booking.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% block content %}
@@ -114,7 +114,7 @@
                             </div>
                             <div class="banner-container">
                                 <img class="banner"
-                                     src="{% static 'movie_site/assets/img/png/booking.png' %}"
+                                     src="{% static 'cinema_site/assets/img/png/booking.png' %}"
                                      alt="error">
                             </div>
                             <div class="ads-container">

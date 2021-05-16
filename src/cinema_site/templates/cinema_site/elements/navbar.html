@@ -7,7 +7,7 @@
                     <div>
                         <a href={% url 'home_page' %}>
                             <img style="background-color: rgba(255,255,255,0.85)"
-                                 src="{% static 'movie_site/assets/img/png/logo.png' %}" alt="My image">
+                                 src="{% static 'cinema_site/assets/img/png/logo.png' %}" alt="My image">
                         </a>
                     </div>
                 </div>
@@ -51,7 +51,7 @@
                                             <a class="nav-link" href="{% url 'movies_soon' %}">Скоро</a>
                                         </li>
                                         <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_list' %}">Кинотеатры</a>
+                                            <a class="nav-link" href="{% url 'cinemas_list' %}">Кинотеатры</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="#">Акции</a>
@@ -96,6 +96,14 @@
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'movie_booking' 1 %}">Бронь
                                                 ф.</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'cinema_description' 1 %}">Описание
+                                                кинот.</a>
+                                        </li>
+                                        <li class="nav-item">
+                                            <a class="nav-link" href="{% url 'hall_description' 1 1 %}">Описание
+                                                зала.</a>
                                         </li>
                                     </ul>
                                 </div>

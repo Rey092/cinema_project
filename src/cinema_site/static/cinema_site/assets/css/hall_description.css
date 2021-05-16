@@ -1,0 +1,108 @@
+.collection {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+}
+
+.movie_today {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.poster {
+      width: 400px;
+object-fit: cover;
+}
+
+.vertical-menu {
+    display: block;
+    width: 100%;
+    padding-bottom: 25px;
+    padding-top: 25px;
+    text-align: center;
+    font-size: 21px;
+
+}
+.vertical-menu a {
+    background-color: #eee; /* Grey background color */
+    color: black; /* Black text color */
+    display: block; /* Make the links appear below each other */
+    padding: 12px; /* Add some padding */
+    text-decoration: none; /* Remove underline from links */
+    border: 3px dotted #04AA6D;
+}
+
+.vertical-menu a:hover {
+    background-color: #ccc; /* Dark grey background on mouse-over */
+    border: 3px dotted black;
+}
+
+.vertical-menu a.active {
+    background-color: #04AA6D; /* Add a green color to the "active/current" link */
+    color: white;
+    border: 3px dotted black;
+}
+
+.ads-container {
+    height: 150px;
+}
+
+.ads {
+    min-width: 100%;
+    height: 120px;
+    position: relative;
+    object-fit: contain;
+}
+
+.top-box {
+   position: relative;
+   overflow:hidden;
+    height: 300px;
+    justify-content: center;
+}
+
+.top-box img {
+    width: 100%;
+    top:50%;
+    object-fit: cover;
+    margin: -430px 0 0 0;
+}
+
+.banner-container {
+    padding-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 20px;
+}
+
+.banner {
+    width: 100%;
+    position: relative;
+    object-fit: fill;
+    padding: 20px;
+}
+
+.mini-menu-bar{
+    padding: 5px;
+    justify-content: center;
+    position: relative;
+    border: 4px dotted #eadc1e;
+}
+
+.mini-menu{
+    padding-left: 35px;
+    padding-right: 35px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.order-table{
+    border: 3px solid orange
+}
+
+.booking_banner{
+    width: 100%;
+    position: relative;
+    object-fit: cover;
+    padding: 30px;
+}
+
