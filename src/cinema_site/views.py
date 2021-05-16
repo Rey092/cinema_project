@@ -92,3 +92,8 @@ class AboutView(ListView):
 class NewsView(ListView):
     template_name = 'cinema_site/pages/news.html'
     queryset = UserProfile
+
+
+class PubView(ListView):
+    template_name = 'cinema_site/pages/pub.html'
+    queryset = UserProfile

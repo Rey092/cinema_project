@@ -25,5 +25,5 @@ urlpatterns = [
 
     path('about/', views.AboutView.as_view(), name='about'),
     path('news/', views.NewsView.as_view(), name='news'),
-
+    path('pub/', views.PubView.as_view(), name='pub'),
 ]
