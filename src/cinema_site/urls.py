@@ -27,4 +27,5 @@ urlpatterns = [
     path('news/', views.NewsView.as_view(), name='news'),
     path('pub/', views.PubView.as_view(), name='pub'),
     path('vip-hall/', views.VipHallView.as_view(), name='vip_hall'),
+    path('children-room/', views.ChildrenRoom.as_view(), name='children_room'),
 ]

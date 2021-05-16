@@ -102,3 +102,8 @@ class PubView(ListView):
 class VipHallView(ListView):
     template_name = 'cinema_site/pages/vip_hall.html'
     queryset = UserProfile
+
+
+class ChildrenRoom(ListView):
+    template_name = 'cinema_site/pages/children_room.html'
+    queryset = UserProfile
