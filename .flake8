@@ -1,8 +1,8 @@
 [flake8]
 max-line-length = 120
-exclude=.venv,venv,tests/*,src/*/migrations/*,.git,*migrations*
+exclude=.venv,venv,tests/*,src/*/migrations/*,.git,*migrations*, manage.py
 application-import-names=app
 import-order-style=google
 max-complexity=10
-ignore=Q000,D1
-inline-quotes="
+ignore=D1
+inline-quotes='
