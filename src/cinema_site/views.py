@@ -117,3 +117,8 @@ class AdvertisementInfoView(ListView):
 class MobileAppInfoView(ListView):
     template_name = 'cinema_site/pages/mobile_app_info.html'
     queryset = UserProfile
+
+
+class ContactsView(ListView):
+    template_name = 'cinema_site/pages/contacts.html'
+    queryset = UserProfile
