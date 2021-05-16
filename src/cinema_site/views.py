@@ -87,3 +87,8 @@ class EventDescriptionView(ListView):
 class AboutView(ListView):
     template_name = 'cinema_site/pages/about.html'
     queryset = UserProfile
+
+
+class NewsView(ListView):
+    template_name = 'cinema_site/pages/news.html'
+    queryset = UserProfile
