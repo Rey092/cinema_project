@@ -22,4 +22,7 @@ urlpatterns = [
 
     path('events/', views.EventsView.as_view(), name='events_and_discounts'),
     path('events/<int:event_slug>/', views.EventDescriptionView.as_view(), name='event_description'),
+
+    path('about/', views.AboutView.as_view(), name='about'),
+
 ]
