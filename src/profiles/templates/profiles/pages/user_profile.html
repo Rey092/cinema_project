@@ -1,0 +1,79 @@
+{% extends "cinema_site/elements/base.html" %}
+{% load static %}
+
+{% block title %}
+    Детская
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{% static 'profiles/assets/css/user_profile.css' %}?{% now 'U' %}">
+{% endblock %}
+
+{% block content %}
+
+    <div class="container">
+
+        <div class="col-12">
+            <div class="row">
+                <div class="box">
+                    <img src="https://i.imgur.com/lefo3pU.png" alt="">
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+
+            {#            {% for radio in form %}#}
+            {#                    {{ radio }}#}
+            {#            {% endfor %}#}
+
+            <div class="container card">
+                <form method="post" novalidate>
+                    <h2 class="text-center"><strong>User</strong> Profile</h2>
+                    {% csrf_token %}
+
+                    <table class="data_table">
+                        {% for field in form %}
+
+                            <div class="form-group">
+                                {% if forloop.counter|divisibleby:2 %}
+                                {% else %}
+                                    <tr>
+                                {% endif %}
+
+                                <td class="data_element">
+                                    {% if field.errors %}
+                                        {% for error in field.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {{ field.label }}: {{ field }}</td>
+
+                                {% if forloop.counter|divisibleby:2 %}
+                                    </tr>
+                                {% else %}
+                                {% endif %}
+
+                            </div>
+
+                        {% endfor %}
+
+                    </table>
+
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+
+                    <div class="form-group">
+                        <button class="btn btn-primary btn-block" type="submit">Edit</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

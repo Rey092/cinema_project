@@ -8,6 +8,17 @@ from django.utils.translation import gettext_lazy as _
 from phonenumber_field import modelfields
 
 
+def normalize_all(obj):
+    obj.email = UserProfileManager.normalize_email(obj.email)
+    obj.username = UserProfile.normalize_username(obj.username)
+
+    obj.username = obj.username.lower()
+    obj.email = obj.email.lower()
+    obj.first_name = obj.first_name.capitalize()
+    obj.last_name = obj.last_name.capitalize()
+    obj.full_name = f'{obj.first_name} {obj.last_name}'
+
+
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles."""
 
@@ -15,17 +26,18 @@ class UserProfileManager(BaseUserManager):
         """Create a new user profile."""
         if not email:
             raise ValueError('User must have an email address')
-        email = self.normalize_email(email)
-        user = self.model(email, *args, **kwargs)
+
+        user = self.model(*args, **kwargs)
+        normalize_all(user)
 
         user.set_password(password)
         user.save(using=self._db)
 
         return user
 
-    def create_superuser(self, email, *args, **kwargs):
+    def create_superuser(self, *args, **kwargs):
         """Create and save a new superuser with given details."""
-        user = self.create_user(email, *args, **kwargs)
+        user = self.create_user(*args, **kwargs)
 
         user.is_superuser = True
         user.is_staff = True
@@ -50,20 +62,20 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         KIEV = 'KIEV', _('Киев')
         KHARKIV = 'KHARKIV', _('Харьков')
 
-    username = models.CharField(max_length=20, unique=True)
-    email = models.EmailField(max_length=100, unique=True)
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
-    full_name = models.CharField(max_length=40)
-    phone_number = modelfields.PhoneNumberField()
-    address = models.CharField(max_length=40)
-    cc_number = CardNumberField(_('card number'))
-    birthday = DateField()
+    username = models.CharField(max_length=20, unique=True, verbose_name='Никнейм')
+    email = models.EmailField(max_length=100, unique=True, verbose_name='Электронная почта')
+    first_name = models.CharField(max_length=20, verbose_name='Имя')
+    last_name = models.CharField(max_length=20, verbose_name='Фамилия')
+    full_name = models.CharField(max_length=40, verbose_name='Полное имя')
+    phone_number = modelfields.PhoneNumberField(verbose_name='Номер телефона')
+    address = models.CharField(max_length=40, verbose_name='Адрес')
+    cc_number = CardNumberField(_('Номер карты'))
+    birthday = DateField(verbose_name='Дата рождения')
     created = DateField(auto_now_add=True)
 
-    language = models.CharField(max_length=2, choices=Languages.choices, default=Languages.RUSSIAN,)
-    gender = models.CharField(max_length=1, choices=Genders.choices, default=Genders.MALE,)
-    city = models.CharField(max_length=20, choices=Cities.choices, default=Cities.ODESSA,)
+    language = models.CharField(max_length=2, choices=Languages.choices, default=Languages.RUSSIAN, verbose_name='Язык')
+    gender = models.CharField(max_length=1, choices=Genders.choices, default=Genders.MALE, verbose_name='Пол')
+    city = models.CharField(max_length=20, choices=Cities.choices, default=Cities.ODESSA, verbose_name='Город')
 
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
@@ -93,5 +105,5 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         return self.email
 
     def save(self, *args, **kwargs):
-        self.full_name = f'{self.first_name} {self.last_name}'
+        normalize_all(self)
         super(UserProfile, self).save(*args, **kwargs)
