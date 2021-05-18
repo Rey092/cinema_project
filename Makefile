@@ -15,7 +15,7 @@ kill-port:
 	sudo fuser -k 8000/tcp
 
 start-app:
-	cd $(SOURCE) && $(MANAGE) startapp APP
+	cd $(SOURCE) && python manage.py startapp $(app)
 
 migrate:
 	$(MANAGE) makemigrations

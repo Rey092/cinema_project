@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 
     'profiles',
     'cinema_site',
+    'admin_lte'
 ]
 
 MIDDLEWARE = [
@@ -124,7 +125,8 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'src', 'cinema_site', 'static'),
+    os.path.join(BASE_DIR, 'cinema_site', 'static'),
+    os.path.join(BASE_DIR, 'admin_lte', 'static'),
 )
 
 # Default primary key field type
