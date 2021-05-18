@@ -14,6 +14,9 @@ run:
 kill-port:
 	sudo fuser -k 8000/tcp
 
+diagram:
+	$(MANAGE) graph_models -a -g -o my_project_visualized.png
+
 start-app:
 	cd $(SOURCE) && python manage.py startapp $(app)
 
