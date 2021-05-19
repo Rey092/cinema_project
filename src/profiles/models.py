@@ -22,13 +22,14 @@ def normalize_all(obj):
 class UserProfileManager(BaseUserManager):
     """Manager for user profiles."""
 
-    def create_user(self, email, password=None, *args, **kwargs):
+    def create_user(self, email, username, password=None, *args, **kwargs):
         """Create a new user profile."""
         if not email:
             raise ValueError('User must have an email address')
+        if not username:
+            raise ValueError('User must have an username')
 
-        user = self.model(*args, **kwargs)
-        normalize_all(user)
+        user = self.model(email, username, *args, **kwargs)
 
         user.set_password(password)
         user.save(using=self._db)
