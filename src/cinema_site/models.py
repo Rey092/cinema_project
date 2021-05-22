@@ -1,12 +1,20 @@
+import os
+
+from django.conf.global_settings import MEDIA_ROOT
 from django.db import models
 from django.utils.translation import gettext_lazy as _
 from phonenumber_field.modelfields import PhoneNumberField
 from profiles.models import UserProfile
 
+from .services.media_services import UploadToPathAndRename
+
 
 class Image(models.Model):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to='media/admin_lte/')
+    image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
+
+    def __str__(self):
+        return self.name
 
 
 class SeoData(models.Model):
@@ -19,13 +27,13 @@ class SeoData(models.Model):
 
 class Cinema(models.Model):
     name = models.CharField(max_length=40)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     description = models.TextField()
     conditions = models.TextField()
 
-    logo = models.ForeignKey(Image, on_delete=models.CASCADE)
-    banner = models.ForeignKey(Image, on_delete=models.CASCADE)
-    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE)
+    logo = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='cinema_logo')
+    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='cinema_banner')
+    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='cinema_seo')
 
 
 class Hall(models.Model):
@@ -34,10 +42,10 @@ class Hall(models.Model):
     description = models.TextField()
     conditions = models.TextField()
 
-    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE)
-    layout = models.ForeignKey(Image, on_delete=models.CASCADE)
-    banner = models.ForeignKey(Image, on_delete=models.CASCADE)
-    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE)
+    cinema = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True, related_name='hall_cinema')
+    layout = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='hall_layout')
+    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='hall_banner')
+    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='hall_seo')
 
 
 class Movie(models.Model):
@@ -47,9 +55,23 @@ class Movie(models.Model):
     trailer_url = models.URLField()
     release_date = models.DateField()
     is_active = models.BooleanField()
+    is_2d = models.BooleanField()
+    is_3d = models.BooleanField()
+    is_imax = models.BooleanField()
 
-    poster = models.ForeignKey(SeoData, on_delete=models.CASCADE)
-    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE)
+    gallery = models.ManyToManyField(
+        Image,
+        through='MovieGallery',
+        through_fields=('movie', 'image'),
+    )
+
+    poster = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='movie_poster')
+    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='movie_seo')
+
+
+class MovieGallery(models.Model):
+    movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
+    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
 
 
 class Seance(models.Model):
@@ -62,8 +84,8 @@ class Seance(models.Model):
     price = models.IntegerField()
     time = models.DateTimeField()
 
-    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
-    hall = models.ForeignKey(Hall, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True, related_name='seance_movie')
+    hall = models.ForeignKey(Hall, on_delete=models.SET_NULL, null=True, related_name='seance_hall')
 
 
 class Ticket(models.Model):
@@ -71,8 +93,8 @@ class Ticket(models.Model):
     seat_place = models.IntegerField()
     is_booked = models.BooleanField()
 
-    seance = models.ForeignKey(Seance, on_delete=models.CASCADE)
-    buyer = models.ForeignKey(UserProfile, on_delete=models.CASCADE)
+    seance = models.ForeignKey(Seance, on_delete=models.SET_NULL, null=True, related_name='ticket_seance')
+    buyer = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='ticket_buyer')
 
 
 class Article(models.Model):
@@ -84,14 +106,11 @@ class Article(models.Model):
     description = models.TextField()
     video_url = models.URLField()
     is_active = models.BooleanField()
-    mode = models.CharField(max_length=5, choices=Mode.choices, verbose_name='Тип статьи')
+    mode = models.CharField(max_length=5, choices=Mode.choices, null=True, verbose_name='Тип статьи')
     created = models.DateTimeField(auto_now_add=True)
 
-    banner = models.ForeignKey(Image, on_delete=models.CASCADE)
-    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE)
-
-    class Meta:
-        abstract = True
+    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='article_banner')
+    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='article_seo')
 
 
 class Page(models.Model):
@@ -102,15 +121,16 @@ class Page(models.Model):
     phone2 = PhoneNumberField()
     is_basic = models.BooleanField(default=True)
 
-    banner = models.ForeignKey(Image, on_delete=models.CASCADE)
-    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE)
+    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='page_banner')
+    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='page_seo')
 
 
 class Contacts(models.Model):
     name = models.CharField(max_length=40)
     address = models.TextField()
     coordinates = models.CharField(max_length=120)
-    logo = models.ForeignKey(Image, on_delete=models.CASCADE)
+
+    logo = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='contacts_logo')
 
 
 class EmailTemplate(models.Model):

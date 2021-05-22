@@ -1,0 +1,128 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+
+{% block title %}
+    AdminLTE 3 | Starter
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">Список фильмов текущих</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content" style="padding-left: 100px; padding-right: 100px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card card-success" style="margin: auto;">
+                        <div class="card-body">
+                            <div class="row" style="margin: auto;">
+                                {% for movie in object_list.now %}
+                                    <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
+                                        <div class="card mb-2 bg-gradient-dark">
+                                            <a href="{% url 'movie_description' movie.slug %}">
+                                                <img class="card-img-top" style="width: 100%; height: auto;"
+                                                     src="{{ movie.poster.image.url }}"
+                                                     alt="Dist Photo 1">
+                                                <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                    <div>
+                                                        <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
+                                                            bold"
+                                                            class="card-title text-primary
+                                                            text-white">{{ movie.title }}</h5>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">Список фильмов которые покажут скоро</h1>
+                    </div><!-- /.col -->
+                    <div class="">
+                        {#                        <ol class="breadcrumb float-sm-right">#}
+                        {#                            <li class="breadcrumb-item"><a href="#">Home</a></li>#}
+                        {#                            <li class="breadcrumb-item active">Starter Page</li>#}
+                        {#                        </ol>#}
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content" style="padding-left: 100px; padding-right: 100px;">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card card-success" style="margin: auto;">
+                        <div class="card-body">
+                            <div class="row" style="margin: auto;">
+                                {% for movie in object_list.soon %}
+                                    <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
+                                        <div class="card mb-2 bg-gradient-dark">
+                                            <a href="{% url 'movie_description' movie.slug %}">
+                                                <img class="card-img-top" style="width: 100%; height: auto;"
+                                                     src="{{ movie.poster.image.url }}"
+                                                     alt="Dist Photo 1">
+                                                <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                    <div>
+                                                        <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
+                                                            bold"
+                                                            class="card-title text-primary
+                                                            text-white">{{ movie.title }}</h5>
+                                                    </div>
+                                                </div>
+                                            </a>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/dist/js/adminlte.min.js' %}"></script>
+{% endblock %}

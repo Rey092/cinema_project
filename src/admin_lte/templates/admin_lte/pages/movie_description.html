@@ -1,0 +1,236 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+
+{% block title %}
+    AdminLTE 3 | Starter
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">{{ movie.title }}</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-3">
+
+                        <!-- Profile Image -->
+                        <div class="card card-primary card-outline">
+                            <div class="card-body box-profile">
+                                <div class="text-center">
+                                    <img class="profile-user-img img-fluid" style="width: 250px;"
+                                         src="{{ movie.poster.image.url }}" alt="User profile picture">
+                                </div>
+
+                                <h3 class="profile-username text-center">{{ movie.title }}</h3>
+
+                                <p class="text-muted text-center">Software Engineer</p>
+
+                                <ul class="list-group list-group-unbordered mb-3">
+                                    <li class="list-group-item">
+                                        <b>Followers</b> <a class="float-right">1,322</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Following</b> <a class="float-right">543</a>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <b>Friends</b> <a class="float-right">13,287</a>
+                                    </li>
+                                </ul>
+
+                                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+
+                        <!-- About Me Box -->
+                        <div class="card card-primary">
+
+                            <!-- /.card-header -->
+                            <div class="card-body">
+                                <img src="" alt="">
+                            </div>
+                            <!-- /.card-body -->
+                        </div>
+                        <!-- /.card -->
+                    </div>
+                    <!-- /.col -->
+                    <div class="col-md-9">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Изменить данные фильма</h3>
+                            </div>
+                            <!-- /.card-header -->
+
+                            <!-- form start -->
+                            <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-body">
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.title.label_tag }}</strong>
+                                        {{ form1.title }}
+                                    </div>
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.slug.label_tag }}</strong>
+                                        {{ form1.slug }}
+                                    </div>
+
+                                    <strong>Форматы показа фильма:</strong>
+
+                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_2d }}
+                                            <label class="custom-control-label" for="customCheckbox1">2D</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_3d }}
+                                            <label class="custom-control-label" for="customCheckbox2">3D</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_imax }}
+                                            <label class="custom-control-label" for="customCheckbox3">IMAX</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.description.label_tag }}</strong>
+                                        {{ form1.description }}
+                                    </div>
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.trailer_url.label_tag }}</strong>
+                                        {{ form1.trailer_url }}
+                                    </div>
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.release_date.label_tag }}</strong>
+                                        {{ form1.release_date }}
+                                    </div>
+
+                                    <div class="form-group mb-2" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_active }}
+                                            <label class="custom-control-label" for="customCheckbox4">Фильм
+                                                активен</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.poster.label_tag }}</strong>
+                                        {{ form1.poster }}
+                                    </div>
+
+                                    <div class="card-header">
+                                        <h3 class="card-title">Галлерея картинок</h3>
+                                    </div>
+
+                                    <div class="row">
+                                        {% for object in gallery %}
+                                            <div>
+                                                <img style="width: 33.3%;" src="{{ object.image.image.url }}" alt="">
+                                                <div style="margin: auto; padding: 5px;">
+                                                    <input type="file" name="gallery-image-2" id="main_image"
+                                                           class="upload"
+                                                           accept="image/*">
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    </div>
+
+                                    {#----Seo FORM start-----#}
+                                    <!-- Content Header (Page header) -->
+                                    <div class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-12">
+                                                    <h1 class="m-0"
+                                                        style="text-align: center; font-weight: bold; font-size: 20px;">
+                                                        СЕО-Блок</h1>
+                                                </div><!-- /.col -->
+                                                <div class="">
+                                                    {#                        <ol class="breadcrumb float-sm-right">#}
+                                                    {#                            <li class="breadcrumb-item"><a href="#">Home</a></li>#}
+                                                    {#                            <li class="breadcrumb-item active">Starter Page</li>#}
+                                                    {#                        </ol>#}
+                                                </div><!-- /.col -->
+                                            </div><!-- /.row -->
+                                        </div><!-- /.container-fluid -->
+                                    </div>
+                                    <!-- /.content-header -->
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form2.title.label_tag }}</strong>
+                                        {{ form2.title }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form2.url.label_tag }}</strong>
+                                        {{ form2.url }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form2.keywords.label_tag }}</strong>
+                                        {{ form2.keywords }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form2.description.label_tag }}</strong>
+                                        {{ form2.description }}
+                                    </div>
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form2.seo_text.label_tag }}</strong>
+                                        {{ form2.seo_text }}
+                                    </div>
+                                    {#----Seo FORM end-----#}
+                                </div>
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                            <!-- form end -->
+                        </div>
+                        <!-- /.card-body -->
+
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+    </div><!-- /.container-fluid -->
+
+    <!-- /.content -->
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/dist/js/adminlte.min.js' %}"></script>
+{% endblock %}
