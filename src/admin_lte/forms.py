@@ -1,14 +1,22 @@
-from cinema_site.models import Movie, MovieGallery, SeoData
-from django.forms import CheckboxInput, DateInput, FileField, ModelForm, Textarea, TextInput, URLInput
+from cinema_site.models import Image, Movie, SeoData
+from django.forms import CheckboxInput, DateInput, FileInput, Form, ImageField, ModelForm, Textarea, TextInput, URLInput
 
 
 class MovieGalleryForm(ModelForm):
     class Meta:
-        model = MovieGallery
+        model = Image
         fields = ['image']
         widgets = {
-            'image': FileField(),
+            'image': FileInput(),
         }
+
+
+class PosterForm(Form):
+    picture = ImageField(label='Новый постер:', required=False)
+
+
+class GalleryForm(Form):
+    picture = ImageField(required=False)
 
 
 class SeoDataForm(ModelForm):
@@ -52,7 +60,7 @@ class MovieForm(ModelForm):
     class Meta:
         model = Movie
         fields = ['title', 'slug', 'description', 'trailer_url', 'release_date', 'is_active',
-                  'poster', 'is_2d', 'is_3d', 'is_imax']
+                  'is_2d', 'is_3d', 'is_imax']
         widgets = {
             'title': TextInput(attrs={
                 'required': 'required',
@@ -103,12 +111,10 @@ class MovieForm(ModelForm):
             'trailer_url': 'Ссылка на трейлер',
             'release_date': 'Начало показов',
             'is_active': 'Активный',
-            'poster': 'Постер',
             'is_2d': '2D',
             'is_3d': '3D',
             'is_imax': 'IMAX',
         }
-
 
 # class MovieSeoMultiForm(MultiModelForm):
 #     form_classes = {

@@ -1,9 +1,9 @@
-from cinema_site.models import Movie, MovieGallery, SeoData
+from cinema_site.models import Image, Movie, MovieGallery, SeoData
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView
 
-from .forms import MovieForm, MovieGalleryForm, SeoDataForm
+from .forms import MovieForm, MovieGalleryForm, PosterForm, SeoDataForm
 
 
 def admin_lte_home(request):
@@ -30,37 +30,46 @@ def edit_movie_view(request, slug):
     movie = get_object_or_404(Movie, slug=slug)
     seo = get_object_or_404(SeoData, id=movie.seo.id)
     gallery = MovieGallery.objects.filter(movie=movie)
-    print(1)
 
     if request.method == 'POST':
-        print(2)
         movie_form = MovieForm(request.POST, prefix='form1', instance=movie)
-        print(movie_form.is_valid(), movie_form.errors, movie_form.non_field_errors())
         seo_data_form = SeoDataForm(request.POST, prefix='form2', instance=seo)
-        # gallery_forms = [MovieGalleryForm(request.POST, request.FILES, instance=x, prefix=f'gallery1') for x in
-        # gallery]
+        poster_form = PosterForm(request.POST, request.FILES, prefix='poster_form')
+
+        print(request.FILES)
+        # test = MovieGalleryForm(request.POST, request.FILES, instance=gallery[0], prefix=f'gallery1')
+        gallery_forms = [MovieGalleryForm(request.POST, request.FILES, prefix=f'gallery{i}') for i, x in
+                         enumerate(gallery, 1)]
+        # gallery_form = MovieGalleryForm(request.POST, request.FILES, prefix=f'gallery1')
+        for gallery in gallery_forms:
+            print(gallery.errors)
 
         valid1 = movie_form.is_valid()
         valid2 = seo_data_form.is_valid()
-        valid3 = True
-        # for gallery in gallery_forms:
-        #     if not gallery.is_valid():
-        #         valid3 = False
-        print(valid1, valid2, valid3)
-        if valid1 and valid2 and valid3:
-            print(4)
+        valid3 = poster_form.is_valid()
+
+        if all([valid1, valid2, valid3]):
             movie_form.save(commit=True)
             seo_data_form.save(commit=True)
-            # print(gallery_forms)
-            print(5)
+
+            if request.FILES.get('poster_form-picture'):
+                poster = get_object_or_404(Image, id=movie.poster.id)
+                poster.image = request.FILES.get('poster_form-picture')
+                poster.save()
+
             return redirect('movies_list')
 
-    gallery_forms = [MovieGalleryForm(instance=x, prefix='gallery') for x in gallery]
     movie_form = MovieForm(instance=movie, prefix='form1')
     seo_data_form = SeoDataForm(instance=seo, prefix='form2')
+    poster_form = PosterForm(prefix='poster_form')
+
+    # gallery_forms = [MovieGalleryForm(instance=x, prefix='gallery') for x in gallery]
+    gallery_forms = [MovieGalleryForm(prefix=f'gallery{i}', instance=x) for i, x in enumerate(gallery, 1)]
+
+    gallery_zip = zip(gallery_forms, gallery)
     return render(request, 'admin_lte/pages/movie_description.html',
-                  context={'movie': movie, 'form1': movie_form, 'form2': seo_data_form, 'gallery_forms': gallery_forms,
-                           'gallery': gallery})
+                  context={'movie': movie, 'form1': movie_form, 'form2': seo_data_form, 'gallery_zip': gallery_zip,
+                           'gallery': gallery, 'poster_form': poster_form})
 
 # class MovieDescriptionView(SuccessMessageMixin, UpdateView):
 #     """Movies that are now in the cinema. url: 'movies/'. TODO"""

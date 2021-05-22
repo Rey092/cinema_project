@@ -1,5 +1,6 @@
 {% extends "admin_lte/elements/base.html" %}
 {% load static %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     AdminLTE 3 | Starter
@@ -138,23 +139,20 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form1.poster.label_tag }}</strong>
-                                        {{ form1.poster }}
-                                    </div>
+                                    {{ poster_form|crispy }}
 
                                     <div class="card-header">
                                         <h3 class="card-title">Галлерея картинок</h3>
                                     </div>
-
+                                    {##}
                                     <div class="row">
-                                        {% for object in gallery %}
+                                        {% for form, img in gallery_zip %}
                                             <div>
-                                                <img style="width: 33.3%;" src="{{ object.image.image.url }}" alt="">
-                                                <div style="margin: auto; padding: 5px;">
-                                                    <input type="file" name="gallery-image-2" id="main_image"
-                                                           class="upload"
-                                                           accept="image/*">
+                                                <img style="width: 33.3%;"
+                                                     src="{{ img.image.image.url }}"
+                                                     alt="">
+                                                <div style="padding-left: 20px; padding-top: 5px;">
+                                                    {{ form }}
                                                 </div>
                                             </div>
                                         {% endfor %}

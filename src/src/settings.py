@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'crispy_forms',
     'django_extensions',
     'debug_toolbar',
     'phonenumber_field',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'cinema_site',
     'admin_lte'
 ]
+CRISPY_TEMPLATE_PACK = 'uni_form'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
