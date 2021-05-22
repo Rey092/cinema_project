@@ -30,7 +30,7 @@ class MoviesView(ListView):
 def edit_movie_view(request, slug):
     movie = get_object_or_404(Movie, slug=slug)
     seo = get_object_or_404(SeoData, id=movie.seo.id)
-    GalleryFormSet = modelformset_factory(MovieGalleryImage, form=MovieGalleryImageForm, extra=3)
+    GalleryFormSet = modelformset_factory(MovieGalleryImage, form=MovieGalleryImageForm, extra=0)
     # gallery = MovieGallery.objects.filter(movie=movie)
 
     if request.method == 'POST':
@@ -63,7 +63,7 @@ def edit_movie_view(request, slug):
     movie_form = MovieForm(instance=movie, prefix='form1')
     seo_data_form = SeoDataForm(instance=seo, prefix='form2')
     poster_form = PosterForm(prefix='poster_form')
-    formset = GalleryFormSet(queryset=MovieGalleryImage.objects.none())
+    formset = GalleryFormSet(queryset=MovieGalleryImage.objects.all())
 
     # gallery_forms = [MovieGalleryForm(instance=x, prefix='gallery') for x in gallery]
     # gallery_forms = [MovieGalleryForm(prefix=f'gallery{i}', instance=x) for i, x in enumerate(gallery, 1)]

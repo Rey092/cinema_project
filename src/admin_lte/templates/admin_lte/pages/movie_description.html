@@ -7,6 +7,9 @@
 {% endblock %}
 
 {% block head %}
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
 {% endblock %}
 
 {% block content %}
@@ -139,34 +142,60 @@
                                         </div>
                                     </div>
 
-                                    {{ poster_form|crispy }}
+                                    <div class="form-group mb-2">
+                                        {{ poster_form|crispy }}
+                                    </div>
+
 
                                     <div class="card-header">
-                                        <h3 class="card-title">Галлерея картинок</h3>
+                                        <h2 class="card-title"><strong>Галерея картинок</strong></h2>
                                     </div>
-                                    {##}
-
-                                    {{ movie_form|crispy }}
 
                                     {{ formset.management_form }}
-                                    {% for form in formset %}
-                                        {{ form|crispy }}
-                                    {% endfor %}
 
+                                    <div id="form_set">
+                                        <table>
+                                            <tr>
+                                                {% for form in formset.forms %}
 
+                                                    <td>
+                                                        <div class="col-12" style="padding:10px;">
+                                                            <img class="profile-user-img img-fluid"
+                                                                 style="width: 250px;"
+                                                                 src="{{ movie.poster.image.url }}"
+                                                                 alt="User profile picture">
+                                                            <table class='no_error'>
+                                                                {{ form }}
+                                                            </table>
+                                                        </div>
+                                                    </td>
+                                                    {% if forloop.counter|divisibleby:3 %}
+                                                        </tr>
+                                                    {% endif %}
+                                                {% endfor %}
+                                            </tr>
+                                        </table>
 
-                                    <div class="row">
-                                        {% for form, img in gallery_zip %}
-                                            <div>
-                                                <img style="width: 33.3%;"
-                                                     src="{{ img.image.image.url }}"
-                                                     alt="">
-                                                <div style="padding-left: 20px; padding-top: 5px;">
-                                                    {{ form }}
-                                                </div>
-                                            </div>
-                                        {% endfor %}
                                     </div>
+                                    <input type="button" value="Add More" id="add_more">
+
+
+                                    <div id="empty_form" style="display:none">
+                                        <div style="display: inline-block">
+                                            <table class='no_error'>
+                                                {{ formset.empty_form }}
+                                            </table>
+                                        </div>
+                                    </div>
+
+
+                                    <script>
+                                        $('#add_more').click(function () {
+                                            const form_idx = $('#id_form-TOTAL_FORMS').val();
+                                            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+                                            form_idx.eq(parseInt(form_idx) + 1);
+                                        });
+                                    </script>
 
 
                                     {#----Seo FORM start-----#}

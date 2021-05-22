@@ -6,6 +6,9 @@ class MovieGalleryImageForm(ModelForm):
     class Meta:
         model = MovieGalleryImage
         fields = ('image',)
+        labels = {
+            'image': ''
+        }
 
 
 class PosterForm(Form):
