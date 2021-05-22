@@ -1,22 +1,15 @@
-from cinema_site.models import Image, Movie, SeoData
-from django.forms import CheckboxInput, DateInput, FileInput, Form, ImageField, ModelForm, Textarea, TextInput, URLInput
+from cinema_site.models import Movie, MovieGalleryImage, SeoData
+from django.forms import CheckboxInput, DateInput, Form, ImageField, ModelForm, Textarea, TextInput, URLInput
 
 
-class MovieGalleryForm(ModelForm):
+class MovieGalleryImageForm(ModelForm):
     class Meta:
-        model = Image
-        fields = ['image']
-        widgets = {
-            'image': FileInput(),
-        }
+        model = MovieGalleryImage
+        fields = ('image',)
 
 
 class PosterForm(Form):
     picture = ImageField(label='Новый постер:', required=False)
-
-
-class GalleryForm(Form):
-    picture = ImageField(required=False)
 
 
 class SeoDataForm(ModelForm):

@@ -145,6 +145,16 @@
                                         <h3 class="card-title">Галлерея картинок</h3>
                                     </div>
                                     {##}
+
+                                    {{ movie_form|crispy }}
+
+                                    {{ formset.management_form }}
+                                    {% for form in formset %}
+                                        {{ form|crispy }}
+                                    {% endfor %}
+
+
+
                                     <div class="row">
                                         {% for form, img in gallery_zip %}
                                             <div>
@@ -157,6 +167,7 @@
                                             </div>
                                         {% endfor %}
                                     </div>
+
 
                                     {#----Seo FORM start-----#}
                                     <!-- Content Header (Page header) -->

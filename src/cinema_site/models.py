@@ -59,19 +59,13 @@ class Movie(models.Model):
     is_3d = models.BooleanField()
     is_imax = models.BooleanField()
 
-    gallery = models.ManyToManyField(
-        Image,
-        through='MovieGallery',
-        through_fields=('movie', 'image'),
-    )
-
     poster = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='movie_poster')
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='movie_seo')
 
 
-class MovieGallery(models.Model):
+class MovieGalleryImage(models.Model):
+    image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
     movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
-    image = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True)
 
 
 class Seance(models.Model):
