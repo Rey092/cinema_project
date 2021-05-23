@@ -12,7 +12,7 @@ def admin_lte_home(request):
 
 
 class MoviesView(ListView):
-    """Movies that are now in the cinema. url: 'movies/'. TODO."""
+    """Movies that are in the cinema now or soon will be. url: 'movies/'. TODO."""
 
     template_name = 'admin_lte/pages/movies_list.html'
 
@@ -30,14 +30,14 @@ class MoviesView(ListView):
 def edit_movie_view(request, slug):
     movie = get_object_or_404(Movie, slug=slug)
     seo = get_object_or_404(SeoData, id=movie.seo.id)
-    GalleryFormSet = modelformset_factory(MovieGalleryImage, form=MovieGalleryImageForm, extra=0)
-    # gallery = MovieGallery.objects.filter(movie=movie)
+    gallery_form_set = modelformset_factory(MovieGalleryImage, form=MovieGalleryImageForm, extra=0, max_num=6)
+    gallery = MovieGalleryImage.objects.filter(movie=movie)
 
     if request.method == 'POST':
         movie_form = MovieForm(request.POST, prefix='form1', instance=movie)
         seo_data_form = SeoDataForm(request.POST, prefix='form2', instance=seo)
         poster_form = PosterForm(request.POST, request.FILES, prefix='poster_form')
-        formset = GalleryFormSet(request.POST, request.FILES)
+        formset = gallery_form_set(request.POST, request.FILES, prefix='formset')
 
         valid1 = movie_form.is_valid()
         valid2 = seo_data_form.is_valid()
@@ -48,10 +48,13 @@ def edit_movie_view(request, slug):
             movie_form.save(commit=True)
             seo_data_form.save(commit=True)
 
-            for form in formset.cleaned_data:
-                if form:
-                    gallery_image = form['image']
-                    MovieGalleryImage.objects.create(image=gallery_image, movie=movie)
+            formset.save(commit=True)
+
+            undefined_images = request.FILES.getlist('formset-undefined-image')
+            for image in undefined_images:
+                print(undefined_images)
+                gallery_image = MovieGalleryImage(image=image, movie=movie)
+                gallery_image.save()
 
             if request.FILES.get('poster_form-picture'):
                 poster = get_object_or_404(Image, id=movie.poster.id)
@@ -63,12 +66,8 @@ def edit_movie_view(request, slug):
     movie_form = MovieForm(instance=movie, prefix='form1')
     seo_data_form = SeoDataForm(instance=seo, prefix='form2')
     poster_form = PosterForm(prefix='poster_form')
-    formset = GalleryFormSet(queryset=MovieGalleryImage.objects.all())
+    formset = gallery_form_set(queryset=gallery, prefix='formset')
 
-    # gallery_forms = [MovieGalleryForm(instance=x, prefix='gallery') for x in gallery]
-    # gallery_forms = [MovieGalleryForm(prefix=f'gallery{i}', instance=x) for i, x in enumerate(gallery, 1)]
-
-    # gallery_zip = zip(gallery_forms, gallery)
     return render(request, 'admin_lte/pages/movie_description.html',
                   context={'movie': movie, 'form1': movie_form, 'form2': seo_data_form, 'poster_form': poster_form,
                            'formset': formset})
