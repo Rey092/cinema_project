@@ -1,10 +1,27 @@
-from cinema_site.models import Movie, MovieGalleryImage, SeoData
-from django.forms import CheckboxInput, DateInput, Form, ImageField, ModelForm, Textarea, TextInput, URLInput
+from cinema_site.models import Cinema, CinemaGalleryImage, Image, Movie, MovieGalleryImage, SeoData
+from django.forms import CheckboxInput, DateInput, FileInput, Form, ImageField, ModelForm, Textarea, TextInput, URLInput
+
+
+class ImageForm(ModelForm):
+    model = Image
+    fields = ('image',)
+    labels = {
+        'image': 'Картинка'
+    }
 
 
 class MovieGalleryImageForm(ModelForm):
     class Meta:
         model = MovieGalleryImage
+        fields = ('image',)
+        labels = {
+            'image': ''
+        }
+
+
+class CinemaGalleryImageForm(ModelForm):
+    class Meta:
+        model = CinemaGalleryImage
         fields = ('image',)
         labels = {
             'image': ''
@@ -112,18 +129,38 @@ class MovieForm(ModelForm):
             'is_imax': 'IMAX',
         }
 
-# class MovieSeoMultiForm(MultiModelForm):
-#     form_classes = {
-#         'movie': MovieForm,
-#         'seo': SeoDataForm,
-#     }
-#
-#     field_order = ['first_name', 'language', 'last_name', 'gender', 'username', 'phone_number',
-#                    'email', 'birthday', 'address', 'city', 'new_password', 'confirm_password', 'cc_number']
-#
-#     def clean(self):
-#         cd = self.cleaned_data
-#         if cd.get('new_password') != cd.get('confirm_password'):
-#             self.add_error('confirm_password', 'passwords do not match !')
-#             self.add_error('new_password', 'passwords do not match !')
-#         return cd
+
+class CinemaForm(ModelForm):
+    class Meta:
+        model = Cinema
+        fields = ['name', 'slug', 'description', 'conditions', 'logo', 'banner']
+        widgets = {
+            'name': TextInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите название фильма',
+            }),
+            'slug': TextInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите slug-name',
+            }),
+            'description': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Input text',
+            }),
+            'conditions': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Input text',
+            }),
+            'logo': FileInput(),
+            'banner': FileInput(),
+        }
+        labels = {
+            'name': 'Название кинотеатра',
+            'slug': 'Slug',
+            'description': 'Описание',
+            'conditions': 'Условия',
+            'logo': 'Лого',
+            'banner': 'Баннер',
+        }

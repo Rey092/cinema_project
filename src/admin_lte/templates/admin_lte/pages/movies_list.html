@@ -36,7 +36,7 @@
                                         <div class="card mb-2 bg-gradient-dark">
                                             <a href="{% url 'movie_description' movie.slug %}">
                                                 <img class="card-img-top" style="width: 100%; height: auto;"
-                                                     src="{{ movie.poster.image.url }}"
+                                                     src="{{ movie.poster.url }}"
                                                      alt="Dist Photo 1">
                                                 <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                     <div>
@@ -90,7 +90,7 @@
                                         <div class="card mb-2 bg-gradient-dark">
                                             <a href="{% url 'movie_description' movie.slug %}">
                                                 <img class="card-img-top" style="width: 100%; height: auto;"
-                                                     src="{{ movie.poster.image.url }}"
+                                                     src="{{ movie.poster.url }}"
                                                      alt="Dist Photo 1">
                                                 <div class="card-img-overlay d-flex flex-column justify-content-end">
                                                     <div>
@@ -124,5 +124,5 @@
     <!-- Bootstrap 4 -->
     <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
     <!-- AdminLTE App -->
-    <script src="{% static 'admin_lte/dist/js/adminlte.min.js' %}"></script>
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
 {% endblock %}

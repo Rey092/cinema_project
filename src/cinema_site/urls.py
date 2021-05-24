@@ -4,6 +4,7 @@ from django.views.generic import RedirectView
 
 from . import views
 
+app_name = 'cinema_site'
 urlpatterns = [
     url(r'^favicon\.ico$', RedirectView.as_view(url='static/assets/img/favicon/favicon.ico')),
 

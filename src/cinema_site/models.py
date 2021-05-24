@@ -9,12 +9,13 @@ from profiles.models import UserProfile
 from .services.media_services import UploadToPathAndRename
 
 
-class Image(models.Model):
-    name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
+class Gallery(models.Model):
+    name = models.CharField(max_length=50)
 
-    def __str__(self):
-        return self.name
+
+class Image(models.Model):
+    image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
+    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
 
 
 class SeoData(models.Model):
@@ -31,21 +32,26 @@ class Cinema(models.Model):
     description = models.TextField()
     conditions = models.TextField()
 
-    logo = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='cinema_logo')
-    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='cinema_banner')
-    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='cinema_seo')
+    logo = models.ImageField(
+        upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images', 'cinemas', str(name), 'logos')))
+    banner = models.ImageField(
+        upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images', 'cinemas', str(name), 'banners')))
+
+    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True)
+    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
 
 
 class Hall(models.Model):
     hall_number = models.CharField(max_length=2)
-    slug = models.SlugField()
     description = models.TextField()
     conditions = models.TextField()
+    created = models.DateTimeField(auto_now_add=True)
 
-    cinema = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True, related_name='hall_cinema')
-    layout = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='hall_layout')
-    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='hall_banner')
+    layout = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'halls', 'layouts')))
+    banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'halls', 'banners')))
+
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='hall_seo')
+    cinema = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True, related_name='hall_cinema')
 
 
 class Movie(models.Model):
@@ -59,13 +65,24 @@ class Movie(models.Model):
     is_3d = models.BooleanField()
     is_imax = models.BooleanField()
 
-    poster = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='movie_poster')
+    poster = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'movies', 'posters')))
+
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='movie_seo')
+
+    def __str__(self):
+        return self.title
 
 
 class MovieGalleryImage(models.Model):
-    image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
+    image = models.ImageField(
+        upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images', 'movie_gallery_images')))
     movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
+
+
+class CinemaGalleryImage(models.Model):
+    image = models.ImageField(
+        upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images', 'cinema_gallery_images')))
+    movie = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True)
 
 
 class Seance(models.Model):
@@ -95,6 +112,7 @@ class Article(models.Model):
     class Mode(models.TextChoices):
         NEWS = 'NEWS', _('Новость')
         EVENT = 'EVENT', _('Акция')
+
     title = models.CharField(max_length=40)
     slug = models.SlugField()
     description = models.TextField()

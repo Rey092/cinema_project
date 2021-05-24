@@ -1,10 +1,9 @@
 """Register your models here."""
 from django.contrib import admin
 
-from .models import Article, Cinema, Contacts, EmailTemplate, Hall, Image, Movie, MovieGalleryImage, Page, \
+from .models import Article, Cinema, Contacts, EmailTemplate, Gallery, Hall, Image, Movie, MovieGalleryImage, Page, \
     Seance, SeoData, Ticket
 
-admin.site.register(Image)
 admin.site.register(SeoData)
 admin.site.register(Cinema)
 admin.site.register(Hall)
@@ -16,3 +15,5 @@ admin.site.register(Article)
 admin.site.register(Page)
 admin.site.register(Contacts)
 admin.site.register(EmailTemplate)
+admin.site.register(Image)
+admin.site.register(Gallery)
