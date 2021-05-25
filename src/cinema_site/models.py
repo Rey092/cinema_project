@@ -12,6 +12,9 @@ from .services.media_services import UploadToPathAndRename
 class Gallery(models.Model):
     name = models.CharField(max_length=50)
 
+    def __str__(self):
+        return self.name
+
 
 class Image(models.Model):
     image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
@@ -42,6 +45,9 @@ class Cinema(models.Model):
 
 
 class Hall(models.Model):
+    class Meta:
+        unique_together = [('hall_number', 'cinema')]
+
     hall_number = models.CharField(max_length=2)
     description = models.TextField()
     conditions = models.TextField()
@@ -50,6 +56,7 @@ class Hall(models.Model):
     layout = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'halls', 'layouts')))
     banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'halls', 'banners')))
 
+    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='hall_seo')
     cinema = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True, related_name='hall_cinema')
 
@@ -67,22 +74,11 @@ class Movie(models.Model):
 
     poster = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'movies', 'posters')))
 
+    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='movie_seo')
 
     def __str__(self):
         return self.title
-
-
-class MovieGalleryImage(models.Model):
-    image = models.ImageField(
-        upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images', 'movie_gallery_images')))
-    movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True)
-
-
-class CinemaGalleryImage(models.Model):
-    image = models.ImageField(
-        upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images', 'cinema_gallery_images')))
-    movie = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True)
 
 
 class Seance(models.Model):

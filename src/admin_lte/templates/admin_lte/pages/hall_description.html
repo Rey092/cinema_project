@@ -18,7 +18,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <h1 class="m-0" style="text-align: center">{{ movie.title }}</h1>
+                        <h1 class="m-0" style="text-align: center">Зал №{{ hall.hall_number }}</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -36,12 +36,22 @@
                             <div class="card-body box-profile">
                                 <div class="text-center">
                                     <img class="profile-user-img img-fluid" style="width: 250px;"
-                                         src="{{ cinema.banner.url }}" alt="User profile picture">
+                                         src="{{ hall.layout.url }}" alt="User profile picture">
                                 </div>
 
                                 <h3 class="profile-username text-center">{{ movie.title }}</h3>
 
-                                <p class="text-muted text-center">Software Engineer</p>
+                                <p class="text-muted text-center">Схема зала</p>
+
+                                <div class="text-center">
+                                    <img class="profile-user-img img-fluid" style="width: 250px;"
+                                         src="{{ hall.banner.url }}" alt="User profile picture">
+                                </div>
+
+                                <h3 class="profile-username text-center">{{ movie.title }}</h3>
+
+                                <p class="text-muted text-center">Верхний баннер</p>
+
 
                                 <ul class="list-group list-group-unbordered mb-3">
                                     <li class="list-group-item">
@@ -76,7 +86,7 @@
                     <div class="col-md-9">
                         <div class="card card-primary">
                             <div class="card-header">
-                                <h3 class="card-title">Изменить данные кинотеатра</h3>
+                                <h3 class="card-title">Изменить данные кинозала</h3>
                             </div>
                             <!-- /.card-header -->
 
@@ -87,7 +97,7 @@
                                 <div class="card-body">
 
                                     <!-- Form1 -->
-                                    {% for error in form.non_field_errors %}
+                                    {% for error in form1.non_field_errors %}
                                         <div class="alert alert-danger">
                                             <strong>{{ error|escape }}</strong>
                                         </div>
@@ -149,93 +159,6 @@
                                         </div>
                                     </div>
 
-                                    {#----Hall FORM start-----#}
-                                    <!-- Content Header (Page header) -->
-                                    <div class="content-header">
-                                        <div class="container-fluid">
-                                            <div class="row mb-2">
-                                                <div class="col-sm-12">
-                                                    <h1 class="m-0"
-                                                        style="text-align: center; font-weight: bold; font-size: 20px;">
-                                                        Залы</h1>
-                                                </div><!-- /.col -->
-                                                <div class="">
-                                                </div><!-- /.col -->
-                                            </div><!-- /.row -->
-                                        </div><!-- /.container-fluid -->
-                                    </div>
-                                    <!-- /.content-header -->
-
-                                    <!-- Table Halls -->
-                                    <div class="row">
-                                        <div class="col-lg-9 mx-auto">
-                                            <div class="card border-0 shadow">
-                                                <div class="table-title">
-                                                    <div class="" style="display: flex; justify-content: flex-end; padding-top:10px; padding-right: 10px;">
-                                                            <a href="#addEmployeeModal" class="btn btn-success"
-                                                               data-toggle="modal">
-                                                                <span>Добавить новый зал</span></a>
-                                                    </div>
-                                                </div>
-                                                <div class="card-body p-2">
-
-                                                    <!-- Responsive table -->
-                                                    <div class="table-responsive">
-                                                        <table class="table m-0">
-                                                            <thead>
-                                                            <tr>
-                                                                <th style="text-align: center" scope="col">Навзание
-                                                                    зала
-                                                                </th>
-                                                                <th style="text-align: center" scope="col">Дата
-                                                                    создания
-                                                                </th>
-                                                                <th style="text-align: center" scope="col">Управление
-                                                                </th>
-                                                            </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                            {% for hall in halls %}
-                                                                <tr>
-                                                                    <td style="text-align: center;">Зал
-                                                                        №{{ hall.hall_number }}</td>
-                                                                    <td style="text-align: center;">{{ hall.created }}</td>
-                                                                    <td style="text-align: center;">
-                                                                        <!-- Call to action buttons -->
-                                                                        <ul class="list-inline m-0">
-                                                                            <li class="list-inline-item">
-                                                                                <button class="btn btn-success btn-sm rounded-0"
-                                                                                        type="button"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title="Edit"><i
-                                                                                        class="fa fa-edit"></i></button>
-                                                                            </li>
-                                                                            <li class="list-inline-item">
-                                                                                <button class="btn btn-danger btn-sm rounded-0"
-                                                                                        type="button"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title="Delete"><i
-                                                                                        class="fa fa-trash"></i>
-                                                                                </button>
-                                                                            </li>
-                                                                        </ul>
-                                                                    </td>
-                                                                </tr>
-                                                            {% endfor %}
-                                                            </tbody>
-                                                        </table>
-
-                                                    </div>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Table Halls END -->
-
-
                                     {#----Seo FORM start-----#}
                                     <!-- Content Header (Page header) -->
                                     <div class="content-header">
@@ -253,26 +176,27 @@
                                     </div>
                                     <!-- /.content-header -->
 
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.title.label_tag }}</strong>
-                                        {{ form2.title }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.url.label_tag }}</strong>
-                                        {{ form2.url }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.keywords.label_tag }}</strong>
-                                        {{ form2.keywords }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.description.label_tag }}</strong>
-                                        {{ form2.description }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.seo_text.label_tag }}</strong>
-                                        {{ form2.seo_text }}
-                                    </div>
+                                    {% for error in form2.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                    {% for field in form2 %}
+                                        <div class="form-group mb-2">
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <div class="form-group mb-2">
+                                                <strong>{{ field.label_tag }}</strong>
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+
                                     {#----Seo FORM end-----#}
                                 </div>
 

@@ -34,7 +34,7 @@
                                 {% for movie in object_list.now %}
                                     <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
                                         <div class="card mb-2 bg-gradient-dark">
-                                            <a href="{% url 'movie_description' movie.slug %}">
+                                            <a href="{% url 'admin_lte:movie_description' movie.slug %}">
                                                 <img class="card-img-top" style="width: 100%; height: auto;"
                                                      src="{{ movie.poster.url }}"
                                                      alt="Dist Photo 1">
@@ -88,7 +88,7 @@
                                 {% for movie in object_list.soon %}
                                     <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
                                         <div class="card mb-2 bg-gradient-dark">
-                                            <a href="{% url 'movie_description' movie.slug %}">
+                                            <a href="{% url 'admin_lte:movie_description' movie.slug %}">
                                                 <img class="card-img-top" style="width: 100%; height: auto;"
                                                      src="{{ movie.poster.url }}"
                                                      alt="Dist Photo 1">

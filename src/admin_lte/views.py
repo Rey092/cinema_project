@@ -1,10 +1,11 @@
-from cinema_site.models import Cinema, Hall, Image, Movie, MovieGalleryImage
-from django.forms import modelformset_factory
+from cinema_site.models import Cinema, Hall, Movie
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView
 
-from .forms import CinemaForm, ImageForm, MovieForm, MovieGalleryImageForm, PosterForm, SeoDataForm
+from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm
+from .templates.admin_lte.services.forms_services import create_forms, get_object_with_gallery, save_forms, \
+    save_new_images_to_gallery, validate_forms
 
 
 def admin_lte_home(request):
@@ -28,48 +29,23 @@ class MoviesView(ListView):
 
 
 def movie_description_view(request, slug):
-    movie = get_object_or_404(Movie, slug=slug)
-    formset_factory = modelformset_factory(MovieGalleryImage, form=MovieGalleryImageForm, extra=0, max_num=6)
-    gallery = MovieGalleryImage.objects.filter(movie=movie)
+    movie, gallery = get_object_with_gallery(Movie, slug)
+
+    movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery, request)
 
     if request.method == 'POST':
-        movie_form = MovieForm(request.POST, prefix='form1', instance=movie)
-        seo_data_form = SeoDataForm(request.POST, prefix='form2', instance=movie.seo)
-        poster_form = PosterForm(request.POST, request.FILES, prefix='poster_form')
-        formset = formset_factory(request.POST, request.FILES, prefix='formset')
 
-        valid1 = movie_form.is_valid()
-        valid2 = seo_data_form.is_valid()
-        valid3 = poster_form.is_valid()
-        valid4 = formset.is_valid()
+        forms_valid_status = validate_forms(movie_form, seo_data_form, formset=formset)
+        if forms_valid_status:
+            save_forms(movie_form, seo_data_form, formset)
+            save_new_images_to_gallery(movie, request)
 
-        if all([valid1, valid2, valid3, valid4]):
-            movie_form.save(commit=True)
-            seo_data_form.save(commit=True)
-
-            formset.save(commit=True)
-
-            undefined_images = request.FILES.getlist('formset-undefined-image')
-            for image in undefined_images:
-                print(undefined_images)
-                gallery_image = MovieGalleryImage(image=image, movie=movie)
-                gallery_image.save()
-
-            if request.FILES.get('poster_form-picture'):
-                poster = get_object_or_404(Image, id=movie.poster.id)
-                poster.image = request.FILES.get('poster_form-picture')
-                poster.save()
-
-            return redirect('movies_list')
-
-    movie_form = MovieForm(instance=movie, prefix='form1')
-    seo_data_form = SeoDataForm(instance=movie.seo, prefix='form2')
-    poster_form = PosterForm(prefix='poster_form')
-    formset = formset_factory(queryset=gallery, prefix='formset')
+            return redirect('admin_lte:movies_list')
+    else:
+        seo_data_form = SeoDataForm(instance=movie.seo, prefix='form2')
 
     return render(request, 'admin_lte/pages/movie_description.html',
-                  context={'movie': movie, 'form1': movie_form, 'form2': seo_data_form, 'poster_form': poster_form,
-                           'formset': formset})
+                  context={'movie': movie, 'form1': movie_form, 'form2': seo_data_form, 'formset': formset})
 
 
 class CinemasListView(ListView):
@@ -80,37 +56,44 @@ class CinemasListView(ListView):
 
 
 def cinema_description_view(request, slug):
-    cinema = get_object_or_404(Cinema, slug=slug)
-    formset_factory = modelformset_factory(Image, form=ImageForm, fields={'image', }, extra=0, max_num=6)
-    gallery = Image.objects.filter(gallery=cinema.gallery)
+    cinema, gallery = get_object_with_gallery(Cinema, slug)
+    halls = Hall.objects.filter(cinema=cinema)
+
+    cinema_form, seo_data_form, formset = create_forms(cinema, CinemaForm, gallery, request)
 
     if request.method == 'POST':
-        cinema_form = CinemaForm(request.POST, request.FILES, prefix='form1', instance=cinema)
-        seo_data_form = SeoDataForm(request.POST, prefix='form2', instance=cinema.seo)
-        formset = formset_factory(request.POST, request.FILES, prefix='formset')
 
-        valid1 = cinema_form.is_valid()
-        valid2 = seo_data_form.is_valid()
-        valid3 = formset.is_valid()
+        forms_valid_status = validate_forms(cinema_form, seo_data_form, formset=formset)
+        if forms_valid_status:
+            save_forms(cinema_form, seo_data_form, formset)
+            save_new_images_to_gallery(cinema, request)
 
-        if all([valid1, valid2, valid3]):
-            cinema_form.save(commit=True)
-            seo_data_form.save(commit=True)
-
-            formset.save(commit=True)
-
-            undefined_images = request.FILES.getlist('formset-undefined-image')
-            for image in undefined_images:
-                gallery_image = Image(image=image, gallery=cinema.gallery)
-                gallery_image.save()
-
-            return redirect('cinemas_list')
-
-    cinema_form = CinemaForm(instance=cinema, prefix='form1')
-    seo_data_form = SeoDataForm(instance=cinema.seo, prefix='form2')
-    formset = formset_factory(queryset=gallery, prefix='formset')
-    halls = Hall.objects.filter(cinema=cinema)
+            return redirect('admin_lte:cinemas_list')
+    else:
+        seo_data_form = SeoDataForm(prefix='form2', instance=cinema.seo)
 
     return render(request, 'admin_lte/pages/cinema_description.html',
                   context={'cinema': cinema, 'form1': cinema_form, 'form2': seo_data_form, 'formset': formset,
                            'halls': halls})
+
+
+def hall_description_view(request, slug, hall_number):
+    cinema, gallery = get_object_with_gallery(Cinema, slug)
+    hall = get_object_or_404(Hall, cinema=cinema, hall_number=hall_number)
+
+    hall_form, seo_data_form, formset = create_forms(hall, HallForm, gallery, request)
+
+    if request.method == 'POST':
+        seo_data_form = SeoDataForm(request.POST or None, prefix='form2', instance=hall.seo)
+
+        forms_valid_status = validate_forms(hall_form, seo_data_form, formset=formset)
+        if forms_valid_status:
+            save_forms(hall_form, seo_data_form, formset)
+            save_new_images_to_gallery(hall, request)
+
+            return redirect('admin_lte:hall_description', slug=cinema.slug, hall_number=hall.hall_number)
+    else:
+        seo_data_form = SeoDataForm(prefix='form2', instance=hall.seo)
+
+    return render(request, 'admin_lte/pages/hall_description.html',
+                  context={'hall': hall, 'form1': hall_form, 'form2': seo_data_form, 'formset': formset})

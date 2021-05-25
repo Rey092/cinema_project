@@ -87,7 +87,7 @@
                                 <div class="card-body">
 
                                     <!-- Form1 -->
-                                    {% for error in form.non_field_errors %}
+                                    {% for error in form1.non_field_errors %}
                                         <div class="alert alert-danger">
                                             <strong>{{ error|escape }}</strong>
                                         </div>
@@ -171,10 +171,11 @@
                                         <div class="col-lg-9 mx-auto">
                                             <div class="card border-0 shadow">
                                                 <div class="table-title">
-                                                    <div class="" style="display: flex; justify-content: flex-end; padding-top:10px; padding-right: 10px;">
-                                                            <a href="#addEmployeeModal" class="btn btn-success"
-                                                               data-toggle="modal">
-                                                                <span>Добавить новый зал</span></a>
+                                                    <div class=""
+                                                         style="display: flex; justify-content: flex-end; padding-top:10px; padding-right: 10px;">
+                                                        <a href="#addEmployeeModal" class="btn btn-success"
+                                                           data-toggle="modal">
+                                                            <span>Добавить новый зал</span></a>
                                                     </div>
                                                 </div>
                                                 <div class="card-body p-2">
@@ -204,12 +205,15 @@
                                                                         <!-- Call to action buttons -->
                                                                         <ul class="list-inline m-0">
                                                                             <li class="list-inline-item">
-                                                                                <button class="btn btn-success btn-sm rounded-0"
-                                                                                        type="button"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title="Edit"><i
-                                                                                        class="fa fa-edit"></i></button>
+                                                                                <a href="{% url 'admin_lte:hall_description' cinema.slug hall.hall_number %}">
+                                                                                    <button class="btn btn-success btn-sm rounded-0"
+                                                                                            type="button"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Edit"><i
+                                                                                            class="fa fa-edit"></i>
+                                                                                    </button>
+                                                                                </a>
                                                                             </li>
                                                                             <li class="list-inline-item">
                                                                                 <button class="btn btn-danger btn-sm rounded-0"
@@ -253,26 +257,25 @@
                                     </div>
                                     <!-- /.content-header -->
 
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.title.label_tag }}</strong>
-                                        {{ form2.title }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.url.label_tag }}</strong>
-                                        {{ form2.url }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.keywords.label_tag }}</strong>
-                                        {{ form2.keywords }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.description.label_tag }}</strong>
-                                        {{ form2.description }}
-                                    </div>
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form2.seo_text.label_tag }}</strong>
-                                        {{ form2.seo_text }}
-                                    </div>
+                                    {% for error in form2.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                    {% for field in form2 %}
+                                        <div class="form-group mb-2">
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <strong>{{ field.label_tag }}</strong>
+                                            {{ field }}
+                                        </div>
+                                    {% endfor %}
+
                                     {#----Seo FORM end-----#}
                                 </div>
 

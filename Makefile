@@ -9,7 +9,7 @@ MAIN = src
 # common commands
 
 run:
-	$(MANAGE) runserver
+	$(MANAGE) runserver 127.0.0.1:8001
 
 kill-port:
 	sudo fuser -k 8000/tcp

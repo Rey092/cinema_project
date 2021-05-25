@@ -1,5 +1,6 @@
-from cinema_site.models import Cinema, CinemaGalleryImage, Image, Movie, MovieGalleryImage, SeoData
-from django.forms import CheckboxInput, DateInput, FileInput, Form, ImageField, ModelForm, Textarea, TextInput, URLInput
+from cinema_site.models import Cinema, Hall, Image, Movie, SeoData
+from django.core.exceptions import ValidationError
+from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput
 
 
 class ImageForm(ModelForm):
@@ -10,28 +11,6 @@ class ImageForm(ModelForm):
     }
 
 
-class MovieGalleryImageForm(ModelForm):
-    class Meta:
-        model = MovieGalleryImage
-        fields = ('image',)
-        labels = {
-            'image': ''
-        }
-
-
-class CinemaGalleryImageForm(ModelForm):
-    class Meta:
-        model = CinemaGalleryImage
-        fields = ('image',)
-        labels = {
-            'image': ''
-        }
-
-
-class PosterForm(Form):
-    picture = ImageField(label='Новый постер:', required=False)
-
-
 class SeoDataForm(ModelForm):
     class Meta:
         model = SeoData
@@ -40,7 +19,7 @@ class SeoDataForm(ModelForm):
             'title': TextInput(attrs={
                 'required': 'required',
                 'class': 'form-control',
-                'placeholder': 'Title',
+                'placeholder': 'Введите название для СЕО',
             }),
             'url': URLInput(attrs={
                 'required': 'required',
@@ -49,15 +28,15 @@ class SeoDataForm(ModelForm):
             }),
             'keywords': TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Введите СЕО ключевые слова',
             }),
             'description': Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Введите СЕО описание',
             }),
             'seo_text': Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Введите СЕО текст',
             }),
         }
         labels = {
@@ -73,7 +52,7 @@ class MovieForm(ModelForm):
     class Meta:
         model = Movie
         fields = ['title', 'slug', 'description', 'trailer_url', 'release_date', 'is_active',
-                  'is_2d', 'is_3d', 'is_imax']
+                  'is_2d', 'is_3d', 'is_imax', 'poster']
         widgets = {
             'title': TextInput(attrs={
                 'required': 'required',
@@ -87,15 +66,15 @@ class MovieForm(ModelForm):
             }),
             'description': Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Введите описание',
             }),
             'trailer_url': URLInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Введите ссылку на трейлер',
             }),
             'release_date': DateInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Выберите дату релиза',
             }),
             'is_active': CheckboxInput(attrs={
                 'class': 'form-control custom-control-input',
@@ -116,6 +95,7 @@ class MovieForm(ModelForm):
                 'style': 'margin:15px',
                 'id': 'customCheckbox3'
             }),
+            'poster': FileInput(),
         }
         labels = {
             'title': 'Название',
@@ -127,6 +107,7 @@ class MovieForm(ModelForm):
             'is_2d': '2D',
             'is_3d': '3D',
             'is_imax': 'IMAX',
+            'poster': 'Постер',
         }
 
 
@@ -147,11 +128,11 @@ class CinemaForm(ModelForm):
             }),
             'description': Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Введите описание',
             }),
             'conditions': Textarea(attrs={
                 'class': 'form-control',
-                'placeholder': 'Input text',
+                'placeholder': 'Введите условия',
             }),
             'logo': FileInput(),
             'banner': FileInput(),
@@ -164,3 +145,43 @@ class CinemaForm(ModelForm):
             'logo': 'Лого',
             'banner': 'Баннер',
         }
+
+
+class HallForm(ModelForm):
+    class Meta:
+        model = Hall
+        fields = ['hall_number', 'description', 'conditions', 'layout', 'banner']
+        widgets = {
+            'hall_number': NumberInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите номер кинозала',
+            }),
+            'description': Textarea(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите описание',
+            }),
+            'conditions': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите условия',
+            }),
+            'layout': FileInput(),
+            'banner': FileInput(),
+        }
+        labels = {
+            'hall_number': 'Номер кинозала',
+            'description': 'Описание',
+            'conditions': 'Условия',
+            'layout': 'Схема зала',
+            'banner': 'Верхний баннер',
+        }
+
+    def validate_unique(self):
+        exclude = self._get_validation_exclusions()
+        exclude.remove('cinema')
+
+        try:
+            self.instance.validate_unique(exclude=exclude)
+        except ValidationError as e:
+            self._update_errors(e.message_dict)
