@@ -52,7 +52,11 @@ def create_forms(obj, obj_form, gallery, request):
     return obj_form_inst, seo_data_form, formset
 
 
-def get_object_with_gallery(obj_class, slug):
-    obj = get_object_or_404(obj_class, slug=slug)
+def get_object_with_gallery(obj_class, slug, qs=None):
+    if qs:
+        obj = qs.get(slug=slug)
+    else:
+        obj = get_object_or_404(obj_class, slug=slug)
     gallery = Image.objects.filter(gallery=obj.gallery)
-    return obj, gallery
+    video_url = obj.trailer_url.split('=')[1]
+    return obj, gallery, video_url

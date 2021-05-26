@@ -63,7 +63,7 @@ class Hall(models.Model):
 
 class Movie(models.Model):
     title = models.CharField(max_length=40)
-    slug = models.SlugField(max_length=40)
+    slug = models.SlugField(max_length=40, unique=True)
     description = models.TextField()
     trailer_url = models.URLField()
     release_date = models.DateField()
@@ -104,26 +104,24 @@ class Ticket(models.Model):
     buyer = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='ticket_buyer')
 
 
-class Article(models.Model):
-    class Mode(models.TextChoices):
-        NEWS = 'NEWS', _('Новость')
-        EVENT = 'EVENT', _('Акция')
+class News(models.Model):
 
     title = models.CharField(max_length=40)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     description = models.TextField()
-    video_url = models.URLField()
+    trailer_url = models.URLField()
     is_active = models.BooleanField()
-    mode = models.CharField(max_length=5, choices=Mode.choices, null=True, verbose_name='Тип статьи')
-    created = models.DateTimeField(auto_now_add=True)
+    publication = models.DateField(db_index=True)
 
-    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='article_banner')
+    banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'articles', 'banners')))
+
+    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='article_seo')
 
 
 class Page(models.Model):
     title = models.CharField(max_length=40)
-    slug = models.SlugField()
+    slug = models.SlugField(unique=True)
     description = models.TextField()
     phone1 = PhoneNumberField()
     phone2 = PhoneNumberField()

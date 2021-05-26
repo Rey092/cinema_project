@@ -1,6 +1,7 @@
-from cinema_site.models import Cinema, Hall, Image, Movie, SeoData
+from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, News
 from django.core.exceptions import ValidationError
-from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput
+from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput, \
+    SlugField
 
 
 class ImageForm(ModelForm):
@@ -185,3 +186,47 @@ class HallForm(ModelForm):
             self.instance.validate_unique(exclude=exclude)
         except ValidationError as e:
             self._update_errors(e.message_dict)
+
+
+class NewsForm(ModelForm):
+    class Meta:
+        model = News
+        fields = ['title', 'slug', 'description', 'trailer_url', 'is_active', 'publication', 'banner']
+        widgets = {
+            'title': TextInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите заголовок новости',
+            }),
+            'slug': TextInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите описание',
+            }),
+            'description': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите условия',
+            }),
+            'trailer_url': URLInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите ссылку на видео',
+            }),
+            'is_active': CheckboxInput(attrs={
+                'class': 'form-control custom-control-input',
+                'id': 'customCheckbox4'
+            }),
+            'publication': DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Дата публикации',
+            }),
+            'banner': FileInput(),
+        }
+        labels = {
+            'title': 'Заголовок',
+            'slug': 'slug',
+            'description': 'Описание',
+            'video_url': 'Ссылка на видео',
+            'is_active': 'Статус',
+            'created': 'Дата публикации',
+            'banner': 'Баннер'
+        }

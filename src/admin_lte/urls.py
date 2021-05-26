@@ -10,5 +10,8 @@ urlpatterns = [
 
     path('cinemas/', views.CinemasListView.as_view(), name='cinemas_list'),
     path('cinemas/<slug:slug>/', views.cinema_description_view, name='cinema_description'),
-    path('cinemas/<slug:slug>/<int:hall_number>', views.hall_description_view, name='hall_description'),
+    path('cinemas/<slug:slug>/<int:hall_number>/', views.hall_description_view, name='hall_description'),
+
+    path('news/', views.NewsListView.as_view(), name='news_list'),
+    path('news/<slug:slug>/', views.news_description_view, name='news_description'),
 ]
