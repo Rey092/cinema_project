@@ -12,8 +12,13 @@ urlpatterns = [
     path('cinemas/<slug:slug>/', views.cinema_description_view, name='cinema_description'),
     path('cinemas/<slug:slug>/<int:hall_number>/', views.hall_description_view, name='hall_description'),
 
-    path('news/', views.NewsListView.as_view(), name='news_list'),
-    path('news/create', views.NewsCreateView.as_view(), name='news_create'),
-    path('news/<slug:slug>/', views.news_description_view, name='news_description'),
-    path('news/<slug:slug>/delete/', views.NewsDeleteView.as_view(), name='news_delete')
+    path('news/', views.ArticleListView.as_view(), name='news_list'),
+    path('news/create', views.article_create_view, name='news_create'),
+    path('news/<slug:slug>/', views.article_description_view, name='news_description'),
+    path('news/<slug:slug>/delete/', views.ArticleDeleteView.as_view(), name='news_delete'),
+
+    path('events/', views.ArticleListView.as_view(), name='events_list'),
+    path('events/create', views.article_create_view, name='event_create'),
+    path('events/<slug:slug>/', views.article_description_view, name='event_description'),
+    path('events/<slug:slug>/delete/', views.ArticleDeleteView.as_view(), name='event_delete'),
 ]

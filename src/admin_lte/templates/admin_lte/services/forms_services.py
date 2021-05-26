@@ -1,11 +1,12 @@
-from admin_lte.forms import ImageForm, SeoDataForm
-from cinema_site.models import Image, Article
+from django.utils.datetime_safe import date
+from admin_lte.forms import ImageForm, SeoDataForm, ArticleForm
+from cinema_site.models import Image, Article, Gallery, SeoData
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 
 
-news_qs = Article.objects.filter(mode='NEWS')
-events_qs = Article.objects.filter(mode='NEWS')
+def get_article_qs(mode):
+    return Article.objects.filter(mode=mode)
 
 
 def save_new_images_to_gallery(obj, request):
@@ -43,16 +44,25 @@ def validate_forms(*args, formset=None):
         return False
 
 
+def save_objects(*args):
+    for obj in args:
+        obj.save()
+
+
 def save_forms(*args):
     for form in args:
         form.save(commit=True)
 
 
+def get_url_path(self):
+    return self.request.META.get('PATH_INFO', None)
+
+
 def create_forms(obj, obj_form, gallery, request):
-    formset_factory = modelformset_factory(Image, form=ImageForm, fields={'image', }, extra=0, max_num=6)
-    formset = formset_factory(request.POST or None, request.FILES or None, prefix='formset', queryset=gallery)
+    formset_factory = modelformset_factory(Image, form=ImageForm, fields={'image', }, extra=0)
     obj_form_inst = obj_form(request.POST or None, request.FILES or None, prefix='form1', instance=obj)
-    seo_data_form = SeoDataForm(request.POST, prefix='form2', instance=obj.seo)
+    seo_data_form = SeoDataForm(request.POST or None, prefix='form2', instance=obj.seo)
+    formset = formset_factory(request.POST or None, request.FILES or None, prefix='formset', queryset=gallery)
     return obj_form_inst, seo_data_form, formset
 
 
@@ -61,6 +71,7 @@ def get_objects(obj_class, slug, qs=None, trailer=True):
         obj = qs.get(slug=slug)
     else:
         obj = get_object_or_404(obj_class, slug=slug)
+        print(obj)
 
     gallery = Image.objects.filter(gallery=obj.gallery)
 
@@ -69,3 +80,11 @@ def get_objects(obj_class, slug, qs=None, trailer=True):
         return obj, gallery, video_url
     else:
         return obj, gallery
+
+
+def create_objects(mode):
+    gallery_inst = Gallery()
+    seo_inst = SeoData()
+    article = Article(is_active=True, publication=date.today(), mode=mode, gallery=gallery_inst, seo=seo_inst)
+    gallery_images = Image.objects.filter(gallery=gallery_inst)
+    return article, gallery_images, gallery_inst, seo_inst

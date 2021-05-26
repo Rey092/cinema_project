@@ -1,12 +1,13 @@
+from django.forms import modelformset_factory, formset_factory
 from django.urls import reverse_lazy
-from cinema_site.models import Cinema, Hall, Movie, Article
+from cinema_site.models import Cinema, Hall, Movie, Article, Gallery, SeoData, Image
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.datetime_safe import datetime
+from django.utils.datetime_safe import datetime, date
 from django.views.generic import ListView, DeleteView, CreateView
 
-from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm
+from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, ImageForm
 from .templates.admin_lte.services.forms_services import create_forms, get_objects, save_forms, \
-    save_new_images_to_gallery, validate_forms, news_qs
+    save_new_images_to_gallery, validate_forms, create_objects, save_objects, get_url_path, get_article_qs
 
 
 def admin_lte_home(request):
@@ -35,8 +36,8 @@ def movie_description_view(request, slug):
     movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery, request)
 
     if request.method == 'POST':
-
         forms_valid_status = validate_forms(movie_form, seo_data_form, formset=formset)
+
         if forms_valid_status:
             save_forms(movie_form, seo_data_form, formset)
             save_new_images_to_gallery(movie, request)
@@ -63,8 +64,8 @@ def cinema_description_view(request, slug):
     cinema_form, seo_data_form, formset = create_forms(cinema, CinemaForm, gallery, request)
 
     if request.method == 'POST':
-
         forms_valid_status = validate_forms(cinema_form, seo_data_form, formset=formset)
+
         if forms_valid_status:
             save_forms(cinema_form, seo_data_form, formset)
             save_new_images_to_gallery(cinema, request)
@@ -79,15 +80,14 @@ def cinema_description_view(request, slug):
 
 
 def hall_description_view(request, slug, hall_number):
-    cinema, gallery, video_url = get_objects(Cinema, slug)
+    cinema, gallery = get_objects(Cinema, slug, trailer=False)
     hall = get_object_or_404(Hall, cinema=cinema, hall_number=hall_number)
 
     hall_form, seo_data_form, formset = create_forms(hall, HallForm, gallery, request)
 
     if request.method == 'POST':
-        seo_data_form = SeoDataForm(request.POST or None, prefix='form2', instance=hall.seo)
-
         forms_valid_status = validate_forms(hall_form, seo_data_form, formset=formset)
+
         if forms_valid_status:
             save_forms(hall_form, seo_data_form, formset)
             save_new_images_to_gallery(hall, request)
@@ -97,44 +97,61 @@ def hall_description_view(request, slug, hall_number):
         seo_data_form = SeoDataForm(prefix='form2', instance=hall.seo)
 
     return render(request, 'admin_lte/pages/hall_description.html',
-                  context={'hall': hall, 'form1': hall_form, 'form2': seo_data_form, 'formset': formset,
-                           'video_url': video_url})
+                  context={'hall': hall, 'form1': hall_form, 'form2': seo_data_form, 'formset': formset})
 
 
-class NewsListView(ListView):
+class ArticleListView(ListView):
     template_name = 'admin_lte/pages/news_list.html'
-    queryset = news_qs
+
+    def get_queryset(self):
+        path = get_url_path(self)
+        if path == '/admin/news/':
+            return get_article_qs('NEWS')
+        elif path == '/admin/events/':
+            return get_article_qs('EVENTS')
 
 
-def news_description_view(request, slug):
-    news, gallery, video_url = get_objects(Article, slug, qs=news_qs)
-
-    news_form, seo_data_form, formset = create_forms(news, ArticleForm, gallery, request)
+def article_description_view(request, slug):
+    article, gallery, video_url = get_objects(Article, slug, qs=get_article_qs('NEWS'))
+    news_form, seo_data_form, formset = create_forms(article, ArticleForm, gallery, request)
 
     if request.method == 'POST':
-        seo_data_form = SeoDataForm(request.POST or None, prefix='form2', instance=news.seo)
-
         forms_valid_status = validate_forms(news_form, seo_data_form, formset=formset)
+
         if forms_valid_status:
             save_forms(news_form, seo_data_form, formset)
-            save_new_images_to_gallery(news, request)
+            save_new_images_to_gallery(article, request)
 
             return redirect('admin_lte:news_list')
     else:
-        seo_data_form = SeoDataForm(prefix='form2', instance=news.seo)
+        seo_data_form = SeoDataForm(prefix='form2', instance=article.seo)
 
-    return render(request, 'admin_lte/pages/news_description.html',
-                  context={'news': news, 'form1': news_form, 'form2': seo_data_form, 'formset': formset,
+    return render(request, 'admin_lte/pages/article_description.html',
+                  context={'article': article, 'form1': news_form, 'form2': seo_data_form, 'formset': formset,
                            'video_url': video_url})
 
 
-class NewsDeleteView(DeleteView):
+class ArticleDeleteView(DeleteView):
     success_url = reverse_lazy('admin_lte:news_list')
-    queryset = news_qs
+    queryset = get_article_qs('NEWS')
 
 
-class NewsCreateView(CreateView):
-    success_url = reverse_lazy('admin_lte:news_list')
-    queryset = news_qs
-    form = ArticleForm
-    fields = ['title', 'slug', ]
+def article_create_view(request):
+    article, gallery_images, gallery_inst, seo_inst = create_objects(mode='NEWS')
+    article_form, seo_data_form, formset = create_forms(article, ArticleForm, gallery_images, request)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(article_form, seo_data_form, formset=formset)
+
+        if forms_valid_status:
+
+            save_objects(seo_inst, gallery_inst, article)
+            save_forms(article_form, seo_data_form, formset)
+            save_new_images_to_gallery(article, request)
+
+            return redirect('admin_lte:news_list')
+    else:
+        seo_data_form = SeoDataForm(prefix='form2', instance=article.seo)
+
+    return render(request, 'admin_lte/pages/article_create.html',
+                  context={'form1': article_form, 'form2': seo_data_form, 'formset': formset})
