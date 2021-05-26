@@ -1,7 +1,11 @@
 from admin_lte.forms import ImageForm, SeoDataForm
-from cinema_site.models import Image
+from cinema_site.models import Image, Article
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
+
+
+news_qs = Article.objects.filter(mode='NEWS')
+events_qs = Article.objects.filter(mode='NEWS')
 
 
 def save_new_images_to_gallery(obj, request):
@@ -52,11 +56,16 @@ def create_forms(obj, obj_form, gallery, request):
     return obj_form_inst, seo_data_form, formset
 
 
-def get_object_with_gallery(obj_class, slug, qs=None):
+def get_objects(obj_class, slug, qs=None, trailer=True):
     if qs:
         obj = qs.get(slug=slug)
     else:
         obj = get_object_or_404(obj_class, slug=slug)
+
     gallery = Image.objects.filter(gallery=obj.gallery)
-    video_url = obj.trailer_url.split('=')[1]
-    return obj, gallery, video_url
+
+    if trailer:
+        video_url = obj.trailer_url.split('=')[1]
+        return obj, gallery, video_url
+    else:
+        return obj, gallery

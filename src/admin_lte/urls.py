@@ -13,5 +13,7 @@ urlpatterns = [
     path('cinemas/<slug:slug>/<int:hall_number>/', views.hall_description_view, name='hall_description'),
 
     path('news/', views.NewsListView.as_view(), name='news_list'),
+    path('news/create', views.NewsCreateView.as_view(), name='news_create'),
     path('news/<slug:slug>/', views.news_description_view, name='news_description'),
+    path('news/<slug:slug>/delete/', views.NewsDeleteView.as_view(), name='news_delete')
 ]

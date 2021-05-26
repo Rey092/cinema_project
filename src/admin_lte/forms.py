@@ -1,4 +1,4 @@
-from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, News
+from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article
 from django.core.exceptions import ValidationError
 from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput, \
     SlugField
@@ -188,9 +188,9 @@ class HallForm(ModelForm):
             self._update_errors(e.message_dict)
 
 
-class NewsForm(ModelForm):
+class ArticleForm(ModelForm):
     class Meta:
-        model = News
+        model = Article
         fields = ['title', 'slug', 'description', 'trailer_url', 'is_active', 'publication', 'banner']
         widgets = {
             'title': TextInput(attrs={
@@ -213,7 +213,7 @@ class NewsForm(ModelForm):
             }),
             'is_active': CheckboxInput(attrs={
                 'class': 'form-control custom-control-input',
-                'id': 'customCheckbox4'
+                'id': 'customCheckbox1'
             }),
             'publication': DateInput(attrs={
                 'class': 'form-control',

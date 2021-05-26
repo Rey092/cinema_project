@@ -1,11 +1,12 @@
-from cinema_site.models import Cinema, Hall, Movie, News
+from django.urls import reverse_lazy
+from cinema_site.models import Cinema, Hall, Movie, Article
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime
-from django.views.generic import ListView
+from django.views.generic import ListView, DeleteView, CreateView
 
-from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, NewsForm
-from .templates.admin_lte.services.forms_services import create_forms, get_object_with_gallery, save_forms, \
-    save_new_images_to_gallery, validate_forms
+from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm
+from .templates.admin_lte.services.forms_services import create_forms, get_objects, save_forms, \
+    save_new_images_to_gallery, validate_forms, news_qs
 
 
 def admin_lte_home(request):
@@ -29,7 +30,7 @@ class MoviesView(ListView):
 
 
 def movie_description_view(request, slug):
-    movie, gallery = get_object_with_gallery(Movie, slug)
+    movie, gallery, video_url = get_objects(Movie, slug)
 
     movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery, request)
 
@@ -56,7 +57,7 @@ class CinemasListView(ListView):
 
 
 def cinema_description_view(request, slug):
-    cinema, gallery, video_url = get_object_with_gallery(Cinema, slug)
+    cinema, gallery = get_objects(Cinema, slug, trailer=False)
     halls = Hall.objects.filter(cinema=cinema)
 
     cinema_form, seo_data_form, formset = create_forms(cinema, CinemaForm, gallery, request)
@@ -74,11 +75,11 @@ def cinema_description_view(request, slug):
 
     return render(request, 'admin_lte/pages/cinema_description.html',
                   context={'cinema': cinema, 'form1': cinema_form, 'form2': seo_data_form, 'formset': formset,
-                           'halls': halls, 'video_url': video_url})
+                           'halls': halls})
 
 
 def hall_description_view(request, slug, hall_number):
-    cinema, gallery, video_url = get_object_with_gallery(Cinema, slug)
+    cinema, gallery, video_url = get_objects(Cinema, slug)
     hall = get_object_or_404(Hall, cinema=cinema, hall_number=hall_number)
 
     hall_form, seo_data_form, formset = create_forms(hall, HallForm, gallery, request)
@@ -101,16 +102,14 @@ def hall_description_view(request, slug, hall_number):
 
 
 class NewsListView(ListView):
-    """All cinemas table. url: 'admin/cinemas/'."""
-
     template_name = 'admin_lte/pages/news_list.html'
-    model = News
+    queryset = news_qs
 
 
 def news_description_view(request, slug):
-    news, gallery, video_url = get_object_with_gallery(News, slug)
+    news, gallery, video_url = get_objects(Article, slug, qs=news_qs)
 
-    news_form, seo_data_form, formset = create_forms(news, NewsForm, gallery, request)
+    news_form, seo_data_form, formset = create_forms(news, ArticleForm, gallery, request)
 
     if request.method == 'POST':
         seo_data_form = SeoDataForm(request.POST or None, prefix='form2', instance=news.seo)
@@ -123,7 +122,19 @@ def news_description_view(request, slug):
             return redirect('admin_lte:news_list')
     else:
         seo_data_form = SeoDataForm(prefix='form2', instance=news.seo)
-    print(video_url)
+
     return render(request, 'admin_lte/pages/news_description.html',
                   context={'news': news, 'form1': news_form, 'form2': seo_data_form, 'formset': formset,
                            'video_url': video_url})
+
+
+class NewsDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:news_list')
+    queryset = news_qs
+
+
+class NewsCreateView(CreateView):
+    success_url = reverse_lazy('admin_lte:news_list')
+    queryset = news_qs
+    form = ArticleForm
+    fields = ['title', 'slug', ]

@@ -57,30 +57,13 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item">
-                                        <b>Following</b> <a class="float-right">543</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Friends</b> <a class="float-right">13,287</a>
-                                    </li>
                                 </ul>
 
-                                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                             </div>
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-
-                        <!-- About Me Box -->
-                        <div class="card card-primary">
-
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <img src="" alt="">
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
+                        
                     </div>
                     <!-- /.col -->
                     <div class="col-md-9">
@@ -96,26 +79,100 @@
                                 {% csrf_token %}
                                 <div class="card-body">
 
-                                    <!-- Form1 -->
                                     {% for error in form1.non_field_errors %}
                                         <div class="alert alert-danger">
                                             <strong>{{ error|escape }}</strong>
                                         </div>
                                     {% endfor %}
-                                    {% for field in form1 %}
-                                        <div class="form-group mb-2">
-                                            {% if field.errors %}
-                                                {% for error in field.errors %}
-                                                    <div class="alert alert-danger">
-                                                        <strong>{{ error|escape }}</strong>
-                                                    </div>
-                                                {% endfor %}
-                                            {% endif %}
-                                            <strong>{{ field.label_tag }}</strong>
-                                            {{ field }}
+
+                                    {% if form1.title.errors %}
+                                        {% for error in form1.title.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.title.label_tag }}</strong>
+                                        {{ form1.title }}
+                                    </div>
+
+                                    {% if form1.slug.errors %}
+                                        {% for error in form1.slug.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.slug.label_tag }}</strong>
+                                        {{ form1.slug }}
+                                    </div>
+
+                                    {% if form1.description.errors %}
+                                        {% for error in form1.description.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.description.label_tag }}</strong>
+                                        {{ form1.description }}
+                                    </div>
+
+                                    {% if form1.trailer_url.errors %}
+                                        {% for error in form1.trailer_url.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.trailer_url.label_tag }}</strong>
+                                        {{ form1.trailer_url }}
+                                    </div>
+
+                                    {% if form1.trailer_url.errors %}
+                                        {% for error in form1.trailer_url.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.banner.label_tag }}</strong>
+                                        {{ form1.banner }}
+                                    </div>
+
+                                    {% if form1.is_active.errors %}
+                                        {% for error in form1.is_active.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_active }}
+                                            <label class="custom-control-label" for="customCheckbox1">Фильм
+                                                активен</label>
                                         </div>
-                                    {% endfor %}
-                                    <!-- ./Form1 end -->
+                                    </div>
+
+                                    {% if form1.publication.errors %}
+                                        {% for error in form1.publication.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.publication.label_tag }}</strong>
+                                        {{ form1.publication }}
+                                    </div>
 
 
                                     <div class="card-header">

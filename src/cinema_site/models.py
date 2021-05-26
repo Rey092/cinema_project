@@ -104,7 +104,11 @@ class Ticket(models.Model):
     buyer = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='ticket_buyer')
 
 
-class News(models.Model):
+class Article(models.Model):
+
+    class Mode(models.TextChoices):
+        NEWS = 'NEWS', _('Новость')
+        EVENTS = 'EVENTS', _('Акция')
 
     title = models.CharField(max_length=40)
     slug = models.SlugField(unique=True)
@@ -113,10 +117,15 @@ class News(models.Model):
     is_active = models.BooleanField()
     publication = models.DateField(db_index=True)
 
+    mode = models.CharField(max_length=6, choices=Mode.choices, verbose_name='Тип')
+
     banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'articles', 'banners')))
 
     gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='article_seo')
+
+    def __str__(self):
+        return self.title
 
 
 class Page(models.Model):
