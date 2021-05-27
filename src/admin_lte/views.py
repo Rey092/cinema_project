@@ -101,7 +101,7 @@ def hall_description_view(request, slug, hall_number):
 
 
 class ArticleListView(ListView):
-    template_name = 'admin_lte/pages/news_list.html'
+    template_name = 'admin_lte/pages/articles_list.html'
 
     def get_queryset(self):
         path = get_url_path(self)
@@ -112,7 +112,7 @@ class ArticleListView(ListView):
 
 
 def article_description_view(request, slug):
-    article, gallery, video_url = get_objects(Article, slug, qs=get_article_qs('NEWS'))
+    article, gallery, video_url = get_objects(Article, slug)
     news_form, seo_data_form, formset = create_forms(article, ArticleForm, gallery, request)
 
     if request.method == 'POST':
@@ -132,12 +132,20 @@ def article_description_view(request, slug):
 
 
 class ArticleDeleteView(DeleteView):
-    success_url = reverse_lazy('admin_lte:news_list')
-    queryset = get_article_qs('NEWS')
+    model = Article
+
+    def get_success_url(self):
+        mode = self.object.mode
+        if mode == 'NEWS':
+            return reverse_lazy('admin_lte:news_list')
+        elif mode == 'EVENTS':
+            return reverse_lazy('admin_lte:events_list')
 
 
 def article_create_view(request):
-    article, gallery_images, gallery_inst, seo_inst = create_objects(mode='NEWS')
+    mode = 'NEWS' if request.path == '/admin/news/create' else 'EVENTS'
+    print(mode, request.path)
+    article, gallery_images, gallery_inst, seo_inst = create_objects(mode=mode)
     article_form, seo_data_form, formset = create_forms(article, ArticleForm, gallery_images, request)
 
     if request.method == 'POST':

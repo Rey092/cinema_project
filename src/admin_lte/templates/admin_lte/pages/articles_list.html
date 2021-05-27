@@ -17,7 +17,12 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <h1 class="m-0" style="text-align: center">Список новостей</h1>
+                        <h1 class="m-0" style="text-align: center">
+                            {% if request.path == '/admin/news/' %}
+                                Список новостей
+                            {% else %}
+                                Список акций
+                            {% endif %}
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
@@ -32,9 +37,18 @@
                         <div class="row" style="margin: auto;">
                             <div class="table-responsive">
                                 <div style="padding-bottom: 16px;display: flex;justify-content: right;">
-                                    <a href="{% url 'admin_lte:news_create' %}">
+                                    <a href="
+                                            {% if request.path == '/admin/news/' %}
+                                                {% url 'admin_lte:news_create' %}
+                                            {% else %}
+                                                {% url 'admin_lte:event_create' %}
+                                            {% endif %}">
                                         <button type="button" class="btn btn-block btn-info">
-                                            Добавить новость
+                                            {% if request.path == '/admin/news/' %}
+                                                Добавить новость
+                                            {% else %}
+                                                Добавить акцию
+                                            {% endif %}
                                         </button>
                                     </a>
                                 </div>
@@ -48,12 +62,12 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for event in object_list %}
+                                    {% for article in object_list %}
                                         <tr>
-                                            <td style="text-align: center;">{{ event.title }}</td>
-                                            <td style="text-align: center;">{{ event.publication }}</td>
+                                            <td style="text-align: center;">{{ article.title }}</td>
+                                            <td style="text-align: center;">{{ article.publication }}</td>
                                             <td style="text-align: center;">
-                                                {% if event.is_active %}
+                                                {% if article.is_active %}
                                                     <label style="font-size: 15px; line-height: 1; padding: .375rem .5625rem;"
                                                            class="badge badge-success">Активна</label>
                                                 {% else %}
@@ -65,7 +79,12 @@
                                                 <!-- Call to action buttons -->
                                                 <ul class="list-inline m-0">
                                                     <li class="list-inline-item">
-                                                        <a href="{% url 'admin_lte:news_description' event.slug %}">
+                                                        <a href="
+                                            {% if request.path == '/admin/news/' %}
+                                                {% url 'admin_lte:news_description' article.slug %}
+                                            {% else %}
+                                                {% url 'admin_lte:event_description' article.slug %}
+                                            {% endif %}">
                                                             <button class="btn btn-success btn-sm rounded-0"
                                                                     type="button"
                                                                     data-toggle="tooltip"
@@ -76,8 +95,12 @@
                                                         </a>
                                                     </li>
                                                     <li class="list-inline-item">
-                                                        <form action="{% url "admin_lte:news_delete" event.slug %}"
-                                                              method="POST">
+                                                        <form action="
+                                                        {% if request.path == '/admin/news/' %}
+                                                            {% url 'admin_lte:news_delete' article.slug %}
+                                                        {% else %}
+                                                            {% url 'admin_lte:event_delete' article.slug %}
+                                                        {% endif %}" method="POST">
                                                             {% csrf_token %}
                                                             {#                                                            <input type="hidden" name="slug" value={{ news.slug }}>#}
                                                             <button class="btn btn-danger btn-sm rounded-0"
