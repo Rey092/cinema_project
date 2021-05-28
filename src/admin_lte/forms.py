@@ -1,7 +1,7 @@
-from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article, Page, Contacts
+from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article, Page, Contacts, EmailTemplate
 from django.core.exceptions import ValidationError
 from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput, \
-    SlugField, ImageField
+    SlugField, ImageField, RadioSelect, ChoiceField
 
 
 class ImageForm(ModelForm):
@@ -276,10 +276,6 @@ class ContactsForm(ModelForm):
         model = Contacts
         fields = ('name', 'address', 'coordinates', 'logo')
 
-        # class ContactsForm(ModelForm):
-        #     class Meta:
-        #         model = Contacts
-        #         fields = ['name', 'address', 'coordinates', 'logo']
         widgets = {
             'name': TextInput(attrs={
                 'required': 'required',
@@ -296,11 +292,20 @@ class ContactsForm(ModelForm):
             }),
         }
         order = ['name', 'logo', 'address', 'coordinates']
-#
-#         }
-#         labels = {
-#             'name': 'Название',
-#             'address': 'Адрес',
-#             'coordinates': 'Координаты',
-#             'logo': 'Логотип',
-#         }
+
+
+class MailingForm(ModelForm):
+    choice_types = (
+        ('all', 'Все пользователи'),
+        ('selected', 'Выбранные пользователи'),
+    )
+    users_choice_type = ChoiceField(choices=choice_types, widget=RadioSelect(), label='Выбрать пользователей:')
+
+    def clean_users_choice_type(self):
+        if len(self.cleaned_data['region']) > 1:
+            raise ValidationError('Select only 1 option.')
+        return self.cleaned_data['region']
+
+    class Meta:
+        model = EmailTemplate
+        fields = ['file', ]

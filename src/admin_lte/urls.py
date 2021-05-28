@@ -33,4 +33,6 @@ urlpatterns = [
     path('users/', views.UsersListView.as_view(), name='users_list'),
     path('users/<int:pk>/', views.UserUpdateView.as_view(), name='user_description'),
     path('users/<int:pk>/delete', views.UserDeleteView.as_view(), name='user_delete'),
+
+    path('mailings/', views.mailings, name='mailings')
 ]

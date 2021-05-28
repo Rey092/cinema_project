@@ -1,0 +1,149 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    AdminLTE 3 | Starter
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="card card-primary" style="width: 80%; align-content: center; margin: auto;">
+                        <div style="display: flex; justify-content: center;" class="card-header">
+                            <h3 class="card-title">E-mail рассылка</h3>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- form start -->
+                        <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"
+                              novalidate>
+                            {% csrf_token %}
+                            <div class="card-body">
+
+                                {% for error in mailing_form.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+
+                                {% if form1.title.errors %}
+                                    {% for error in form1.title.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <strong>{{ mailing_form.users_choice_type.label_tag }}</strong>
+                                    {{ mailing_form.users_choice_type }}
+                                </div>
+                            <button id="userChoiceButton">Button</button>
+
+                                {% if form1.title.errors %}
+                                    {% for error in form1.title.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <strong>{{ mailing_form.file.label_tag }}</strong>
+                                    {{ mailing_form.file }}
+                                </div>
+
+
+                                <div class="card-footer" style="display: flex; justify-content: center;">
+                                    <button type="submit" class="btn btn-primary">Начать рассылку</button>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                    <!-- /.card-body -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+    <!-- 'Add new form' button handler -->
+    <script>
+        let userModalButton = $('#userChoiceButton');
+        let target_group_selector = $('#targetGroup');
+        let downloaded = $('#htmlFile');
+        let available_templates = $('.template_input');
+        let current_template = $('#current');
+
+        function setCurrentTemplate(name) {
+            current_template.text(name);
+        }
+
+        function checkAllUsers() {
+            let target_users = $('.target_users');
+            target_users.each(function () {
+                this.checked = true;
+            });
+        }
+
+        target_group_selector.on('change', function () {
+            let selected = this.value;
+            if (selected === 0) {
+                userModalButton.attr('disabled', 'true');
+            } else {
+                userModalButton.removeAttr('disabled');
+            }
+        });
+
+        downloaded.on('change', function (event) {
+            if (this.files && this.files[0]) {
+                available_templates.removeAttr('required');
+                setCurrentTemplate(this.files[0].name);
+            }
+        })
+
+        available_templates.on('change', function (event) {
+            downloaded.removeAttr('required');
+            const id = this.id;
+            console.log(id);
+            const text = $('label[for=' + id + ']').text();
+            setCurrentTemplate(text);
+        })
+
+
+        $('#target').submit(function (event) {
+            let selected = target_group_selector.children('option:selected').val();
+
+            if (selected === 0) {
+                checkAllUsers();
+            } else {
+                let checked = [];
+                $.each($('input[class="target_users"]:checked'), function () {
+                    checked.push($(this).val());
+                })
+                if (checked.length < 1) {
+                    checkAllUsers();
+                }
+            }
+        });
+    </script>
+{% endblock %}

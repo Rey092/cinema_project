@@ -9,7 +9,7 @@ from admin_lte.services.forms_services import create_forms, get_objects, save_fo
     save_new_images_to_gallery, validate_forms, create_objects, save_objects, get_url_path, get_article_qs
 
 from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, PageForm, RestrictedPageForm, \
-    ContactsForm
+    ContactsForm, MailingForm
 
 
 def admin_lte_home(request):
@@ -17,7 +17,6 @@ def admin_lte_home(request):
 
 
 class MoviesView(ListView):
-    """Movies that are in the cinema now or soon will be. url: 'movies/'. TODO."""
 
     template_name = 'admin_lte/pages/movies_list.html'
 
@@ -273,5 +272,5 @@ class UserDeleteView(DeleteView):
 
 
 def mailings(request):
-
-    return render(request, 'admin_lte/pages/mailing.html', context={})
+    mailing_form = MailingForm()
+    return render(request, 'admin_lte/pages/mailing.html', context={'mailing_form': mailing_form})
