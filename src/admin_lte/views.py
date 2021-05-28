@@ -165,11 +165,6 @@ class PagesListView(ListView):
     template_name = 'admin_lte/pages/pages_list.html'
     model = Page
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(PagesListView, self).get_context_data(**kwargs)
-    #     context['contacts'] = random.randrange(1, 100)
-    #     return context
-
 
 def page_description_view(request, slug):
     page, gallery = get_objects(Page, slug, trailer=False)
@@ -229,3 +224,17 @@ def contacts_update_view(request):
         return redirect('admin_lte:pages_list')
 
     return render(request, 'admin_lte/pages/contacts_update.html', context={'forms': forms})
+
+
+def contacts_create_view(request):
+    form = ContactsForm(request.POST or None, request.FILES or None)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(form)
+
+        if forms_valid_status:
+            save_objects(form)
+
+            return redirect('admin_lte:pages_list')
+
+    return render(request, 'admin_lte/pages/contacts_create.html', context={'form': form})

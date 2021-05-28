@@ -27,5 +27,6 @@ urlpatterns = [
     path('pages/<slug:slug>/', views.page_description_view, name='page_description'),
     path('pages/<slug:slug>/delete/', views.PageDeleteView.as_view(), name='page_delete'),
 
-    path('pages/hi/contacts/', views.contacts_update_view, name='contacts'),
+    path('contacts/', views.contacts_update_view, name='contacts_list'),
+    path('contacts/create/', views.contacts_create_view, name='contacts_create'),
 ]

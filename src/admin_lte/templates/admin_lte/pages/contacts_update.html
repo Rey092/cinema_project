@@ -12,27 +12,33 @@
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
 
+
         <!-- Content Header (Page header) -->
         <div class="content-header">
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-12">
-                        <h1 class="m-0" style="text-align: center">{{ article.title }}</h1>
+                        <h1 class="m-0" style="text-align: center">Изменить контакты</h1>
                     </div><!-- /.col -->
                 </div><!-- /.row -->
             </div><!-- /.container-fluid -->
         </div>
         <!-- /.content-header -->
 
+        <div style="padding-bottom: 16px;display: flex;justify-content: right;">
+            <a href="{% url 'admin_lte:contacts_create' %}">
+                <button type="button" class="btn btn-block btn-info">
+                    Добавить контакты
+                </button>
+            </a>
+        </div>
+
+
         <!-- Main content -->
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">
-
-                        <div class="card-header">
-                            <h3 class="card-title">Изменить контакты</h3>
-                        </div>
                         <!-- /.card-header -->
 
                         <!-- form start -->
@@ -61,7 +67,7 @@
                                                 <strong>{{ field.label_tag }}</strong>
                                                 {% if field == form.logo %}
                                                     <img style="height: 100px; width: auto;"
-                                                            src="{{ form.instance.logo.url }}"
+                                                         src="{{ form.instance.logo.url }}"
                                                          alt="https://steamuserimages-a.akamaihd.net/ugc/644374753312153149/5E6920279A80734500AA85DC7B12399091D8689D/">
                                                 {% endif %}
                                                 {{ field }}

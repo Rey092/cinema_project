@@ -96,7 +96,7 @@ def create_objects(obj_class, mode=None):
     return obj, gallery_images, gallery_inst, seo_inst
 
 
-def create_page_objects(mode):
+def create_page_objects():
     gallery_inst = Gallery()
     seo_inst = SeoData()
     page = Page(is_active=True, created=date.today(), gallery=gallery_inst, seo=seo_inst)
