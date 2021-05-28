@@ -1,11 +1,12 @@
 from django.forms import modelformset_factory, formset_factory
 from django.urls import reverse_lazy
-from cinema_site.models import Cinema, Hall, Movie, Article, Gallery, SeoData, Image
+from cinema_site.models import Cinema, Hall, Movie, Article, Gallery, SeoData, Image, Page, Contacts
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime, date
-from django.views.generic import ListView, DeleteView, CreateView
+from django.views.generic import ListView, DeleteView, CreateView, UpdateView
 
-from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, ImageForm
+from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, ImageForm, PageForm, RestrictedPageForm, \
+    ContactsForm
 from .templates.admin_lte.services.forms_services import create_forms, get_objects, save_forms, \
     save_new_images_to_gallery, validate_forms, create_objects, save_objects, get_url_path, get_article_qs
 
@@ -43,8 +44,6 @@ def movie_description_view(request, slug):
             save_new_images_to_gallery(movie, request)
 
             return redirect('admin_lte:movies_list')
-    else:
-        seo_data_form = SeoDataForm(instance=movie.seo, prefix='form2')
 
     return render(request, 'admin_lte/pages/movie_description.html',
                   context={'movie': movie, 'form1': movie_form, 'form2': seo_data_form, 'formset': formset})
@@ -71,8 +70,6 @@ def cinema_description_view(request, slug):
             save_new_images_to_gallery(cinema, request)
 
             return redirect('admin_lte:cinemas_list')
-    else:
-        seo_data_form = SeoDataForm(prefix='form2', instance=cinema.seo)
 
     return render(request, 'admin_lte/pages/cinema_description.html',
                   context={'cinema': cinema, 'form1': cinema_form, 'form2': seo_data_form, 'formset': formset,
@@ -93,8 +90,6 @@ def hall_description_view(request, slug, hall_number):
             save_new_images_to_gallery(hall, request)
 
             return redirect('admin_lte:hall_description', slug=cinema.slug, hall_number=hall.hall_number)
-    else:
-        seo_data_form = SeoDataForm(prefix='form2', instance=hall.seo)
 
     return render(request, 'admin_lte/pages/hall_description.html',
                   context={'hall': hall, 'form1': hall_form, 'form2': seo_data_form, 'formset': formset})
@@ -123,8 +118,6 @@ def article_description_view(request, slug):
             save_new_images_to_gallery(article, request)
 
             return redirect('admin_lte:news_list')
-    else:
-        seo_data_form = SeoDataForm(prefix='form2', instance=article.seo)
 
     return render(request, 'admin_lte/pages/article_description.html',
                   context={'article': article, 'form1': news_form, 'form2': seo_data_form, 'formset': formset,
@@ -144,22 +137,95 @@ class ArticleDeleteView(DeleteView):
 
 def article_create_view(request):
     mode = 'NEWS' if request.path == '/admin/news/create' else 'EVENTS'
-    print(mode, request.path)
-    article, gallery_images, gallery_inst, seo_inst = create_objects(mode=mode)
+    article, gallery_images, gallery_inst, seo_inst = create_objects(Article, mode)
     article_form, seo_data_form, formset = create_forms(article, ArticleForm, gallery_images, request)
 
     if request.method == 'POST':
         forms_valid_status = validate_forms(article_form, seo_data_form, formset=formset)
 
         if forms_valid_status:
-
             save_objects(seo_inst, gallery_inst, article)
             save_forms(article_form, seo_data_form, formset)
             save_new_images_to_gallery(article, request)
-
-            return redirect('admin_lte:news_list')
+            if mode == 'NEWS':
+                return redirect('admin_lte:news_list')
+            else:
+                return redirect('admin_lte:events_list')
     else:
         seo_data_form = SeoDataForm(prefix='form2', instance=article.seo)
 
     return render(request, 'admin_lte/pages/article_create.html',
                   context={'form1': article_form, 'form2': seo_data_form, 'formset': formset})
+
+
+# --------- Pages -----------
+
+
+class PagesListView(ListView):
+    template_name = 'admin_lte/pages/pages_list.html'
+    model = Page
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(PagesListView, self).get_context_data(**kwargs)
+    #     context['contacts'] = random.randrange(1, 100)
+    #     return context
+
+
+def page_description_view(request, slug):
+    page, gallery = get_objects(Page, slug, trailer=False)
+
+    page_form = RestrictedPageForm if page.is_basic is True else PageForm
+    print(page.is_basic)
+    page_form, seo_data_form, formset = create_forms(page, page_form, gallery, request)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(page_form, seo_data_form, formset=formset)
+
+        if forms_valid_status:
+            save_forms(page_form, seo_data_form, formset)
+            save_new_images_to_gallery(page, request)
+
+            return redirect('admin_lte:pages_list')
+    else:
+        seo_data_form = SeoDataForm(prefix='form2', instance=page.seo)
+
+    return render(request, 'admin_lte/pages/page_description.html',
+                  context={'page': page, 'form1': page_form, 'form2': seo_data_form, 'formset': formset})
+
+
+class PageDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:pages_list')
+    model = Page
+
+
+def pages_create_view(request):
+    page, gallery_images, gallery_inst, seo_inst = create_objects(Page)
+    article_form, seo_data_form, formset = create_forms(page, PageForm, gallery_images, request)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(article_form, seo_data_form, formset=formset)
+
+        if forms_valid_status:
+            save_objects(seo_inst, gallery_inst, page)
+            save_forms(article_form, seo_data_form, formset)
+            save_new_images_to_gallery(page, request)
+
+            return redirect('admin_lte:pages_list')
+
+    return render(request, 'admin_lte/pages/page_create.html',
+                  context={'form1': article_form, 'form2': seo_data_form, 'formset': formset})
+
+
+def contacts_update_view(request):
+    qs = Contacts.objects.all()
+    forms = [ContactsForm(request.POST or None, request.FILES or None, prefix=f'form{x.id}', instance=x) for x in qs]
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(*forms)
+
+        if forms_valid_status:
+            save_forms(*forms)
+
+        return redirect('admin_lte:pages_list')
+
+    return render(request, 'admin_lte/pages/contacts_update.html', context={'forms': forms})

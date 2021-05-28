@@ -10,7 +10,7 @@ from .services.media_services import UploadToPathAndRename
 
 
 class Gallery(models.Model):
-    name = models.CharField(max_length=50)
+    name = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return self.name
@@ -132,20 +132,32 @@ class Page(models.Model):
     title = models.CharField(max_length=40)
     slug = models.SlugField(unique=True)
     description = models.TextField()
-    phone1 = PhoneNumberField()
-    phone2 = PhoneNumberField()
+    phone1 = PhoneNumberField(null=True, blank=True)
+    phone2 = PhoneNumberField(null=True, blank=True)
     is_basic = models.BooleanField(default=True)
+    is_active = models.BooleanField(default=True)
+    created = models.DateField(auto_now_add=True)
 
-    banner = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='page_banner')
+    banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'pages', 'banners')))
+
+    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='page_seo')
+
+    def __str__(self):
+        return self.title
 
 
 class Contacts(models.Model):
     name = models.CharField(max_length=40)
     address = models.TextField()
-    coordinates = models.CharField(max_length=120)
+    coordinates = models.TextField(max_length=800)
+    is_active = models.BooleanField(default=True)
+    created = models.DateField(auto_now_add=True)
 
-    logo = models.ForeignKey(Image, on_delete=models.SET_NULL, null=True, related_name='contacts_logo')
+    logo = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'contacts', 'logos')))
+
+    def __str__(self):
+        return self.name
 
 
 class EmailTemplate(models.Model):

@@ -1,0 +1,99 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+
+{% block title %}
+    AdminLTE 3 | Starter
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">{{ article.title }}</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+
+                        <div class="card-header">
+                            <h3 class="card-title">Изменить контакты</h3>
+                        </div>
+                        <!-- /.card-header -->
+
+                        <!-- form start -->
+                        <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"
+                              novalidate>
+                            {% csrf_token %}
+
+                            {% for form in forms %}
+
+                                <div class="card card-primary" style="padding: 20px">
+                                    {% for error in form.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                    {% for field in form %}
+                                        <div class="form-group mb-2">
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <div class="form-group mb-2">
+                                                <strong>{{ field.label_tag }}</strong>
+                                                {% if field == form.logo %}
+                                                    <img style="height: 100px; width: auto;"
+                                                            src="{{ form.instance.logo.url }}"
+                                                         alt="https://steamuserimages-a.akamaihd.net/ugc/644374753312153149/5E6920279A80734500AA85DC7B12399091D8689D/">
+                                                {% endif %}
+                                                {{ field }}
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
+                            {% endfor %}
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+{% endblock %}

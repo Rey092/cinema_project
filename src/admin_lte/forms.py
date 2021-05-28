@@ -1,7 +1,7 @@
-from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article
+from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article, Page, Contacts
 from django.core.exceptions import ValidationError
 from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput, \
-    SlugField
+    SlugField, ImageField
 
 
 class ImageForm(ModelForm):
@@ -230,3 +230,77 @@ class ArticleForm(ModelForm):
             'created': 'Дата публикации',
             'banner': 'Баннер'
         }
+
+
+class PageForm(ModelForm):
+    class Meta:
+        model = Page
+        fields = ['title', 'slug', 'description', 'is_active', 'banner']
+        widgets = {
+            'title': TextInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите заголовок новости',
+            }),
+            'slug': TextInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите описание',
+            }),
+            'description': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите условия',
+            }),
+            'is_active': CheckboxInput(attrs={
+                'class': 'form-control custom-control-input',
+                'id': 'customCheckbox1'
+            }),
+            'banner': FileInput(),
+        }
+        labels = {
+            'title': 'Заголовок',
+            'slug': 'slug',
+            'description': 'Описание',
+            'is_active': 'Статус',
+            'banner': 'Баннер'
+        }
+
+
+class RestrictedPageForm(PageForm):
+    class Meta(PageForm.Meta):
+        exclude = ('title', 'slug', 'is_active')
+
+
+class ContactsForm(ModelForm):
+    class Meta:
+        model = Contacts
+        fields = ('name', 'address', 'coordinates', 'logo')
+
+        # class ContactsForm(ModelForm):
+        #     class Meta:
+        #         model = Contacts
+        #         fields = ['name', 'address', 'coordinates', 'logo']
+        widgets = {
+            'name': TextInput(attrs={
+                'required': 'required',
+                'class': 'form-control',
+                'placeholder': 'Введите название',
+            }),
+            'address': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите адрес',
+            }),
+            'coordinates': Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Введите координаты',
+            }),
+        }
+        order = ['name', 'logo', 'address', 'coordinates']
+#
+#         }
+#         labels = {
+#             'name': 'Название',
+#             'address': 'Адрес',
+#             'coordinates': 'Координаты',
+#             'logo': 'Логотип',
+#         }

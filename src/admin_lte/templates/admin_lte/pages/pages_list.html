@@ -1,0 +1,151 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+
+{% block title %}
+    AdminLTE 3 | Новости
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">
+                            Cписок страниц
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content" style="padding-left: 100px; padding-right: 100px;">
+            <div class="container-fluid">
+                <div class="card card-success" style="margin: auto;">
+                    <div class="card-body">
+                        <div class="row" style="margin: auto;">
+                            <div class="table-responsive">
+                                <div style="padding-bottom: 16px;display: flex;justify-content: right;">
+                                    <a href="{% url 'admin_lte:page_create' %}">
+                                        <button type="button" class="btn btn-block btn-info">
+                                            Добавить страницу
+                                        </button>
+                                    </a>
+                                </div>
+                                <table class="table m-0">
+                                    <thead>
+                                    <tr>
+                                        <th style="text-align: center" scope="col">Название</th>
+                                        <th style="text-align: center" scope="col">Дата создания</th>
+                                        <th style="text-align: center" scope="col">Статус</th>
+                                        <th style="text-align: center" scope="col">Управление</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    {% for page in object_list %}
+                                        <tr>
+                                            <td style="text-align: center;">{{ page.title }}</td>
+                                            <td style="text-align: center;">{{ page.created }}</td>
+                                            <td style="text-align: center;">
+                                                {% if page.is_active %}
+                                                    <label style="font-size: 15px; line-height: 1; padding: .375rem .5625rem;"
+                                                           class="badge badge-success">Активна</label>
+                                                {% else %}
+                                                    <label style="font-size: 15px; line-height: 1; padding: .375rem .5625rem;"
+                                                           class="badge badge-danger">Не активна</label>
+                                                {% endif %}
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <!-- Call to action buttons -->
+                                                <ul class="list-inline m-0">
+                                                    <li class="list-inline-item">
+                                                        <a href="{% url 'admin_lte:page_description' page.slug %}">
+                                                            <button class="btn btn-success btn-sm rounded-0"
+                                                                    type="button"
+                                                                    data-toggle="tooltip"
+                                                                    data-placement="top"
+                                                                    title="Edit"><i
+                                                                    class="fa fa-edit"></i>
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        {% if page.is_basic != True %}
+                                                            <form action="{% url 'admin_lte:page_delete' page.slug %}"
+                                                                  method="POST">
+                                                                {% csrf_token %}
+
+                                                                <button class="btn btn-danger btn-sm rounded-0"
+                                                                        type="submit"
+                                                                        data-toggle="tooltip"
+                                                                        data-placement="top"
+                                                                        title="Delete"><i
+                                                                        class="fa fa-trash"></i>
+                                                                </button>
+                                                            </form>
+                                                        {% endif %}
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+
+                                        <tr>
+                                            <td style="text-align: center;">Контакты</td>
+                                            <td style="text-align: center;"> - </td>
+                                            <td style="text-align: center;">
+                                                    <label style="font-size: 15px; line-height: 1; padding: .375rem .5625rem;"
+                                                           class="badge badge-success">Активна</label>
+                                            </td>
+                                            <td style="text-align: center;">
+                                                <!-- Call to action buttons -->
+                                                <ul class="list-inline m-0">
+                                                    <li class="list-inline-item">
+                                                        <a href="{% url 'admin_lte:contacts' %}">
+                                                            <button class="btn btn-success btn-sm rounded-0"
+                                                                    type="button"
+                                                                    data-toggle="tooltip"
+                                                                    data-placement="top"
+                                                                    title="Edit"><i
+                                                                    class="fa fa-edit"></i>
+                                                            </button>
+                                                        </a>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                    </li>
+
+                                                </ul>
+                                            </td>
+                                        </tr>
+
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+{% endblock %}

@@ -1,6 +1,6 @@
 from django.utils.datetime_safe import date
 from admin_lte.forms import ImageForm, SeoDataForm, ArticleForm
-from cinema_site.models import Image, Article, Gallery, SeoData
+from cinema_site.models import Image, Article, Gallery, SeoData, Page
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 
@@ -21,22 +21,23 @@ def save_new_images_to_gallery(obj, request):
         Image.objects.bulk_create(images)
 
 
-def append_forms_validation(iterable_obj, validation_list):
+def validate_multiple_forms_and_append(iterable_obj, append_to):
     for form in iterable_obj:
+        print('iterate', form.errors)
         if form.is_valid():
-            validation_list.append(True)
+            append_to.append(True)
         else:
-            validation_list.append(False)
+            append_to.append(False)
 
 
 def validate_forms(*args, formset=None):
     validation_list = []
     if args:
-        append_forms_validation(args, validation_list)
+        validate_multiple_forms_and_append(args, append_to=validation_list)
 
     if formset:
         validation_list.append(formset.is_valid())
-        append_forms_validation(formset, validation_list)
+        validate_multiple_forms_and_append(formset, append_to=validation_list)
 
     if all(validation_list):
         return True
@@ -82,9 +83,22 @@ def get_objects(obj_class, slug, qs=None, trailer=True):
         return obj, gallery
 
 
-def create_objects(mode):
+def create_objects(obj_class, mode=None):
     gallery_inst = Gallery()
     seo_inst = SeoData()
-    article = Article(is_active=True, publication=date.today(), mode=mode, gallery=gallery_inst, seo=seo_inst)
     gallery_images = Image.objects.filter(gallery=gallery_inst)
-    return article, gallery_images, gallery_inst, seo_inst
+    if obj_class == Article:
+        obj = Article(is_active=True, publication=date.today(), mode=mode, gallery=gallery_inst, seo=seo_inst)
+    elif obj_class == Page:
+        obj = Page(is_active=True, is_basic=False, created=date.today(), gallery=gallery_inst, seo=seo_inst)
+    else:
+        raise TypeError("Function \'create_objects\' is applied to an inappropriate Class")
+    return obj, gallery_images, gallery_inst, seo_inst
+
+
+def create_page_objects(mode):
+    gallery_inst = Gallery()
+    seo_inst = SeoData()
+    page = Page(is_active=True, created=date.today(), gallery=gallery_inst, seo=seo_inst)
+    gallery_images = Image.objects.filter(gallery=gallery_inst)
+    return page, gallery_images, gallery_inst, seo_inst

@@ -21,4 +21,11 @@ urlpatterns = [
     path('events/create', views.article_create_view, name='event_create'),
     path('events/<slug:slug>/', views.article_description_view, name='event_description'),
     path('events/<slug:slug>/delete/', views.ArticleDeleteView.as_view(), name='event_delete'),
+
+    path('pages/', views.PagesListView.as_view(), name='pages_list'),
+    path('pages/create/', views.pages_create_view, name='page_create'),
+    path('pages/<slug:slug>/', views.page_description_view, name='page_description'),
+    path('pages/<slug:slug>/delete/', views.PageDeleteView.as_view(), name='page_delete'),
+
+    path('pages/hi/contacts/', views.contacts_update_view, name='contacts'),
 ]
