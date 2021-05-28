@@ -29,4 +29,8 @@ urlpatterns = [
 
     path('contacts/', views.contacts_update_view, name='contacts_list'),
     path('contacts/create/', views.contacts_create_view, name='contacts_create'),
+
+    path('users/', views.UsersListView.as_view(), name='users_list'),
+    path('users/<int:pk>/', views.UserUpdateView.as_view(), name='user_description'),
+    path('users/<int:pk>/delete', views.UserDeleteView.as_view(), name='user_delete'),
 ]

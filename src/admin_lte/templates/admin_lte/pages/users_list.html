@@ -1,0 +1,124 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+{% load i18n %}
+
+{% block title %}
+    AdminLTE 3 | Пользователи
+{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">
+                            Пользователи</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <div class="content" style="padding-left: 100px; padding-right: 100px;">
+            <div class="container-fluid">
+                <div class="card card-success" style="margin: auto;">
+                    <div class="card-body">
+                        <div class="row" style="margin: auto;">
+
+                            {% language 'ru' %}
+                                <div class="table-responsive">
+                                    <table id="table_id" class="display">
+                                        <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Дата регистрации</th>
+                                            <th>День рождения</th>
+                                            <th>E-mail</th>
+                                            <th>Телефон</th>
+                                            <th>ФИО</th>
+                                            <th>Псевдоним</th>
+                                            <th>Город</th>
+                                            <th>Управление</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for user in object_list %}
+                                            <tr>
+                                                <th>{{ user.id }}</th>
+                                                <th>{{ user.created }}</th>
+                                                <th>{{ user.birthday }}</th>
+                                                <th>{{ user.email }}</th>
+                                                <th>{{ user.phone_number }}</th>
+                                                <th>{{ user.full_name }}</th>
+                                                <th>{{ user.username }}</th>
+                                                <th>{{ user.city }}</th>
+                                                <th>
+                                                    {% if user.is_staff != True %}
+                                                        <ul class="list-inline m-0">
+                                                            <li class="list-inline-item">
+                                                                <a href="{% url 'admin_lte:user_description' user.id %}">
+                                                                    <button class="btn btn-success btn-sm rounded-0"
+                                                                            type="button"
+                                                                            data-toggle="tooltip"
+                                                                            data-placement="top"
+                                                                            title="Edit"><i
+                                                                            class="fa fa-edit"></i>
+                                                                    </button>
+                                                                </a>
+                                                            </li>
+                                                            <li class="list-inline-item">
+                                                                <form action="{% url 'admin_lte:user_delete' user.id %}"
+                                                                      method="POST">
+                                                                    {% csrf_token %}
+                                                                    <button class="btn btn-danger btn-sm rounded-0"
+                                                                            type="submit"
+                                                                            data-toggle="tooltip"
+                                                                            data-placement="top"
+                                                                            title="Delete"><i
+                                                                            class="fa fa-trash"></i>
+                                                                    </button>
+                                                                </form>
+                                                            </li>
+                                                        </ul>
+                                                    {% endif %}
+                                                </th>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                            {% endlanguage %}
+                        </div>
+                    </div>
+                </div>
+                <!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+    <script type="text/javascript" charset="utf8"
+            src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script>$(document).ready(function () {
+        $('#table_id').DataTable();
+    });</script>
+{% endblock %}

@@ -1,14 +1,15 @@
-from django.forms import modelformset_factory, formset_factory
-from django.urls import reverse_lazy
-from cinema_site.models import Cinema, Hall, Movie, Article, Gallery, SeoData, Image, Page, Contacts
+from django.urls import reverse_lazy, reverse
+from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts
 from django.shortcuts import get_object_or_404, redirect, render
-from django.utils.datetime_safe import datetime, date
-from django.views.generic import ListView, DeleteView, CreateView, UpdateView
-
-from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, ImageForm, PageForm, RestrictedPageForm, \
-    ContactsForm
-from .templates.admin_lte.services.forms_services import create_forms, get_objects, save_forms, \
+from django.utils.datetime_safe import datetime
+from django.views.generic import ListView, DeleteView, UpdateView
+from profiles.forms import UserProfileForm
+from profiles.models import UserProfile
+from admin_lte.services.forms_services import create_forms, get_objects, save_forms, \
     save_new_images_to_gallery, validate_forms, create_objects, save_objects, get_url_path, get_article_qs
+
+from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, PageForm, RestrictedPageForm, \
+    ContactsForm
 
 
 def admin_lte_home(request):
@@ -238,3 +239,39 @@ def contacts_create_view(request):
             return redirect('admin_lte:pages_list')
 
     return render(request, 'admin_lte/pages/contacts_create.html', context={'form': form})
+
+
+# --------- Users ------------
+
+class UsersListView(ListView):
+    template_name = 'admin_lte/pages/users_list.html'
+    model = UserProfile
+
+
+class UserUpdateView(UpdateView):
+    model = UserProfile
+    template_name = 'admin_lte/pages/user_update_view.html'
+    form_class = UserProfileForm
+    success_message = 'Success'
+    success_url = reverse_lazy('admin_lte:users_list')
+
+    def form_valid(self, form):
+        new_password = form.cleaned_data.get('new_password')
+        confirm_password = form.cleaned_data.get('confirm_password')
+
+        if new_password == confirm_password and new_password:
+            self.object.set_password(new_password)
+            self.object.save()
+            return redirect(reverse('admin_lte:users_list'))
+
+        return super().form_valid(form)
+
+
+class UserDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:users_list')
+    model = UserProfile
+
+
+def mailings(request):
+
+    return render(request, 'admin_lte/pages/mailing.html', context={})

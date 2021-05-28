@@ -26,6 +26,6 @@ class UserProfileFormView(LoginRequiredMixin, SuccessMessageMixin, UpdateView):
         if new_password == confirm_password and new_password:
             self.request.user.set_password(new_password)
             self.request.user.save()
-            return redirect(reverse('home_page'))
+            return redirect(reverse('admin_lte_home'))
 
         return super().form_valid(form)

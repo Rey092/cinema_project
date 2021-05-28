@@ -82,3 +82,8 @@ class UserProfileForm(LoginRequiredMixin, ModelForm):
             self.add_error('confirm_password', 'passwords do not match !')
             self.add_error('new_password', 'passwords do not match !')
         return cd
+
+
+class UserProfileFormRestricted(ModelForm):
+    class Meta(UserProfileForm.Meta):
+        model = UserProfile

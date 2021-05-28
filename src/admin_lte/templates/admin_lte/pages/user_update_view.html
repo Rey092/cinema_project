@@ -1,0 +1,97 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    AdminLTE 3 | Страница
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">Изменить пользователя</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Изменить пользователя</h3>
+                            </div>
+                            <!-- /.card-header -->
+
+                            <!-- form start -->
+                            <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"
+                                  novalidate>
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    <div class="row">
+                                        {% for field in form %}
+
+                                            <div class="form-group col-md-6 col-sm-12">
+                                                {% if field.errors %}
+                                                    {% for error in field.errors %}
+                                                        <div class="alert alert-danger">
+                                                            <strong>{{ error|escape }}</strong>
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                                {{ field.label }}: {{ field }}
+                                            </div>
+
+                                        {% endfor %}
+                                    </div>
+                                    <div class="card-footer">
+                                        <button type="submit" class="btn btn-primary">Сохранить</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <!-- form end -->
+                        </div>
+                        <!-- /.card-body -->
+
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+    <!-- 'Add new form' button handler -->
+    <script>
+        $('#add_more').click(function () {
+            const form_idx = $('#id_form-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            form_idx.eq(parseInt(form_idx) + 1);
+        });
+    </script>
+{% endblock %}
