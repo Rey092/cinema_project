@@ -1,0 +1,201 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    AdminLTE 3 | Страница
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">Рекламные баннеры</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+
+                <!-- /.card-body -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Размер 1000x190</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="col-sm-12"
+                         style="display: block; margin-left: auto;margin-right: auto;text-align: justify;">
+                        <!-- form start -->
+                        <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"
+                              novalidate style="display: inline-block;">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                <div class="row">
+
+                                    <div id="form_set">
+
+                                        {{ formset.management_form }}
+                                        {% for form in formset.forms %}
+                                            <div class="col-2" style="display: inline-block; padding:5px;">
+                                                <img class="profile-user-img img-fluid"
+                                                     style="width: 100%;"
+                                                     src="{{ form.instance.image.url }}"
+                                                     alt="picture">
+                                                <table class='no_error'>
+                                                    {{ form|crispy }}
+                                                </table>
+                                            </div>
+                                        {% endfor %}
+
+                                    </div>
+                                    <input type="button" value="Add More" id="add_more">
+
+
+                                    <div id="empty_form" style="display:none">
+                                        <div class="col-2" style="display: inline-block">
+                                            <img class="profile-user-img img-fluid"
+                                                 style="width: 100%;"
+                                                 src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                                                 alt="picture">
+                                            <table class='no_error'>
+                                                {{ formset.empty_form|crispy }}
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Сохранить</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- form end -->
+                </div>
+                <!-- /.card-body -->
+
+                <!-- Content Header (Page header) -->
+                <div class="content-header">
+                    <div class="container-fluid">
+                        <div class="row mb-2">
+                            <div class="col-sm-12">
+                                <h1 class="m-0" style="text-align: center">Сквозной баннер на заднем фоне</h1>
+                            </div><!-- /.col -->
+                        </div><!-- /.row -->
+                    </div><!-- /.container-fluid -->
+                </div>
+                <!-- /.content-header -->
+
+                <!-- /.card-body -->
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">Размер 2000x3000</h3>
+                    </div>
+                    <!-- /.card-header -->
+
+                    <!-- form start -->
+                    <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"
+                          novalidate>
+                        {% csrf_token %}
+                        <div class="card-body">
+                            dgs
+                        </div>
+
+                        <div class="card-footer">
+                            <button type="submit" class="btn btn-primary">Сохранить</button>
+                        </div>
+                    </form>
+                    <!-- form end -->
+                </div>
+                <!-- /.card-body -->
+
+                <!-- /.card-body -->
+                {#                                <div class="card card-primary">#}
+                {#                                    <div class="card-header">#}
+                {#                                        <h3 class="card-title">Размер 1000x190</h3>#}
+                {#                                    </div>#}
+                {#                                    <!-- /.card-header -->#}
+                {##}
+                {#                                    <!-- form start -->#}
+                {#                                    <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"#}
+                {#                                          novalidate>#}
+                {#                                        {% csrf_token %}#}
+                {#                                        <div class="card-body">#}
+                {#                                            <div id="form_set">#}
+                {##}
+                {#                                                {{ formset.management_form }}#}
+                {#                                                {% for form in formset.forms %}#}
+                {#                                                    <div class="col-12" style="padding:10px;">#}
+                {#                                                        <img class="profile-user-img img-fluid"#}
+                {#                                                             style="width: 250px;"#}
+                {#                                                             src="{{ form.instance.image.url }}"#}
+                {#                                                             alt="picture">#}
+                {#                                                        <table class='no_error'>#}
+                {#                                                            {{ form }}#}
+                {#                                                        </table>#}
+                {#                                                    </div>#}
+                {#                                                {% endfor %}#}
+                {##}
+                {#                                            </div>#}
+                {##}
+                {#                                            <input type="button" value="Add More" id="add_more2">#}
+                {#                                            <div id="empty_form" style="display:none">#}
+                {#                                                <div style="display: inline-block">#}
+                {#                                                    <table class='no_error'>#}
+                {#                                                        {{ formset.empty_form }}#}
+                {#                                                    </table>#}
+                {#                                                </div>#}
+                {#                                            </div>#}
+                {#                ----Seo FORM end-----#}
+                {#                                        </div>#}
+                {##}
+                {#                                        <div class="card-footer">#}
+                {#                                            <button type="submit" class="btn btn-primary">Сохранить</button>#}
+                {#                                        </div>#}
+                {#                                    </form>#}
+                {#                                    <!-- form end -->#}
+                {#                                </div>#}
+                <!-- /.card-body -->
+
+            </div>
+        </section>
+        <!-- /.Main content -->
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+    <!-- 'Add new form' button handler -->
+    <script>
+        $('#add_more').click(function () {
+            const form_idx = $('#id_form-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            form_idx.eq(parseInt(form_idx) + 1);
+        });
+        $('#add_more2').click(function () {
+            const form_idx = $('#id_form-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            form_idx.eq(parseInt(form_idx) + 1);
+        });
+    </script>
+{% endblock %}

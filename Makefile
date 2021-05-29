@@ -11,6 +11,9 @@ MAIN = src
 run:
 	$(MANAGE) runserver 127.0.0.1:8001
 
+gen-users:
+	$(MANAGE) gen_users
+
 kill-port:
 	sudo fuser -k 8000/tcp
 

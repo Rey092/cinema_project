@@ -34,5 +34,6 @@ urlpatterns = [
     path('users/<int:pk>/', views.UserUpdateView.as_view(), name='user_description'),
     path('users/<int:pk>/delete', views.UserDeleteView.as_view(), name='user_delete'),
 
-    path('mailings/', views.mailings, name='mailings')
+    path('mailings/', views.mailings_view, name='mailings'),
+    path('banners/', views.banners_view, name='banners')
 ]

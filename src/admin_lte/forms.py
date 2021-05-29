@@ -1,7 +1,7 @@
 from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article, Page, Contacts, EmailTemplate
 from django.core.exceptions import ValidationError
 from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput, \
-    SlugField, ImageField, RadioSelect, ChoiceField
+    SlugField, ImageField, RadioSelect, ChoiceField, CharField
 
 
 class ImageForm(ModelForm):
@@ -297,9 +297,10 @@ class ContactsForm(ModelForm):
 class MailingForm(ModelForm):
     choice_types = (
         ('all', 'Все пользователи'),
-        ('selected', 'Выбранные пользователи'),
+        ('selected', 'Выборочно'),
     )
     users_choice_type = ChoiceField(choices=choice_types, widget=RadioSelect(), label='Выбрать пользователей:')
+    text_field = CharField(widget=Textarea, label='Текст')
 
     def clean_users_choice_type(self):
         if len(self.cleaned_data['region']) > 1:
@@ -309,3 +310,6 @@ class MailingForm(ModelForm):
     class Meta:
         model = EmailTemplate
         fields = ['file', ]
+        labels = {
+            'file': 'Загрузить HTML-письмо',
+        }

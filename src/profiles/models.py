@@ -69,7 +69,7 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=20, verbose_name='Фамилия')
     full_name = models.CharField(max_length=40, verbose_name='Полное имя')
     phone_number = modelfields.PhoneNumberField(verbose_name='Номер телефона')
-    address = models.CharField(max_length=40, verbose_name='Адрес')
+    address = models.CharField(max_length=100, verbose_name='Адрес')
     cc_number = CardNumberField(_('Номер карты'))
     birthday = DateField(verbose_name='Дата рождения')
     created = DateField(auto_now_add=True)

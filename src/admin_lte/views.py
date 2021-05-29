@@ -1,5 +1,7 @@
+from django.forms import modelformset_factory
+from django.http import Http404
 from django.urls import reverse_lazy, reverse
-from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts
+from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts, Gallery, Image
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView, DeleteView, UpdateView
@@ -9,15 +11,23 @@ from admin_lte.services.forms_services import create_forms, get_objects, save_fo
     save_new_images_to_gallery, validate_forms, create_objects, save_objects, get_url_path, get_article_qs
 
 from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, PageForm, RestrictedPageForm, \
-    ContactsForm, MailingForm
+    ContactsForm, MailingForm, ImageForm
 
 
 def admin_lte_home(request):
-    return render(request, 'admin_lte/pages/home.html')
+    users = UserProfile.objects.filter(is_staff=False)
+    users_count = users.count()
+    men_count = users.filter(gender='M').count()
+    women_count = users.filter(gender='F').count()
+    context = {
+        'users_count': users_count,
+        'men_count': men_count,
+        'women_count': women_count,
+    }
+    return render(request, 'admin_lte/pages/home.html', context=context)
 
 
 class MoviesView(ListView):
-
     template_name = 'admin_lte/pages/movies_list.html'
 
     def get_queryset(self):
@@ -181,8 +191,6 @@ def page_description_view(request, slug):
             save_new_images_to_gallery(page, request)
 
             return redirect('admin_lte:pages_list')
-    else:
-        seo_data_form = SeoDataForm(prefix='form2', instance=page.seo)
 
     return render(request, 'admin_lte/pages/page_description.html',
                   context={'page': page, 'form1': page_form, 'form2': seo_data_form, 'formset': formset})
@@ -271,6 +279,29 @@ class UserDeleteView(DeleteView):
     model = UserProfile
 
 
-def mailings(request):
+def mailings_view(request):
     mailing_form = MailingForm()
     return render(request, 'admin_lte/pages/mailing.html', context={'mailing_form': mailing_form})
+
+
+def banners_view(request):
+    try:
+        gallery_inst = get_object_or_404(Gallery, name='top_banners_gallery')
+    except Http404:
+        gallery_inst = Gallery(name='top_banners_gallery')
+        gallery_inst.save()
+
+    gallery = Image.objects.filter(gallery=gallery_inst)
+    formset_factory = modelformset_factory(Image, form=ImageForm, fields={'image', }, extra=0)
+    formset = formset_factory(request.POST or None, request.FILES or None, prefix='formset', queryset=gallery)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(formset=formset)
+
+        if forms_valid_status:
+            save_forms(formset)
+            save_new_images_to_gallery(None, request, gallery=gallery_inst)
+
+            return redirect('admin_lte:banners')
+
+    return render(request, 'admin_lte/pages/banners_list.html', context={'formset': formset})

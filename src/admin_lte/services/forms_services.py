@@ -9,13 +9,16 @@ def get_article_qs(mode):
     return Article.objects.filter(mode=mode)
 
 
-def save_new_images_to_gallery(obj, request):
+def save_new_images_to_gallery(obj, request, gallery=None):
     undefined_images = request.FILES.getlist('formset-undefined-image')
     if undefined_images:
         images = []
 
         for image in undefined_images:
-            gallery_image = Image(image=image, gallery=obj.gallery)
+            if gallery:
+                gallery_image = Image(image=image, gallery=gallery)
+            else:
+                gallery_image = Image(image=image, gallery=obj.gallery)
             images.append(gallery_image)
 
         Image.objects.bulk_create(images)

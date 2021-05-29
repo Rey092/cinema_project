@@ -13,12 +13,18 @@ class Gallery(models.Model):
     name = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name) or ''
 
 
 class Image(models.Model):
     image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
     gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
+
+    url = models.URLField(null=True, blank=True)
+    text = models.CharField(max_length=300, null=True, blank=True)
+
+    def __str__(self):
+        return str(self.text) or ''
 
 
 class SeoData(models.Model):

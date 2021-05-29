@@ -17,48 +17,111 @@
         <section class="content">
             <div class="container-fluid">
                 <div class="row">
-                    <div class="card card-primary" style="width: 80%; align-content: center; margin: auto;">
+                    <div class="card card-primary" style="width: 60%; align-content: center; margin: auto;">
                         <div style="display: flex; justify-content: center;" class="card-header">
                             <h3 class="card-title">E-mail рассылка</h3>
                         </div>
-                        <!-- /.card-header -->
 
-                        <!-- form start -->
                         <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"
                               novalidate>
                             {% csrf_token %}
                             <div class="card-body">
-
                                 {% for error in mailing_form.non_field_errors %}
                                     <div class="alert alert-danger">
                                         <strong>{{ error|escape }}</strong>
                                     </div>
                                 {% endfor %}
 
-                                {% if form1.title.errors %}
-                                    {% for error in form1.title.errors %}
-                                        <div class="alert alert-danger">
-                                            <strong>{{ error|escape }}</strong>
-                                        </div>
-                                    {% endfor %}
-                                {% endif %}
-                                <div class="form-group mb-2">
-                                    <strong>{{ mailing_form.users_choice_type.label_tag }}</strong>
-                                    {{ mailing_form.users_choice_type }}
-                                </div>
-                            <button id="userChoiceButton">Button</button>
 
-                                {% if form1.title.errors %}
-                                    {% for error in form1.title.errors %}
-                                        <div class="alert alert-danger">
-                                            <strong>{{ error|escape }}</strong>
+
+                                <!-- row -->
+                                <div class="row">
+
+                                    <div class="col-6">
+
+                                        <!-- users_choice_type -->
+                                        {% if mailing_form.users_choice_type.errors %}
+                                            {% for error in mailing_form.users_choice_type.errors %}
+                                                <div class="alert alert-danger">
+                                                    <strong>{{ error|escape }}</strong>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <div class="form-group mb-2">
+                                            <strong>{{ mailing_form.users_choice_type.label_tag }}</strong>
+                                            <div>{{ mailing_form.users_choice_type }}</div>
                                         </div>
-                                    {% endfor %}
-                                {% endif %}
-                                <div class="form-group mb-2">
-                                    <strong>{{ mailing_form.file.label_tag }}</strong>
-                                    {{ mailing_form.file }}
+                                        <!-- users_choice_type -->
+
+                                        <!-- html_letter -->
+                                        {% if mailing_form.file.errors %}
+                                            {% for error in mailing_form.file.errors %}
+                                                <div class="alert alert-danger">
+                                                    <strong>{{ error|escape }}</strong>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <label for="fileid">Загрузить HTML-письмо:</label>
+                                        <input id='fileid' type='file' hidden/>
+                                        <input id='button_id' type='button' value='Загрузить'/>
+                                        <p>Загружен файл: <strong id="fileName">-</strong></p>
+                                        <p>Шаблон используемый в текущей рассылке: <strong id="fileCurrent">-</strong></p>
+
+                                    <p>Кол-во писем: 412215</p>
+                                    <p>Рассылка выполнена на: 45%</p>
+
+
+                                        <!-- html_letter -->
+                                        <div class="form-group mb-2">
+                                            <strong>{{ mailing_form.text_field.label_tag }}</strong>
+                                            {{ mailing_form.text_field }}
+                                        </div>
+
+
+                                    </div>
+
+                                    <div class="col-6">
+
+                                        <!-- Modal -->
+                                        <div class="container">
+                                            <!-- Trigger the modal with a button -->
+                                            <button type="button" class="btn btn-primary" data-toggle="modal"
+                                                    data-target="#myModal">Выбрать пользователей
+                                            </button>
+
+
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="myModal" role="dialog">
+                                                <div class="modal-dialog">
+
+                                                    <!-- Modal content-->
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal">
+                                                                &times;
+                                                            </button>
+                                                            <h4 class="modal-title">Close</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Some text in the modal.</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-default"
+                                                                    data-dismiss="modal">
+                                                                Close
+                                                            </button>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal -->
+
+                                    </div>
+
                                 </div>
+                                <!-- row end -->
 
 
                                 <div class="card-footer" style="display: flex; justify-content: center;">
@@ -87,62 +150,22 @@
     <!-- AdminLTE App -->
     <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
     <!-- 'Add new form' button handler -->
+    <script>$('#myModal').on('shown.bs.modal', function () {
+        $('#myInput').trigger('focus')
+    })</script>
     <script>
-        let userModalButton = $('#userChoiceButton');
-        let target_group_selector = $('#targetGroup');
-        let downloaded = $('#htmlFile');
-        let available_templates = $('.template_input');
-        let current_template = $('#current');
+        document.getElementById('button_id').addEventListener('click', openDialog);
 
-        function setCurrentTemplate(name) {
-            current_template.text(name);
+        function openDialog() {
+            document.getElementById('fileid').click();
         }
-
-        function checkAllUsers() {
-            let target_users = $('.target_users');
-            target_users.each(function () {
-                this.checked = true;
-            });
-        }
-
-        target_group_selector.on('change', function () {
-            let selected = this.value;
-            if (selected === 0) {
-                userModalButton.attr('disabled', 'true');
-            } else {
-                userModalButton.removeAttr('disabled');
-            }
-        });
-
-        downloaded.on('change', function (event) {
-            if (this.files && this.files[0]) {
-                available_templates.removeAttr('required');
-                setCurrentTemplate(this.files[0].name);
-            }
-        })
-
-        available_templates.on('change', function (event) {
-            downloaded.removeAttr('required');
-            const id = this.id;
-            console.log(id);
-            const text = $('label[for=' + id + ']').text();
-            setCurrentTemplate(text);
-        })
-
-
-        $('#target').submit(function (event) {
-            let selected = target_group_selector.children('option:selected').val();
-
-            if (selected === 0) {
-                checkAllUsers();
-            } else {
-                let checked = [];
-                $.each($('input[class="target_users"]:checked'), function () {
-                    checked.push($(this).val());
-                })
-                if (checked.length < 1) {
-                    checkAllUsers();
-                }
+    </script>
+    <script>
+        const files = document.getElementById('fileid');
+        const message = document.getElementById('fileName');
+        files.addEventListener("change", function () {
+            if (files.files.length >= 0) {
+                message.innerHTML = files.files[0].name;
             }
         });
     </script>
