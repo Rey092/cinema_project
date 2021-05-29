@@ -5,7 +5,7 @@
             <div class="row">
                 <div class="col-md-3">
                     <a href={% url 'cinema_site:home_page' %}>
-                        <img style="background-color: rgba(255,255,255,0.85)"
+                        <img style="background-color: rgba(255,255,255,0.85); width: 100% "
                              src="{% static 'cinema_site/assets/img/png/logo.png' %}" alt="My image">
                     </a>
                 </div>
@@ -44,9 +44,6 @@
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'cinema_site:movies_schedule' %}">Расписание</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_site:movies_soon' %}">Скоро</a>
                                         </li>
                                         <li class="nav-item">
                                             <a class="nav-link" href="{% url 'cinema_site:cinemas_list' %}">Кинотеатры</a>

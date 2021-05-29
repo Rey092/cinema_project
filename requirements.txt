@@ -1,5 +1,3 @@
-appdirs==1.4.3
-apturl==0.5.2
 arrow==1.1.0
 asgiref==3.3.4
 astroid==2.3.3
@@ -7,18 +5,9 @@ backcall==0.2.0
 bcrypt==3.1.7
 binaryornot==0.4.4
 blinker==1.4
-Brlapi==0.7.0
 certifi==2019.11.28
 chardet==3.0.4
-Click==7.0
-colorama==0.4.3
-command-not-found==0.3
-cookiecutter==1.7.2
-cryptography==2.8
-cupshelpers==1.0
 dbus-python==1.2.16
-decorator==5.0.9
-defer==1.0.6
 distlib==0.3.0
 distro==1.4.0
 distro-info===0.23ubuntu1
@@ -34,6 +23,7 @@ django-phonenumber-field==5.1.0
 djangorestframework==3.12.4
 duplicity==0.8.12.0
 entrypoints==0.3
+Faker==8.4.0
 fasteners==0.14.1
 filelock==3.0.12
 flake8==3.9.2
@@ -112,7 +102,7 @@ sqlparse==0.4.1
 systemd-python==234
 text-unidecode==1.3
 traitlets==5.0.5
-ubuntu-advantage-tools==20.3
+ubuntu-advantage-tools==27.0
 ubuntu-drivers-common==0.0.0
 ufw==0.36
 unattended-upgrades==0.1

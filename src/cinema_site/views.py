@@ -1,4 +1,6 @@
-from django.views.generic import ListView, TemplateView
+from django.utils.datetime_safe import datetime
+from django.views.generic import ListView, TemplateView, UpdateView, DetailView
+from cinema_site.models import Movie
 from profiles.models import UserProfile
 
 
@@ -6,7 +8,19 @@ class HomePageView(ListView):
     """View for home page. url: '/'."""
 
     template_name = 'cinema_site/pages/home_page.html'
-    queryset = UserProfile
+    queryset = Movie.objects.filter(is_active=True, release_date__lte=datetime.today())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        movie_list_soon = Movie.objects.filter(is_active=True, release_date__gt=datetime.today())
+        today = datetime.today()
+
+        context.update({
+            'movie_list_soon': movie_list_soon,
+            'today': today
+        })
+        return context
 
 
 # - Movie Views -
@@ -15,7 +29,15 @@ class MoviesView(ListView):
     """Movies that are now in the cinema. url: 'movies/'."""
 
     template_name = 'cinema_site/pages/movies_list.html'
-    queryset = UserProfile
+    queryset = Movie.objects.filter(is_active=True, release_date__lte=datetime.today())
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        movie_list_soon = Movie.objects.filter(is_active=True, release_date__gt=datetime.today())
+
+        context.update({'movie_list_soon': movie_list_soon})
+        return context
 
 
 class MoviesScheduleView(ListView):
@@ -25,25 +47,19 @@ class MoviesScheduleView(ListView):
     queryset = UserProfile
 
 
-class MoviesSoonView(ListView):
-    """Movies that will be shown in the cinema soon. url: 'movies/soon/'."""
-
-    # TODO: Возможно, стоит обьеденить MoviesScheduleView и MoviesSoonView в одну вьюшку, когда займусь JS.
-    template_name = 'cinema_site/pages/movies_soon.html'
-    queryset = UserProfile
-
-
-class MovieDescriptionView(TemplateView):
+class MovieDescriptionView(DetailView):
     """Single movie description. url: 'movies/<slug:movie_slug>/'."""
 
     template_name = 'cinema_site/pages/movie_description.html'
-    queryset = UserProfile
+    queryset = Movie.objects.filter(is_active=True)
 
     def get_context_data(self, **kwargs):
         """Get movie_slug from URL dispatcher, make qs from db and return updated context."""
         context = super().get_context_data(**kwargs)
-        # movie_slug = context['movie_slug']
-        # Movie.objects.filter(movie_slug=movie_slug)
+        movie_url = self.object.trailer_url.split('=')[1]
+        context.update({
+            'movie_url': movie_url,
+        })
         return context
 
 
