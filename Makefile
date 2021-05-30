@@ -5,11 +5,18 @@ MANAGE = python src/manage.py
 SOURCE = src
 MAIN = src
 
+PROJECT_DIR=$(shell pwd)
+WSGI_PORT=8000
+
 # ##########################################################################
 # common commands
 
 run:
-	$(MANAGE) runserver 127.0.0.1:8001
+	$(MANAGE) runserver 127.0.0.1:8000
+
+gunicorn-run:
+	#cd $(PROJECT_DIR)/scr && gunicorn -w 4 -b 0.0.0.0:$(WSGI_PORT) src.wsgi --timeout 30 --log-level debug --max-requests 10000 --reload
+	gunicorn -w 4 -b 0.0.0.0:$(WSGI_PORT) scr.src.wsgi:Application --timeout 30 --log-level debug --max-requests 10000 --reload
 
 gen-users:
 	$(MANAGE) gen_users

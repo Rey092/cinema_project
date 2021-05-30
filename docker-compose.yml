@@ -1,0 +1,46 @@
+version: '3.7'
+
+services:
+#  postgresdb:
+#    build:
+#      context: ./docker/postgres
+#      dockerfile: Dockerfile
+#    environment:
+#      - POSTGRES_PASSWORD=postgres
+#    volumes:
+#      - ./docker/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+#    ports:
+#      - "5432:5432"
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    volumes:
+#      - .:/usr/src/app
+      - .:/app:rw # map data and files from parent directory in host to microservice directory in docker container
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/src/media
+#    depends_on:
+#      - postgresdb
+    ports:
+    - "8000:8000"
+    expose:
+      - "8000"
+
+  nginx:
+    build:
+      context: ./docker/nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - web
+#      - postgresdb
+    ports:
+      - "1300:80"
+    volumes:
+      - static_volume:/usr/src/app/static
+      - media_volume:/usr/src/app/src/media
+    restart: "on-failure"
+
+volumes:
+  static_volume:
+  media_volume:
