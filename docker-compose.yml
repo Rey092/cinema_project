@@ -35,7 +35,7 @@ services:
       - web
 #      - postgresdb
     ports:
-      - "1300:80"
+      - "80:80"
     volumes:
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/src/media
