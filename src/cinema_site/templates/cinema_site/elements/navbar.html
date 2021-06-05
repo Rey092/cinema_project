@@ -1,5 +1,5 @@
 {% load static %}
-<div class="container-fluid">
+<div class="container-fluid" style="background-color: rgba(0,79,139,0.6)">
     <div class="row">
         <div class="col-md-12">
             <div class="row">
@@ -23,7 +23,7 @@
                             <a href="#" class="fa fa-youtube"></a>
                             <a href="#" class="fa fa-reddit"></a>
                         </div>
-                        <div class="col-md-3" style="padding: 7px; background-color: rgba(255,255,255,0.85);">
+                        <div class="col-md-3" style="padding: 7px; color: white">
                             <text class="phone">(048) 777-77-77</text>
                             <br/>
                             <text class="phone">(067) 777-77-77</text>
@@ -31,28 +31,28 @@
                     </div>
                     <div class="row">
                         <div class="col-md-12">
-                            <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
+                            <nav class="navbar navbar-expand-lg">
                                 <button class="navbar-toggler" type="button" data-toggle="collapse"
                                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                                        aria-expanded="false" aria-label="Toggle navigation">
+                                        aria-expanded="false" aria-label="Toggle navigation">Меню
                                     <span class="navbar-toggler-icon"></span>
                                 </button>
                                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                                     <ul class="navbar-nav mr-auto">
-                                        <li class="nav-item">
+                                        <li class="nav-item main-nav-item">
                                             <a class="nav-link" href="{% url 'cinema_site:movies_list' %}">Афиша</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item main-nav-item">
                                             <a class="nav-link" href="{% url 'cinema_site:movies_schedule' %}">Расписание</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item main-nav-item">
                                             <a class="nav-link" href="{% url 'cinema_site:cinemas_list' %}">Кинотеатры</a>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item main-nav-item">
                                             <a class="nav-link" href="{% url 'cinema_site:events_and_discounts' %}">Акции</a>
                                         </li>
 
-                                        <li class="nav-item dropdown">
+                                        <li class="nav-item dropdown main-nav-item">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                                                role="button" data-toggle="dropdown" aria-haspopup="true"
                                                aria-expanded="false">
@@ -72,7 +72,7 @@
                                                 <a class="dropdown-item" href="{% url 'cinema_site:contacts_view' %}">Контакты</a>
                                             </div>
                                         </li>
-                                        <li class="nav-item dropdown">
+                                        <li class="nav-item dropdown main-nav-item">
                                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
                                                role="button" data-toggle="dropdown" aria-haspopup="true"
                                                aria-expanded="false">
@@ -83,36 +83,8 @@
                                                 <a class="dropdown-item" href="#">Англ</a>
                                             </div>
                                         </li>
-                                        <li class="nav-item">
+                                        <li class="nav-item main-nav-item">
                                             <a class="nav-link" href="{% url 'user_profile' %}">Профиль</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </nav>
-                            <nav class="navbar navbar-expand-lg" style="background-color: #e3f2fd;">
-                                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                                    <ul class="navbar-nav mr-auto">
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_site:movie_description' 1 %}">Описание
-                                                ф.</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_site:movie_booking' 1 %}">Бронь
-                                                ф.</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_site:cinema_description' 1 %}">Описание
-                                                кинот.</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_site:hall_description' 1 1 %}">Описание
-                                                зала.</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_site:event_description' 1 %}">Акция</a>
-                                        </li>
-                                        <li class="nav-item">
-                                            <a class="nav-link" href="{% url 'cinema_site:news_description' 1 %}">Новость</a>
                                         </li>
                                     </ul>
                                 </div>

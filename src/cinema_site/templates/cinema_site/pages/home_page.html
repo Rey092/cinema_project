@@ -11,7 +11,9 @@
 {% endblock %}
 
 {% block content %}
+
     <div class="container">
+    <div style="background-color: #e0edf6">
         <div class="carousel slide" id="carousel-833948">
             <ol class="carousel-indicators">
                 <li data-slide-to="0" data-target="#carousel-833948" class="active">
@@ -79,7 +81,8 @@
                 class="carousel-control-next" href="#carousel-833948" data-slide="next"><span
                 class="carousel-control-next-icon"></span> <span class="sr-only">Next</span></a>
         </div>
-        <div style="background-color: #e0edf6" class="row">
+    </div>
+        <div style="background-color: #e0edf6">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-12">
@@ -87,7 +90,6 @@
                         <div class="container">
                             {% language 'ru' %}
                                 <p class="today">Смотрите сегодня, <span id="today"></span></p>
-                                {#                                {{ today|date:'d M' }} #}
                             {% endlanguage %}
                         </div>
 
@@ -95,7 +97,6 @@
                 </div>
 
                 <div class="row movie_today">
-
                     <div style="padding-top: 14px;" class="row movie_today">
                         {% for movie in movie_list %}
                             <div class="collection col-3">
@@ -104,7 +105,7 @@
                                     <img style="width: 100%; height: auto"
                                          src="{{ movie.poster.url }}"
                                          alt="sfsa">
-                                    <div class="info-overlay">
+                                    <div class="info-overlay" style="text-align: center;">
                                         <div class="title info-overlay">{{ movie.title }}</div>
                                     </div>
                                 </a>
@@ -114,27 +115,14 @@
                             </div>
                         {% endfor %}
                     </div>
-                    {#                                        <div class="collection">#}
-                    {#                                            <a class="image-should-set image-set" href="/">#}
-                    {#                                                <img width="200"#}
-                    {#                                                     src="https://thumbnails.moviemania.io/phone/movie/299534/83092a/236x420.jpg"#}
-                    {#                                                     alt="">#}
-                    {#                                                <div class="info-overlay">#}
-                    {#                                                    <div class="title">IMAX Posters &amp; Giveaways</div>#}
-                    {#                                                    <div class="count">128 wallpapers</div>#}
-                    {#                                                </div>#}
-                    {#                                            </a>#}
-                    {#                                            <div class="buy-button">#}
-                    {#                                                <a class="btn btn-success buy-ticket" href="/" role="button">Купить билет</a>#}
-                    {#                                            </div>#}
-                    {#                                        </div>#}
-
                 </div>
+
                 <div class="row">
                     <div class="col-md-12">
                         <p class="today">Смотрите скоро</p>
                     </div>
                 </div>
+
                 <div class="row movie_today">
 
                     {% language 'ru' %}
@@ -146,7 +134,7 @@
                                         <img style="width: 100%; height: auto"
                                              src="{{ movie.poster.url }}"
                                              alt="sfsa">
-                                        <div class="info-overlay">
+                                        <div class="info-overlay" style="text-align: center;">
                                             <div class="title info-overlay">{{ movie.title }}</div>
                                         </div>
                                     </a>
@@ -180,19 +168,16 @@
                 </a>
             </div>
 
-
         </div>
     </div>
-    </div>
-
 
     <script>
 
-        var months2 = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
+        const months2 = ['января', 'февраля', 'марта', 'апреля', 'мая', 'июня', 'июля', 'августа', 'сентября', 'октября', 'ноября', 'декабря'];
 
         function currentDate(div) {
-            var date = new Date();
-            var currentDate =
+            const date = new Date();
+            const currentDate =
                 date.getDate() + ' ' +
                 months2[date.getMonth()];
 
@@ -204,4 +189,5 @@
         };
 
     </script>
+
 {% endblock %}

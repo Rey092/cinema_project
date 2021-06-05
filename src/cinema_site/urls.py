@@ -16,7 +16,7 @@ urlpatterns = [
     path('movies/<slug:slug>/booking/', views.MovieBookingView.as_view(), name='movie_booking'),
 
     path('cinemas/', views.CinemasListView.as_view(), name='cinemas_list'),
-    path('cinemas/<slug:cinema_slug>/', views.CinemaDescriptionView.as_view(), name='cinema_description'),
+    path('cinemas/<slug:slug>/', views.CinemaDescriptionView.as_view(), name='cinema_description'),
     path('cinemas/<slug:cinema_slug>/<int:hall_id>/', views.HallDescriptionView.as_view(), name='hall_description'),
 
     path('events/', views.EventsView.as_view(), name='events_and_discounts'),

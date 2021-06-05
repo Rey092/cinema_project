@@ -17,100 +17,74 @@
     <div class="col-12">
     <div class="row">
         <div class="col-1"></div>
-        <div class="col-10">
+        <div class="col-10" style="padding-right:0; padding-left:15px;">
             <div class="top-box">
-                <img src="https://i.imgur.com/SQuiipU.png" alt="">
+                <img src="{{ cinema.banner.url }}" alt="">
             </div>
         </div>
         <div class="col-1"></div>
     </div>
 
     <div class="row">
-        <div class="col-1">
+    <div class="col-1">
+    </div>
+    <div class="col-2">
+        <div class="card">
+            <div class="banner-container">
+                <img class="banner"
+                     src="https://i.imgur.com/dlDKzA2.png"
+                     alt="error">
+            </div>
         </div>
-        <div class="col-2">
-            <div class="card">
-                <div class="banner-container">
-                    <img class="banner"
-                         src="https://i.imgur.com/dlDKzA2.png"
-                         alt="error">
-                </div>
-            </div>
-            <div class="card">
-                <div class="vertical-menu">
-                    <h2 class="movie_today">Количество залов : 6</h2>
-                    {#                <a href="{% url 'movies_list' %}">Афиша</a>#}
-                    <a href="#" class="">Зал 1</a>
-                    <a href="#" class="">Зал 2</a>
-                    <a href="#" class="">Зал 3</a>
-                    <a href="#" class="">Зал 4</a>
-                    <a href="#" class="">Зал 5</a>
-                    <a href="#" class="">Зал 6</a>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="vertical-menu">
-                    <h2 class="movie_today">Смотрите сегодня:</h2>
-                    {#                <a href="{% url 'movies_list' %}">Афиша</a>#}
-                    <a href="#" class="">Сеанс 1</a>
-                    <a href="#" class="">Сеанс 2</a>
-                    <a href="#" class="">Сеанс 3</a>
-                    <a href="#" class="">Сеанс 4</a>
-                    <a href="#" class="">Сеанс 5</a>
-                    <a href="#" class="">Сеанс 6</a>
-                </div>
+        <div class="card">
+            <div class="vertical-menu">
+                <h2 class="movie_today">Количество залов : {{ halls.count }}</h2>
+                {#                <a href="{% url 'movies_list' %}">Афиша</a>#}
+                {% for hall in halls %}
+                    <a href="{% url 'cinema_site:hall_description' cinema.slug hall.hall_number %}"
+                       class="">Зал {{ hall.hall_number }}</a>
+                {% endfor %}
             </div>
         </div>
 
-        <div style="background-color: #e0edf6; padding-bottom: 3px" class="col-8">
-            <div class="main-body" style="padding: 15px;display: flex;">
-                <div class="row">
-                    <div class="">
-                        <div style="padding: 45px;" class="card">
-                            <h1 class="movie_today">Кинотеатр МультиФлекс-16D</h1>
-                            <p style="font-size: 20px">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                                ut labore et dolore magna aliqua. Metus vulputate eu scelerisque felis imperdiet proin
-                                fermentum. Enim sed faucibus turpis in eu mi bibendum. Nulla posuere sollicitudin
-                                aliquam ultrices sagittis orci a. Vitae proin sagittis nisl rhoncus. Urna cursus eget
-                                nunc scelerisque viverra mauris in aliquam. Diam donec adipiscing tristique risus nec
-                                feugiat. Vitae aliquet nec ullamcorper sit. Libero id faucibus nisl tincidunt eget
-                                nullam non. Sem viverra aliquet eget sit amet. Nunc sed blandit libero volutpat sed
-                                cras. Velit sed ullamcorper morbi tincidunt ornare massa. Placerat vestibulum lectus
-                                mauris ultrices eros in cursus. Sed sed risus pretium quam vulputate dignissim
-                                suspendisse in.
-                            </p>
-                            <p style="font-size: 20px">
-                                Lectus quam id leo in vitae turpis massa sed. Sit amet luctus venenatis lectus magna
-                                fringilla urna porttitor rhoncus. Donec ultrices tincidunt arcu non sodales neque
-                                sodales ut. Vel turpis nunc eget lorem dolor sed viverra ipsum. Dignissim suspendisse in
-                                est ante. Ultricies integer quis auctor elit sed vulputate. Dui nunc mattis enim ut
-                                tellus elementum sagittis. Lacus vestibulum sed arcu non odio euismod. Ultrices
-                                tincidunt arcu non sodales neque. Sit amet nulla facilisi morbi tempus iaculis urna id.
-                                Dolor purus non enim praesent elementum. Mattis ullamcorper velit sed ullamcorper morbi
-                                tincidunt. Sit amet massa vitae tortor condimentum lacinia quis vel. Scelerisque mauris
-                                pellentesque pulvinar pellentesque. Elementum curabitur vitae nunc sed velit dignissim
-                                sodales ut. Lorem dolor sed viverra ipsum. Nunc eget lorem dolor sed viverra. Proin
-                                fermentum leo vel orci porta non. Est pellentesque elit ullamcorper dignissim cras
-                                tincidunt lobortis feugiat.</p>
-                            <div style="font-size: 20px" class="movie-page-block__desc">
-                                <p><strong>Не забувай про маску.</strong></p>
-                                <p>Вона потрібна усім гостям, навіть наймолодшим. Надевай маску и не болей. Да, да. Ты.
-                                    Не болей. Будь здоровым. Делай зарядку по утрам. Да, да, да.</p>
-                            </div>
-                            <div class="card">
-                                <div class="banner-container">
-                                    <img class="banner"
-                                         src="https://i.imgur.com/JnusRtQ.png"
-                                         alt="error">
-                                </div>
-                            </div>
-                        </div>
+        <div class="card">
+            <div class="vertical-menu">
+                <h2 class="movie_today">Смотрите сегодня:</h2>
+                {#                <a href="{% url 'movies_list' %}">Афиша</a>#}
+                {% for seance in seances %}
+                    <a href="#" class="">{{ seance.movie.title }}</a>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="banner-container">
+                <img class="banner"
+                     src="https://i.imgur.com/dlDKzA2.png"
+                     alt="error">
+            </div>
+        </div>
+
+    </div>
+
+    <div style="background-color: #e0edf6; padding-bottom: 3px; display: flex;" class="col-8">
+        <div class="main-body" style="padding: 0; margin-left: auto; margin-right: auto;">
+            <div style="padding: 10px; width: 100%; " class="card">
+                <h1 class="movie_today">Кинотеатр {{ cinema.name }}</h1>
+                <p style="font-size: 20px">{{ cinema.description }}
+                </p>
+                <div style="font-size: 20px" class="movie-page-block__desc">
+                    <p><strong>Не забувай про маску.</strong></p>
+                    <p>{{ cinema.conditions }}</p>
+                </div>
+                <div class="card">
+                    <div class="banner-container">
+                        <img class="banner"
+                             src="https://i.imgur.com/JnusRtQ.png"
+                             alt="error">
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="col-1">
         </div>
     </div>
     <div style="padding-bottom: 20px"></div>

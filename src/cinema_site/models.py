@@ -104,7 +104,7 @@ class Seance(models.Model):
 class Ticket(models.Model):
     row = models.IntegerField()
     seat_place = models.IntegerField()
-    is_booked = models.BooleanField()
+    is_paid = models.BooleanField(default=False)
 
     seance = models.ForeignKey(Seance, on_delete=models.SET_NULL, null=True, related_name='ticket_seance')
     buyer = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='ticket_buyer')

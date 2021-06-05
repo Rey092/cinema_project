@@ -12,7 +12,7 @@ WSGI_PORT=8000
 # common commands
 
 run:
-	$(MANAGE) runserver 127.0.0.1:8000
+	$(MANAGE) runserver 127.0.0.1:8001
 
 gunicorn-run:
 	#cd $(PROJECT_DIR)/scr && gunicorn -w 4 -b 0.0.0.0:$(WSGI_PORT) src.wsgi --timeout 30 --log-level debug --max-requests 10000 --reload
@@ -20,6 +20,9 @@ gunicorn-run:
 
 gen-users:
 	$(MANAGE) gen_users
+
+gen-s:
+	$(MANAGE) gen_seances
 
 kill-port:
 	sudo fuser -k 8000/tcp

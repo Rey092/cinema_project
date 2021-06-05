@@ -10,8 +10,8 @@
 }
 
 .poster {
-      width: 400px;
-object-fit: cover;
+    width: 400px;
+    object-fit: cover;
 }
 
 .vertical-menu {
@@ -23,6 +23,7 @@ object-fit: cover;
     font-size: 21px;
 
 }
+
 .vertical-menu a {
     background-color: #eee; /* Grey background color */
     color: black; /* Black text color */
@@ -55,16 +56,16 @@ object-fit: cover;
 }
 
 .top-box {
-   position: relative;
-   overflow:hidden;
+    position: relative;
+    overflow: hidden;
     height: 300px;
     justify-content: center;
 }
 
 .top-box img {
-    width: 100%;
-    top:50%;
     object-fit: cover;
+    width: 100%;
+    height: 100%;
 }
 
 .banner-container {
@@ -80,25 +81,25 @@ object-fit: cover;
     padding: 20px;
 }
 
-.mini-menu-bar{
+.mini-menu-bar {
     padding: 5px;
     justify-content: center;
     position: relative;
     border: 4px dotted #eadc1e;
 }
 
-.mini-menu{
+.mini-menu {
     padding-left: 35px;
     padding-right: 35px;
     font-size: 18px;
     font-weight: bold;
 }
 
-.order-table{
+.order-table {
     border: 3px solid orange
 }
 
-.booking_banner{
+.booking_banner {
     width: 100%;
     position: relative;
     object-fit: cover;

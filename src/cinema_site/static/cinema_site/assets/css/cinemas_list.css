@@ -1,7 +1,11 @@
 .collection {
-    display: flex;
     padding: 10px;
     justify-content: center;
+}
+
+.movie_today {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .poster {

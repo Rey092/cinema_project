@@ -18,3 +18,8 @@
     object-fit: cover;
     padding: 30px;
 }
+
+div.container {
+	min-width: 980px;
+	margin: 0 auto;
+}

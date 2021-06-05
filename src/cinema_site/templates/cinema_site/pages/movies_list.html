@@ -37,7 +37,7 @@
                     <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 
                         <div style="padding-top: 14px;" class="row movie_today">
-                            {% for movie in movie_list %}
+                            {% for movie in object_list %}
                                 <div class="collection col-3">
                                     <a class="image-should-set image-set"
                                        href="{% url 'cinema_site:movie_description' movie.slug %}">

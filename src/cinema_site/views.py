@@ -1,6 +1,14 @@
+from datetime import tzinfo, timezone, timedelta
+from pprint import pprint
+
+from dateutil.utils import today
+from django.core import serializers
+from django.http import JsonResponse
 from django.utils.datetime_safe import datetime
+from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
-from cinema_site.models import Movie
+from cinema_site.models import Movie, Image, Seance, Cinema, Hall
+from cinema_site.services.schedule_services import handle_schedule_ajax
 from profiles.models import UserProfile
 
 
@@ -44,7 +52,27 @@ class MoviesScheduleView(ListView):
     """Movies schedule with movie time and booking. url: 'movies/schedule/'."""
 
     template_name = 'cinema_site/pages/movies_schedule.html'
-    queryset = UserProfile
+    queryset = Seance.objects.select_related('movie', 'hall').filter(time__gt=datetime.now(tz=utc)).order_by('time')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        cinema_list = Cinema.objects.all()
+
+        context.update({'cinema_list': cinema_list})
+        return context
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.is_ajax():
+            data = handle_schedule_ajax(request)
+            return JsonResponse(data, safe=False, status=200)
+
+        if request.method.lower() in self.http_method_names:
+            print(self.http_method_names)
+            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
+        else:
+            handler = self.http_method_not_allowed
+        return handler(request, *args, **kwargs)
 
 
 class MovieDescriptionView(DetailView):
@@ -57,8 +85,10 @@ class MovieDescriptionView(DetailView):
         """Get movie_slug from URL dispatcher, make qs from db and return updated context."""
         context = super().get_context_data(**kwargs)
         movie_url = self.object.trailer_url.split('=')[1]
+        images = Image.objects.filter(gallery=self.object.gallery)
         context.update({
             'movie_url': movie_url,
+            'images': images,
         })
         return context
 
@@ -82,20 +112,28 @@ class CinemasListView(ListView):
     """All cinemas table. url: 'cinemas/'."""
 
     template_name = 'cinema_site/pages/cinemas_list.html'
-    queryset = UserProfile
+    model = Cinema
 
 
-class CinemaDescriptionView(TemplateView):
+class CinemaDescriptionView(DetailView):
     """Single cinema description. url: 'cinemas/<slug:cinema_slug>/'."""
 
     template_name = 'cinema_site/pages/cinema_description.html'
-    queryset = UserProfile
+    model = Cinema
 
     def get_context_data(self, **kwargs):
         """Get movie_slug from URL dispatcher, make qs from db and return updated context."""
         context = super().get_context_data(**kwargs)
-        # movie_slug = context['movie_slug']
-        # Movie.objects.filter(movie_slug=movie_slug)
+
+        cinema = self.object
+        halls = Hall.objects.filter(cinema=cinema)
+        tomorrow = today() + timedelta(days=1)
+
+        seances = Seance.objects.select_related('hall').filter(
+            time__range=[datetime.now(tz=utc), tomorrow],
+            hall__cinema=cinema).order_by('time')
+
+        context.update({'halls': halls, 'seances': seances, })
         return context
 
 
