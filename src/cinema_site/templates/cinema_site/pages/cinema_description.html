@@ -52,7 +52,7 @@
                 <h2 class="movie_today">Смотрите сегодня:</h2>
                 {#                <a href="{% url 'movies_list' %}">Афиша</a>#}
                 {% for seance in seances %}
-                    <a href="#" class="">{{ seance.movie.title }}</a>
+                    <a href="{% url 'cinema_site:movie_booking' seance.id %}" class="">{{ seance.movie.title }}</a>
                 {% endfor %}
             </div>
         </div>

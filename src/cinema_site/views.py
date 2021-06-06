@@ -1,3 +1,4 @@
+import json
 from datetime import tzinfo, timezone, timedelta
 from pprint import pprint
 
@@ -7,8 +8,10 @@ from django.http import JsonResponse
 from django.utils.datetime_safe import datetime
 from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
-from cinema_site.models import Movie, Image, Seance, Cinema, Hall
-from cinema_site.services.schedule_services import handle_schedule_ajax
+from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket
+from cinema_site.services.booking_services import handle_booking_ajax
+from cinema_site.services.request_services import get_standard_request_handler
+from cinema_site.services.schedule_services import handle_schedule_ajax, localize_datetime_to_rus
 from profiles.models import UserProfile
 
 
@@ -67,11 +70,7 @@ class MoviesScheduleView(ListView):
             data = handle_schedule_ajax(request)
             return JsonResponse(data, safe=False, status=200)
 
-        if request.method.lower() in self.http_method_names:
-            print(self.http_method_names)
-            handler = getattr(self, request.method.lower(), self.http_method_not_allowed)
-        else:
-            handler = self.http_method_not_allowed
+        handler = get_standard_request_handler(self, request)
         return handler(request, *args, **kwargs)
 
 
@@ -93,17 +92,30 @@ class MovieDescriptionView(DetailView):
         return context
 
 
-class MovieBookingView(TemplateView):
+class MovieBookingView(DetailView):
     """Single movie booking. url: 'movies/<slug:movie_slug>/booking/'."""
 
     template_name = 'cinema_site/pages/movie_booking.html'
+    queryset = Seance.objects.select_related('movie', 'hall')
 
     def get_context_data(self, **kwargs):
-        """Get movie_slug from URL dispatcher, make qs from db and return updated context."""
         context = super().get_context_data(**kwargs)
-        # movie_slug = context['movie_slug']
-        # Movie.objects.filter(movie_slug=movie_slug)
+        seance_time_rus = localize_datetime_to_rus(self.object.time)
+        tickets = Ticket.objects.filter(seance=self.object).values('row', 'seat_place')
+        context.update({
+            'seance_time': seance_time_rus,
+            'tickets': json.dumps(list(tickets)),
+            'tickets_count': len(tickets),
+        })
         return context
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.is_ajax():
+            data = handle_booking_ajax(request)
+            return JsonResponse(data, safe=False, status=200)
+
+        handler = get_standard_request_handler(self, request)
+        return handler(request, *args, **kwargs)
 
 
 # - Cinema Views -

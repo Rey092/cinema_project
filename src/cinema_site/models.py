@@ -102,6 +102,9 @@ class Seance(models.Model):
 
 
 class Ticket(models.Model):
+    class Meta:
+        unique_together = [('row', 'seat_place', 'seance')]
+
     row = models.IntegerField()
     seat_place = models.IntegerField()
     is_paid = models.BooleanField(default=False)

@@ -60,14 +60,14 @@ span {
 }
 
 #container {
-    display: grid;
     grid-template-rows: 1fr 1fr 3fr 3fr 1fr;
-    width: 600px;
-    height: 600px;
+    width: 95%;
+    height: 100%;
     background-color: rgba(239, 235, 233, 0.8);
-
     margin: auto;
-    border-radius: 20px;
+    border-radius: 10px;
+    align-content: center;
+    text-align: center;
 }
 
 #header {
@@ -90,43 +90,29 @@ span {
     margin: auto auto 50px;
 }
 
-#seats1,
-#seats2 {
-    justify-self: center;
-    grid-row: 3, 4;
-    width: 90%;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-    gap: 4px 4px;
-    grid-template-areas:
-    ". . . . . . . . . . . . . . . . . . . ";
-
-    margin-top: 0;
-    margin-bottom: 0;
-}
-
-button {
+section > button {
     height: 40px;
     width: 40px;
-    margin: 10px;
+    margin: 9px;
 }
 
 .chair {
     transition: all 0.2s ease-in-out;
+    color: white;
+background-color: #f8723c;
 }
 
 .chair:hover {
-    background-color: darkgrey;
+    background-color: #13ecb7;
+    color: black;
     cursor: pointer;
-
     transform: scale(1.2);
 }
 
-footer {
-    display: grid;
-    grid-row: 5;
+#footer {
+    display: flex;
     height: 50px;
-    background-color: black;
+    align-content: center;
 }
 
 #total {
@@ -135,11 +121,23 @@ footer {
     justify-self: center;
 }
 
-#footBtn {
-    background-color: antiquewhite;
+.footBtn {
     text-align: center;
     justify-self: center;
     margin: auto;
     width: 200px;
     height: 30px;
 }
+
+.buyBtn {
+    background-color: #77ade0;
+    color: black;
+    font-weight: bold;
+}
+
+.bookingBtn {
+    background-color: #4cf1e3;
+    color: black;
+    font-weight: bold;
+}
+
