@@ -5,7 +5,7 @@ from pprint import pprint
 from dateutil.utils import today
 from django.core import serializers
 from django.http import JsonResponse
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.utils.datetime_safe import datetime
 from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
@@ -151,18 +151,18 @@ class CinemaDescriptionView(DetailView):
         return context
 
 
-class HallDescriptionView(TemplateView):
-    """Single hall description. url: 'cinemas/<slug:cinema_slug>/<int:hall_id>/'."""
+def hall_description_view(request, cinema_slug, hall_number):
+    cinema = get_object_or_404(Cinema, slug=cinema_slug)
+    hall = get_object_or_404(Hall, cinema=cinema, hall_number=hall_number)
 
-    template_name = 'cinema_site/pages/hall_description.html'
-    queryset = UserProfile
-
-    def get_context_data(self, **kwargs):
-        """Get movie_slug from URL dispatcher, make qs from db and return updated context."""
-        context = super().get_context_data(**kwargs)
-        # movie_slug = context['movie_slug']
-        # Movie.objects.filter(movie_slug=movie_slug)
-        return context
+    tomorrow = today() + timedelta(days=1)
+    seances = Seance.objects.filter(hall=hall, time__range=[datetime.now(tz=utc), tomorrow])
+    context = {
+        'hall': hall,
+        'cinema': cinema,
+        'seances': seances,
+    }
+    return render(request, 'cinema_site/pages/hall_description.html', context=context)
 
 
 class EventsView(ListView):
