@@ -11,6 +11,8 @@ def handle_booking_ajax(request):
     seance = get_object_or_404(Seance, pk=seance_id)
     buyer = UserProfile.objects.first()
 
+    tickets = []
+
     for i in range(tickets_count):
         ticket_data = str(request.POST['ticket' + str(i + 1)]).split('.')
 
@@ -25,5 +27,8 @@ def handle_booking_ajax(request):
             buyer=buyer,
         )
         new_ticket.full_clean()
-        new_ticket.save()
-    return {}
+        tickets.append(new_ticket)
+
+    for ticket in tickets:
+        ticket.save()
+    return {'status': 'success'}

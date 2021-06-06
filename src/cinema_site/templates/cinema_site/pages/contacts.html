@@ -2,140 +2,84 @@
 {% load static %}
 
 {% block title %}
-    Вип Зал
+    Вип зал
 {% endblock %}
 
 {% block head %}
-    <link rel="stylesheet" href="{% static 'cinema_site/assets/css/contacts.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" href="{% static 'cinema_site/assets/css/standard.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/css/lightbox.min.css">
 {% endblock %}
 
 {% block content %}
 
-    <div class="container-fluid">
+    <div class="container">
+        <div style="background-color: #e0edf6">
+            <div class="box"
+                 style=" position: relative; height:300px; overflow: hidden; object-fit: cover; vertical-align: middle">
+                <img src="http://pro-tablets.com/all-images/contacts.jpg" alt="" style="width: 100%;height: auto;overflow: hidden;
+                position: absolute;top: 0;bottom: 0;margin: auto;">
+            </div>
 
-        <div class="col-12">
-            <div class="row">
-                <div class="col-2"></div>
-                <div class="col-8">
+            <div style="padding-left: 10px; padding-right: 10px">
 
-                    <div class="box">
-                        <img src="http://pro-tablets.com/all-images/contacts.jpg" alt="">
-                    </div>
+                <h1 class="movie_today"
+                    style="text-align: center; padding-top: 15px">Контакты</h1>
+
+                <div class="row">
+
+                    {% for contact in contacts %}
+                        <div class="col-md-5 col-sm-12">
+                            <div style="height: 100%;">
+
+                                <a style="display: inline; padding-left: 10px;" href={% url 'cinema_site:home_page' %}>
+                                    <img style="width: auto; max-height: 85px;"
+                                         src="{{ contact.logo.url }}" alt="My image">
+                                </a>
+                                <span style="font-size: 25px; font-weight: bold; display: inline;">{{ contact.name }}</span>
+
+                                <div class="collection">
+                                    <img style="width: 100%; height: auto; max-height: 260px"
+                                         src="{{ contact.banner.url }}"
+                                         alt="">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-7 col-sm-12">
+                            {{ contact.coordinates|safe }}
+                        </div>
+                    {% endfor %}
+
                 </div>
-                <div class="col-2"></div>
-            </div>
-        </div>
-
-        <div class="row">
-
-            <div class="col-2">
-            </div>
-            <div style="background-color: #e0edf6;" class="col-md-6">
-
-                <h2 class="movie_today">Контакты</h2>
-
-                <table>
-                    <tr>
-                        <td>
-
-                            <div class="row">
-                                <a href={% url 'home_page' %}>
-                                    <img style="background-color: rgba(255,255,255,0.85); width: 90%;"
-                                         src="{% static 'cinema_site/assets/img/png/logo.png' %}" alt="My image">
-                                </a>
-                                <div class="title">
-                                    Флекс-9D
-                                </div>
-                            </div>
-
-                            <div style="padding-top: 14px;" class="row movie_today">
-
-                                <div class="collection">
-                                    <img width="330" height="300"
-                                         src="https://i.imgur.com/6LBAQSG.png"
-                                         alt="">
-                                </div>
-                            </div>
-
-                        </td>
-                        <td style="width: 100%; height: 100%;">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2750.6625569116263!2d30.70720271596052!3d46.415745779123746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c63312d6db909f%3A0x548981896add254c!2sPlaneta%20Kino!5e0!3m2!1sen!2sus!4v1621179787317!5m2!1sen!2sus"
-                                    width="800" height="450" style="border:0;" allowfullscreen=""
-                                    loading="lazy"></iframe>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-
-                            <div class="row">
-                                <a href={% url 'home_page' %}>
-                                    <img style="background-color: rgba(255,255,255,0.85); width: 90%;"
-                                         src="{% static 'cinema_site/assets/img/png/logo.png' %}" alt="My image">
-                                </a>
-                                <div class="title">
-                                    Флекс-9D
-                                </div>
-                            </div>
-
-                            <div style="padding-top: 14px;" class="row movie_today">
-
-                                <div class="collection">
-                                    <img width="330" height="300"
-                                         src="https://i.imgur.com/6LBAQSG.png"
-                                         alt="">
-                                </div>
-                            </div>
-
-                        </td>
-                        <td style="width: 100%; height: 100%;">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2750.6625569116263!2d30.70720271596052!3d46.415745779123746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c63312d6db909f%3A0x548981896add254c!2sPlaneta%20Kino!5e0!3m2!1sen!2sus!4v1621179787317!5m2!1sen!2sus"
-                                    width="800" height="450" style="border:0;" allowfullscreen=""
-                                    loading="lazy"></iframe>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-
-                            <div class="row">
-                                <a href={% url 'home_page' %}>
-                                    <img style="background-color: rgba(255,255,255,0.85); width: 90%;"
-                                         src="{% static 'cinema_site/assets/img/png/logo.png' %}" alt="My image">
-                                </a>
-                                <div class="title">
-                                    Флекс-9D
-                                </div>
-                            </div>
-
-                            <div style="padding-top: 14px;" class="row movie_today">
-
-                                <div class="collection">
-                                    <img width="330" height="300"
-                                         src="https://i.imgur.com/6LBAQSG.png"
-                                         alt="">
-                                </div>
-                            </div>
-
-                        </td>
-                        <td style="width: 100%; height: 100%;">
-                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2750.6625569116263!2d30.70720271596052!3d46.415745779123746!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40c63312d6db909f%3A0x548981896add254c!2sPlaneta%20Kino!5e0!3m2!1sen!2sus!4v1621179787317!5m2!1sen!2sus"
-                                    width="800" height="450" style="border:0;" allowfullscreen=""
-                                    loading="lazy"></iframe>
-                        </td>
-                    </tr>
-                </table>
-
-            </div>
-            <div style="background-color: #e0edf6;" class="col-2">
-                <div class="banner-container">
-                    <img class="banner"
-                         src="https://s3.envato.com/files/179288362/5.jpg"
-                         alt="error">
-                </div>
-            </div>
-            <div class="col-2">
             </div>
 
         </div>
     </div>
 
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.8.2/js/lightbox.min.js"></script>
+    <script>
+        window.onload = function () {
+            const maps = document.querySelectorAll("iframe");
+            maps.forEach((iframe) => iframe.setAttribute("style", "border:0; width: 100%; height:354px"));
+        };
+    </script>
+
 {% endblock %}
+
+
+
+
+
+<div style="background-color: #e0edf6;" class="col-2">
+    <div class="banner-container">
+        <img class="banner"
+             src="https://s3.envato.com/files/179288362/5.jpg"
+             alt="error">
+    </div>
+</div>
+<div class="col-2">
+</div>
+
+</div>
+

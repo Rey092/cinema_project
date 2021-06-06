@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404
 from django.utils.datetime_safe import datetime
 from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
-from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article, Page
+from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article, Page, Contacts
 from cinema_site.services.booking_services import handle_booking_ajax
 from cinema_site.services.request_services import get_standard_request_handler
 from cinema_site.services.schedule_services import handle_schedule_ajax, localize_datetime_to_rus
@@ -275,8 +275,13 @@ class MobileAppInfoView(TemplateView):
         return context
 
 
-class ContactsView(ListView):
+class ContactsView(TemplateView):
     """Addresses and locations of cinemas. url: 'contacts_view'."""
 
     template_name = 'cinema_site/pages/contacts.html'
-    queryset = UserProfile
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        contacts = Contacts.objects.filter(is_active=True)
+        context.update({'contacts': contacts, })
+        return context

@@ -164,6 +164,7 @@ class Contacts(models.Model):
     created = models.DateField(auto_now_add=True)
 
     logo = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'contacts', 'logos')))
+    banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'contacts', 'banner')))
 
     def __str__(self):
         return self.name
