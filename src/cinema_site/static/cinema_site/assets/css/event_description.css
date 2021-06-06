@@ -1,6 +1,30 @@
+.collection {
+    display: flex;
+    padding: 10px;
+    justify-content: center;
+}
+#container {
+    background: #DDD;
+    max-width: 1200px;
+}
+.item {
+    width: 200px;
+    float: left;
+}
+.item img {
+    display: block;
+    width: 100%;
+}
+button {
+    font-size: 18px;
+}
+.container{
+    width:100%;
+}
+
 .poster {
-    width: 400px;
-    object-fit: cover;
+      width: 400px;
+object-fit: cover;
 }
 
 .ads-container {
@@ -13,15 +37,48 @@
     position: relative;
     object-fit: contain;
 }
-.box {
-   position: relative;
-   overflow:hidden;
-    height: 300px;
-    justify-content: center;
+
+
+.lightbox-gallery {
+    background-image: linear-gradient(#ffffff, #b4b4b4);
+    background-repeat: no-repeat;
+    color: #000;
+    overflow-x: hidden
 }
 
-.box img {
-    top:50%;
-    object-fit: cover;
-    margin: -330px 0 0 -250px;
+.lightbox-gallery p {
+    color: #fff
+}
+
+.lightbox-gallery h2 {
+    font-weight: bold;
+    margin-bottom: 40px;
+    padding-top: 40px;
+    color: #fff
+}
+
+@media (max-width:767px) {
+    .lightbox-gallery h2 {
+        margin-bottom: 25px;
+        padding-top: 25px;
+        font-size: 24px;
+    }
+}
+
+.lightbox-gallery .intro {
+    font-size: 16px;
+    max-width: 500px;
+    margin: 0 auto 40px;
+}
+
+.lightbox-gallery .intro p {
+    margin-bottom: 0
+}
+
+.lightbox-gallery .photos {
+    padding-bottom: 20px
+}
+
+.lightbox-gallery .item {
+    padding-bottom: 30px
 }

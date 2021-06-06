@@ -8,7 +8,7 @@ from django.http import JsonResponse
 from django.utils.datetime_safe import datetime
 from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
-from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket
+from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article
 from cinema_site.services.booking_services import handle_booking_ajax
 from cinema_site.services.request_services import get_standard_request_handler
 from cinema_site.services.schedule_services import handle_schedule_ajax, localize_datetime_to_rus
@@ -83,7 +83,7 @@ class MovieDescriptionView(DetailView):
     def get_context_data(self, **kwargs):
         """Get movie_slug from URL dispatcher, make qs from db and return updated context."""
         context = super().get_context_data(**kwargs)
-        movie_url = self.object.trailer_url.split('=')[1]
+        movie_url = self.object.trailer_url.split('watch?v=')[1]
         images = Image.objects.filter(gallery=self.object.gallery)
         context.update({
             'movie_url': movie_url,
@@ -167,17 +167,28 @@ class EventsView(ListView):
     """All events table. url: 'events/'."""
 
     template_name = 'cinema_site/pages/events_and_discounts.html'
-    queryset = UserProfile
+    queryset = Article.objects.filter(mode='EVENTS')
 
 
-class EventDescriptionView(ListView):
+class EventDescriptionView(DetailView):
     """Single event description. url: 'events/<slug:event_slug>/'."""
 
     template_name = 'cinema_site/pages/event_description.html'
-    queryset = UserProfile
+    queryset = Article.objects.filter(mode='EVENTS')
 
+    def get_context_data(self, **kwargs):
+        """Get event_slug from URL dispatcher, make qs from db and return updated context."""
+        context = super().get_context_data(**kwargs)
+        event_url = self.object.trailer_url.split('=')[1]
+        images = Image.objects.filter(gallery=self.object.gallery)
+        context.update({
+            'event_url': event_url,
+            'images': images,
+        })
+        return context
 
 # - News Views -
+
 
 class NewsView(ListView):
     """About main cinema. url: 'news/'."""

@@ -9,31 +9,6 @@
     <link rel="stylesheet" href="{% static 'cinema_site/assets/css/cinemas_list.css' %}?{% now 'U' %}">
 {% endblock %}
 
-                                        <div style="padding-top: 14px;" class="row movie_today">
-                                            {% for cinema in object_list %}
-                                                <div class="collection col-6">
-                                                    <a class="image-should-set image-set"
-                                                       href="{% url 'cinema_site:cinema_description' cinema.slug %}">
-                                                        <img style="width: 100%; height: auto"
-                                                             src="{{ cinema.banner.url }}"
-                                                             alt="sfsa">
-                                                        <div class="info-overlay">
-                                                            <div class="title info-overlay">{{ cinema.name }}</div>
-                                                        </div>
-                                                    </a>
-                                                    <div class="buy-button">
-                                                        <a class="btn btn-success buy-ticket" href="/" role="button">Купить
-                                                            билет</a>
-                                                    </div>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
-
-
-
-
-
-
 {% block content %}
 
     <div class="container">
