@@ -5,13 +5,15 @@ from pprint import pprint
 from dateutil.utils import today
 from django.core import serializers
 from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.utils.datetime_safe import datetime
 from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
-from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article
+from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article, Page
 from cinema_site.services.booking_services import handle_booking_ajax
 from cinema_site.services.request_services import get_standard_request_handler
 from cinema_site.services.schedule_services import handle_schedule_ajax, localize_datetime_to_rus
+from cinema_site.services.standard_page_services import fill_context_for_standard_page_1
 from profiles.models import UserProfile
 
 
@@ -194,7 +196,7 @@ class NewsView(ListView):
     """About main cinema. url: 'news/'."""
 
     template_name = 'cinema_site/pages/news.html'
-    queryset = UserProfile
+    queryset = Article.objects.filter(mode='NEWS')
 
 
 class NewsDescriptionView(ListView):
@@ -206,46 +208,71 @@ class NewsDescriptionView(ListView):
 
 # - Pages Views -
 
-class AboutView(ListView):
+class AboutView(TemplateView):
     """About main cinema. url: 'about/'."""
 
-    template_name = 'cinema_site/pages/about.html'
-    queryset = UserProfile
+    template_name = 'cinema_site/pages/standard_page_1.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        fill_context_for_standard_page_1(context, 'О кинотеатре')
+        return context
 
 
-class PubView(ListView):
+class PubView(TemplateView):
     """Pub page. url: 'pub/'."""
 
-    template_name = 'cinema_site/pages/pub.html'
-    queryset = UserProfile
+    template_name = 'cinema_site/pages/standard_page_1.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        fill_context_for_standard_page_1(context, 'Кафе-Бар')
+        return context
 
 
-class VipHallView(ListView):
-    """VIP Hall page. url: 'vip-hall//'."""
+class VipHallView(TemplateView):
+    """VIP Hall page. url: 'vip-hall/'."""
 
-    template_name = 'cinema_site/pages/vip_hall.html'
-    queryset = UserProfile
+    template_name = 'cinema_site/pages/standard_page_1.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        fill_context_for_standard_page_1(context, 'Vip-Зал')
+        return context
 
 
-class ChildrenRoomView(ListView):
+class ChildrenRoomView(TemplateView):
     """Children room page. url: 'children_room/'."""
 
-    template_name = 'cinema_site/pages/children_room.html'
-    queryset = UserProfile
+    template_name = 'cinema_site/pages/standard_page_1.html'
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        fill_context_for_standard_page_1(context, 'Детская комната')
+        return context
 
 
-class AdvertisementInfoView(ListView):
+class AdvertisementInfoView(TemplateView):
     """Advertisement info page. url: 'advertisement_info/'."""
 
-    template_name = 'cinema_site/pages/advertisement_info.html'
-    queryset = UserProfile
+    template_name = 'cinema_site/pages/standard_page_1.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        fill_context_for_standard_page_1(context, 'Реклама')
+        return context
 
 
-class MobileAppInfoView(ListView):
+class MobileAppInfoView(TemplateView):
     """Mobile app page with links (google play, apple store) and info. url: 'mobile-app-info/'."""
 
-    template_name = 'cinema_site/pages/mobile_app_info.html'
-    queryset = UserProfile
+    template_name = 'cinema_site/pages/standard_page_1.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        fill_context_for_standard_page_1(context, 'Мобильное приложение')
+        return context
 
 
 class ContactsView(ListView):

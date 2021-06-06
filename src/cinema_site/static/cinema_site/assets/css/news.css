@@ -1,15 +1,7 @@
 .collection {
+    display: flex;
+    padding: 10px;
     justify-content: center;
-    width: 300px;
-    padding-right: 20px;
-    margin-left: 0;
-    margin-right: 50px;
-
-}
-
-.movie_today {
-    margin-left: auto;
-    margin-right: auto;
 }
 
 .poster {
@@ -38,7 +30,7 @@ object-fit: cover;
 .box img {
     top:50%;
     object-fit: cover;
-    margin: -330px 0 0 -250px;
+    margin: -40px 0 0 -200px;
 }
 
 .banner {
@@ -78,14 +70,7 @@ object-fit: cover;
     text-align: center;
 }
 
-.info-description{
-    text-align: center;
-    font-size: 15px;
-    color: gray;
-}
-
 .movie_today {
     margin-left: auto;
     margin-right: auto;
 }
-

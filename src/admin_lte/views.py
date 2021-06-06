@@ -173,7 +173,7 @@ def article_create_view(request):
 
 class PagesListView(ListView):
     template_name = 'admin_lte/pages/pages_list.html'
-    model = Page
+    queryset = Page.objects.all().order_by('created')
 
 
 def page_description_view(request, slug):
