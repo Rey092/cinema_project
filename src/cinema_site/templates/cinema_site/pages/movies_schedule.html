@@ -41,17 +41,17 @@
                                             <form>
                                                 <label class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" id="2d"
-                                                           checked>
+                                                           checked autocomplete="off">
                                                     <span class="form-check-label">2D</span>
                                                 </label> <!-- form-check.// -->
                                                 <label class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" id="3d"
-                                                           checked>
+                                                           checked autocomplete="off">
                                                     <span class="form-check-label">3D</span>
                                                 </label>  <!-- form-check.// -->
                                                 <label class="form-check">
                                                     <input class="form-check-input" type="checkbox" value="" id="imax"
-                                                           checked>
+                                                           checked autocomplete="off">
                                                     <span class="form-check-label">IMAX</span>
                                                 </label>  <!-- form-check.// -->
                                             </form>
@@ -70,6 +70,7 @@
                                             {% for cinema in cinema_list %}
                                                 <label class="form-check">
                                                     <input class="form-check-input" type="radio" name="exampleRadio"
+                                                           autocomplete="off"
                                                            value="{{ cinema.slug }}" id="cinema{{ forloop.counter0 }}">
                                                     <span class="form-check-label">{{ cinema.name }}</span>
                                                 </label>
@@ -108,7 +109,9 @@
                                             <td>{{ seance.movie.title }}</td>
                                             <td>{{ seance.hall.hall_number }}</td>
                                             <td>{{ seance.price }}</td>
-                                            <td>link</td>
+                                            <td><a style="font-weight: bold; color: green"
+                                                   href="{% url 'cinema_site:movie_booking' seance.pk %}">Купить
+                                                билет</a></td>
                                         </tr>
                                     {% endfor %}
                                 {% endlanguage %}
@@ -132,14 +135,28 @@
     </div>
 
     <script>
+        $(document).ready(function () {
+            const cinema_labels = document.querySelectorAll('.cinema-checkboxes label input');
+            var currentLocation = '/movies/seances/';
+
+            $('form').change(function () {
+                const status_2d = $('#2d').prop('checked');
+                const status_3d = $('#3d').prop('checked');
+                const status_imax = $('#imax').prop('checked');
+                const statuses = [status_2d, status_3d, status_imax];
+
+                send_ajax(statuses, cinema_labels, currentLocation);
+            })
+        })
+
+
         function render(response) {
             const listedItems = response.response
             alert(listedItems.value)
         }
 
-        const send_ajax = function (statuses) {
+        const send_ajax = function (statuses, cinema_labels, currentLocation) {
             const form_data = new FormData()
-            var cinema_labels = $('.cinema-checkboxes label input')
 
             form_data.append('csrfmiddlewaretoken', '{{ csrf_token }}')
             form_data.append('status_2d', statuses[0])
@@ -173,8 +190,9 @@
                             var value = obj.fields[key];
                             user_html = user_html + '<td>' + value + '</td>'
                         }
-                        user_html = user_html + '<td>' + 'link' + '<td>' + '</tr>'
+                        user_html = user_html + ' <td><a style="font-weight: bold; color: green" href="' + currentLocation + obj.id + '">Купить билет</a></td>' + '</tr>'
                     }
+
 
                     $('.tbody-content').html(user_html);
 
@@ -188,17 +206,6 @@
                 processData: false,
             });
         }
-
-        $(document).ready(function () {
-
-            $('form').change(function () {
-                const status_2d = $('#2d').prop('checked');
-                const status_3d = $('#3d').prop('checked');
-                const status_imax = $('#imax').prop('checked');
-                const statuses = [status_2d, status_3d, status_imax];
-                send_ajax(statuses);
-            })
-        })
     </script>
 
 {% endblock %}

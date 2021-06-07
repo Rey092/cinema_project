@@ -38,7 +38,7 @@
 
                         <div style="padding-top: 14px;" class="row movie_today">
                             {% for movie in object_list %}
-                                <div class="collection col-3">
+                                <div class="collection col-md-6 col-sm-12 col-lg-6 col-xl-3">
                                     <a class="image-should-set image-set"
                                        href="{% url 'cinema_site:movie_description' movie.slug %}">
                                         <img style="width: 100%; height: auto"
@@ -60,7 +60,7 @@
 
                         <div style="padding-top: 14px;" class="row movie_today">
                             {% for movie in movie_list_soon %}
-                                <div class="collection col-3">
+                                <div class="collection col-md-6 col-sm-12 col-lg-6 col-xl-3">
                                     <a class="image-should-set image-set"
                                        href="{% url 'cinema_site:movie_description' movie.slug %}">
                                         <img style="width: 100%; height: auto"
