@@ -24,7 +24,7 @@
                             {% for news in article_list %}
                                 <div class="collection col-lg-6 col-sm-12">
                                     <a class="image-should-set image-set"
-                                       href="{% url 'cinema_site:event_description' news.slug %}">
+                                       href="{% url 'cinema_site:news_description' news.slug %}">
                                         <img style="width: 100%; height: auto;"
                                              src="{{ news.banner.url }}"
                                              alt="sfsa">

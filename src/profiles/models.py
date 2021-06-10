@@ -2,6 +2,7 @@ from creditcards.models import CardNumberField
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import BaseUserManager
 from django.contrib.auth.models import PermissionsMixin
+from django.contrib.auth.validators import UnicodeUsernameValidator, ASCIIUsernameValidator
 from django.db import models
 from django.db.models import DateField
 from django.utils.translation import gettext_lazy as _
@@ -50,6 +51,9 @@ class UserProfileManager(BaseUserManager):
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     """Database model for users in the system."""
 
+    username_validator = ASCIIUsernameValidator()
+    username_validator.message = _('Введите правильное имя пользователя. Используйте только английские буквы и цифры')
+
     class Languages(models.TextChoices):
         ENGLISH = 'EN', _('Английский')
         RUSSIAN = 'RU', _('Русский')
@@ -63,14 +67,19 @@ class UserProfile(AbstractBaseUser, PermissionsMixin):
         KIEV = 'KIEV', _('Киев')
         KHARKIV = 'KHARKIV', _('Харьков')
 
-    username = models.CharField(max_length=20, unique=True, verbose_name='Никнейм')
+    username = models.CharField(max_length=20, unique=True, verbose_name='Никнейм',
+                                help_text='Не более 20 символов. Только буквы и цифры.',
+                                validators=[username_validator],
+                                error_messages={
+                                    'unique': 'Пользователь с таким именем пользователя уже существуют',
+                                })
     email = models.EmailField(max_length=100, unique=True, verbose_name='Электронная почта')
     first_name = models.CharField(max_length=20, verbose_name='Имя')
     last_name = models.CharField(max_length=20, verbose_name='Фамилия')
     full_name = models.CharField(max_length=40, verbose_name='Полное имя')
     phone_number = modelfields.PhoneNumberField(verbose_name='Номер телефона')
     address = models.CharField(max_length=100, verbose_name='Адрес')
-    cc_number = CardNumberField(_('Номер карты'))
+    cc_number = CardNumberField(_('Номер карты'), null=True, blank=True)
     birthday = DateField(verbose_name='Дата рождения')
     created = DateField(auto_now_add=True)
 

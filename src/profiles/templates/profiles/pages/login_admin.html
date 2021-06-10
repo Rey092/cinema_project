@@ -1,0 +1,130 @@
+{% load crispy_forms_tags %}
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>AdminLTE 3 | Вход</title>
+    <!-- Google Font: Source Sans Pro -->
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="{% static 'admin_lte/plugins/fontawesome-free/css/all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin_lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin_lte/assets/css/adminlte.min.css' %}">
+    <link rel="stylesheet" href="{% static 'admin_lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+
+</head>
+<body class="hold-transition login-page">
+<div class="login-box" style="margin-top: -10.5rem">
+    <div class="login-logo">
+        <a href="../../index2.html"><b>Админ </b>Панель</a>
+    </div>
+    <!-- /.login-logo -->
+    <div class="card">
+        <div class="card-body login-card-body">
+            <p class="login-box-msg">Авторизируйтесь для входа в Админку</p>
+
+            <form action="{% url 'profiles:login_admin' %}" method="post">
+                <input type="hidden" name="next" value="/admin/"/>
+                {% csrf_token %}
+                {% if user.is_authenticated %}
+                    {% if user.is_staff %}
+                        <div class="alert alert-warning">
+                            <strong>Вы уже авторизированы как Персонал. Перенаправление в Админ-панель.</strong>
+                        </div>
+                        <script>
+                            setTimeout(function () {
+                                window.location.href = {% url 'admin_lte:admin_lte_home' %};
+                            }, 3000)
+                        </script>
+                    {% else %}
+                        <div class="alert alert-warning">
+                            <strong>Пользователи не могут зайти в Админ-панель.</strong>
+                        </div>
+                        <script>
+                            setTimeout(function () {
+                                window.location.href = {% url 'cinema_site:home_page' %};
+                            }, 3000)
+                        </script>
+                    {% endif %}
+
+                {% else %}
+
+                    {% for error in form.non_field_errors %}
+                        <div class="alert alert-danger">
+                            <strong>{{ error|escape }}</strong>
+                        </div>
+                    {% endfor %}
+                    {% if form.username.errors %}
+                        {% for error in form.username.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+                    <div class="input-group mb-3">
+                        {{ form.username }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {% if form.password.errors %}
+                        {% for error in form.password.errors %}
+                            <div class="alert alert-danger">
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                    <div class="input-group mb-3">
+                        {{ form.password }}
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- /.col -->
+                        <div class="col-12">
+                            <button type="submit" style="width:50%; margin: 0 auto;" class="btn btn-primary btn-block">
+                                Войти
+                            </button>
+                        </div>
+                        <!-- /.col -->
+                    </div>
+                {% endif %}
+            </form>
+
+            {#            <p class="mb-1">#}
+            {#                <a href="forgot-password.html">I forgot my password</a>#}
+            {#            </p>#}
+            {#            <p class="mb-0">#}
+            {#                <a href="register.html" class="text-center">Register a new membership</a>#}
+            {#            </p>#}
+        </div>
+        <!-- /.login-card-body -->
+    </div>
+</div>
+<!-- /.login-box -->
+
+<link rel="stylesheet" href="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}">
+<link rel="stylesheet" href="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}">
+<link rel="stylesheet" href="{% static 'admin_lte/assets/js/adminlte.min.js' %}">
+
+<script>
+    const username_field = document.getElementById('id_username')
+    const password_field = document.getElementById('id_password')
+
+    username_field.classList.add('form-control')
+    password_field.classList.add('form-control')
+
+    username_field.placeholder = 'Логин'
+    password_field.placeholder = 'Пароль'
+</script>
+
+</body>
+</html>

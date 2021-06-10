@@ -7,6 +7,7 @@
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'profiles/assets/css/user_profile.css' %}?{% now 'U' %}">
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.bootstrap-v4.min.css">
 {% endblock %}
 
 {% block content %}
@@ -21,9 +22,9 @@
                 </div>
             </div>
 
-            <div class="row" >
+            <div class="row">
 
-                <div class="container" >
+                <div class="container">
                     <form method="post" novalidate autocomplete="off">
                         <h2 class="text-center"><strong>User</strong> Profile</h2>
                         {% csrf_token %}
@@ -62,14 +63,29 @@
                                 <strong>{{ error|escape }}</strong>
                             </div>
                         {% endfor %}
-
-                        <div class="form-group" style="width:50%; margin: 0 auto; padding-bottom: 10px">
-                            <button class="btn btn-primary btn-block" type="submit">Изменить</button>
+                        <div class="row" style="display: flex; justify-content: center;">
+                            <div class="form-group" style="padding-bottom: 10px; padding-right: 10px">
+                                <button class="btn btn-primary btn-primary" type="submit">Изменить</button>
+                            </div>
+                            <a href="{% url 'profiles:logout' %}">
+                                <button class="btn btn-primary btn-warning" type="button">Выйти</button>
+                            </a>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
+    <script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
+    <script>
+        $('#id_birthday').kendoDatePicker({
+            start: 'decade',
+            depth: 'day',
+            max: new Date(),
+            min: new Date(1900, 01, 01)
+        })
+    </script>
 
 {% endblock %}

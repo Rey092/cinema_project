@@ -1,6 +1,7 @@
 from django.conf.urls import url
 from django.urls import path
 from django.views.generic import RedirectView
+from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -23,7 +24,7 @@ urlpatterns = [
     path('events/<slug:slug>/', views.EventDescriptionView.as_view(), name='event_description'),
 
     path('news/', views.NewsView.as_view(), name='news'),
-    path('news/<slug:news_slug>/', views.NewsDescriptionView.as_view(), name='news_description'),
+    path('news/<slug:slug>/', views.NewsDescriptionView.as_view(), name='news_description'),
 
     path('about/', views.AboutView.as_view(), name='about'),
     path('pub/', views.PubView.as_view(), name='pub'),

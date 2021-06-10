@@ -2,12 +2,11 @@
 {% load static %}
 
 {% block title %}
-    Регистрация
+    Вход
 {% endblock %}
 
 {% block head %}
     <link rel="stylesheet" href="{% static 'profiles/assets/css/user_profile.css' %}?{% now 'U' %}">
-    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.bootstrap-v4.min.css">
 {% endblock %}
 
 {% block content %}
@@ -27,7 +26,7 @@
                 <div class="container">
 
 
-                    <h2 style="text-align: center;">Регистрация</h2>
+                    <h2 style="text-align: center;">Авторизация</h2>
                     <form method="post" novalidate autocomplete="off">
                         {% csrf_token %}
                         <div class="row" style="padding-left: 40px; padding-right: 40px">
@@ -41,7 +40,7 @@
                             {% for field in form %}
                                 <div class="col-md-6 col-sm-12">
                                     <p>
-                                        {{ field.label }}<br>
+                                        {{ field.label_tag }}<br>
                                         {{ field }}
                                         {% if field.help_text %}
                                             <small style="color: grey">{{ field.help_text }}</small>
@@ -58,7 +57,7 @@
                         </div>
                         <div class="form-group"
                              style="width:50%; margin: 0 auto; padding-bottom: 10px">
-                            <button class="btn btn-primary btn-block" type="submit">Регистрация
+                            <button class="btn btn-primary btn-block" type="submit">Войти
                             </button>
                         </div>
                     </form>
@@ -112,16 +111,5 @@
             </div>
         </div>
     </div>
-
-    <script src="https://code.jquery.com/jquery-1.12.3.min.js"></script>
-    <script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
-    <script>
-        $('#id_birthday').kendoDatePicker({
-            start: 'decade',
-            depth: 'day',
-            max: new Date(),
-            min: new Date(1900, 01, 01)
-        })
-    </script>
 
 {% endblock %}

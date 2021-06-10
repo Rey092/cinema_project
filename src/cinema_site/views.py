@@ -175,7 +175,7 @@ class EventsView(ListView):
 class EventDescriptionView(DetailView):
     """Single event description. url: 'events/<slug:event_slug>/'."""
 
-    template_name = 'cinema_site/pages/event_description.html'
+    template_name = 'cinema_site/pages/article_description.html'
     queryset = Article.objects.filter(mode='EVENTS')
 
     def get_context_data(self, **kwargs):
@@ -199,11 +199,22 @@ class NewsView(ListView):
     queryset = Article.objects.filter(mode='NEWS')
 
 
-class NewsDescriptionView(ListView):
+class NewsDescriptionView(DetailView):
     """About main cinema. url: 'news/<slug:news_slug>/'."""
 
-    template_name = 'cinema_site/pages/news_description.html'
-    queryset = UserProfile
+    template_name = 'cinema_site/pages/article_description.html'
+    queryset = Article.objects.filter(mode='NEWS')
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        event_url = self.object.trailer_url.split('=')[1]
+        images = Image.objects.filter(gallery=self.object.gallery)
+        context.update({
+            'event_url': event_url,
+            'images': images,
+        })
+        return context
 
 
 # - Pages Views -

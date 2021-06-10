@@ -35,5 +35,5 @@ urlpatterns = [
     path('users/<int:pk>/delete', views.UserDeleteView.as_view(), name='user_delete'),
 
     path('mailings/', views.mailings_view, name='mailings'),
-    path('banners/', views.banners_view, name='banners')
+    path('banners/', views.banners_view, name='banners'),
 ]

@@ -7,11 +7,11 @@
     background: #DDD;
     max-width: 1200px;
 }
-.item {
+.item-img {
     width: 200px;
     float: left;
 }
-.item img {
+.item-img img {
     display: block;
     width: 100%;
 }

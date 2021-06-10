@@ -84,6 +84,9 @@
                             <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data">
                                 {% csrf_token %}
                                 <div class="card-body">
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
 
                                     {% for error in form1.non_field_errors %}
                                         <div class="alert alert-danger">
