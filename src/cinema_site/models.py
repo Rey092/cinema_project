@@ -114,7 +114,6 @@ class Ticket(models.Model):
 
 
 class Article(models.Model):
-
     class Mode(models.TextChoices):
         NEWS = 'NEWS', _('Новость')
         EVENTS = 'EVENTS', _('Акция')
@@ -173,3 +172,16 @@ class Contacts(models.Model):
 class EmailTemplate(models.Model):
     file = models.FileField()
     created = models.DateTimeField(auto_now_add=True)
+
+
+class Logger(models.Model):
+    path = models.URLField(max_length=100)
+    referer = models.URLField(max_length=300, null=True)
+
+    user_ip = models.GenericIPAddressField(max_length=20)
+    time_execution = models.DecimalField(max_digits=10, decimal_places=7)
+    utm = models.CharField(max_length=500, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.path

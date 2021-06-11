@@ -8,8 +8,11 @@ def string_to_bool(request_inst, key):
     return bool_str.lower() in ('yes', 'true', 't', '1')
 
 
-def localize_datetime_to_rus(time):
-    text = time.strftime('%H:%M - %d %b')
+def localize_datetime_to_rus(time, time_format=None):
+    if time_format == 'dateMonth':
+        text = time.strftime('%d %b')
+    else:
+        text = time.strftime('%H:%M - %d %b')
 
     replacements = [
         ('Jan', 'Янв'), ('Feb', 'Фев'), ('Mar', 'Мар'), ('Apr', 'Апр'),

@@ -13,6 +13,7 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from celery.schedules import crontab
 from django.urls import reverse_lazy
 
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -59,7 +60,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'debug_toolbar.middleware.DebugToolbarMiddleware'
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
+
+    'cinema_site.middlewares.LogMiddleware',
 ]
 
 ROOT_URLCONF = 'src.urls'
@@ -128,6 +131,27 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = True
+
+# Celery Config
+# CELERY_BROKEN_URL = 'amqp://localhost'
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
+CELERY_BEAT_SCHEDULE = {
+    'delete_logs_async': {
+        'task': 'main.tasks.delete_logs_async',
+        'schedule': crontab(minute=0, hour=1),
+    },
+}
+#     'send_email_to_all_subscribers': {
+#         'task': 'main.tasks.send_email_to_all_subscribers',
+#         'schedule': crontab(minute=55),
+#     },
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

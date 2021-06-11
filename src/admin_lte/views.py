@@ -1,10 +1,19 @@
+import json
+from datetime import timedelta
+
+from dateutil.utils import today
+from django.core.serializers import serialize
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Count
 from django.forms import modelformset_factory
 from django.http import Http404
 from django.urls import reverse_lazy, reverse
-from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts, Gallery, Image
+from django.utils.timezone import utc
+from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts, Gallery, Image, Seance, Logger
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView, DeleteView, UpdateView
+from cinema_site.services.schedule_services import localize_datetime_to_rus
 from profiles.forms import UserProfileForm
 from profiles.models import UserProfile
 from admin_lte.services.forms_services import create_forms, get_objects, save_forms, \
@@ -19,10 +28,32 @@ def admin_lte_home(request):
     users_count = users.count()
     men_count = users.filter(gender='M').count()
     women_count = users.filter(gender='F').count()
+
+    seance_data = []
+    days = 8
+    week_more = today(tzinfo=utc) + timedelta(days=days)
+    seances = Seance.objects.filter(time__range=[datetime.now(tz=utc), week_more])
+
+    for i in range(days):
+        date = today(tzinfo=utc) + timedelta(days=i)
+        next_day = today(tzinfo=utc) + timedelta(days=(i + 1))
+        seance_data.append({
+            'date': localize_datetime_to_rus(date, time_format='dateMonth'),
+            'seance_count': seances.filter(time__range=[date, next_day]).count(),
+        })
+    seance_data_json = json.dumps(seance_data)
+
+    logs = Logger.objects.values('referer').exclude(referer=None).annotate(the_count=Count('referer'))\
+        .order_by('-the_count')
+    logs_data_json = json.dumps(list(logs[0:5]))
+
     context = {
         'users_count': users_count,
         'men_count': men_count,
         'women_count': women_count,
+        'seances': seances,
+        'seance_data': seance_data_json,
+        'logs_data_json': logs_data_json,
     }
     return render(request, 'admin_lte/pages/home.html', context=context)
 
