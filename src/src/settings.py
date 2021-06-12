@@ -67,10 +67,15 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'src.urls'
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(MEDIA_ROOT, '..')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -168,9 +173,6 @@ AUTH_USER_MODEL = 'profiles.UserProfile'
 
 LOGIN_REDIRECT_URL = reverse_lazy('cinema_site:home_page')
 LOGOUT_REDIRECT_URL = reverse_lazy('cinema_site:home_page')
-
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
 
 # GMAIL
 # https://www.google.com/settings/security/lesssecureapps

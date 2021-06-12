@@ -410,7 +410,7 @@
 
 
                 $.ajax({
-                    type: 'POST',
+                    type: 'post',
                     url: '',
                     enctype: 'multipart/form-data',
                     data: form_data,
@@ -421,10 +421,10 @@
                         )
 
                         function f() {
-                            location.reload();
+                            location.href = location.href;
                         }
 
-                        setTimeout(f, 1400)
+                        setTimeout(f, 600)
                     },
                     error: function (response) {
                         Swal.fire(

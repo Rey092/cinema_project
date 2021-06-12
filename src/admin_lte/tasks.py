@@ -25,6 +25,6 @@ def log_request(time_execution, path, user_ip, utm, referer):
 
 
 @shared_task
-def send_emails_from_admin(emails, html_file, text):
+def send_emails_from_admin(emails, template_id, text):
     for email in set(emails):
-        send_email_with_custom_html_template(email, html_file, text)
+        send_email_with_custom_html_template(email, template_id, text)

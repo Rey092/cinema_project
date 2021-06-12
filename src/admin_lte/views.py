@@ -328,7 +328,6 @@ def mailings_view(request):
             template.save()
         else:
             template = get_object_or_404(EmailTemplate, pk=template_choice)
-
         template_id = str(template.id)
 
         if choice_type == 'choice_all':
