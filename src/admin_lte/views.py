@@ -1,26 +1,31 @@
 import json
 from datetime import timedelta
+from pprint import pprint
 
 from dateutil.utils import today
+from django.core.mail import send_mail
 from django.core.serializers import serialize
 from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import Count
 from django.forms import modelformset_factory
-from django.http import Http404
+from django.http import Http404, JsonResponse
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
 from django.utils.timezone import utc
-from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts, Gallery, Image, Seance, Logger
+from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts, Gallery, Image, Seance, Logger, \
+    EmailTemplate
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView, DeleteView, UpdateView
 from cinema_site.services.schedule_services import localize_datetime_to_rus
-from profiles.forms import UserProfileForm
+from profiles.forms import UserProfileFormRestricted
 from profiles.models import UserProfile
 from admin_lte.services.forms_services import create_forms, get_objects, save_forms, \
     save_new_images_to_gallery, validate_forms, create_objects, save_objects, get_url_path, get_article_qs
 
 from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, PageForm, RestrictedPageForm, \
     ContactsForm, MailingForm, ImageForm
+from .tasks import send_emails_from_admin
 
 
 def admin_lte_home(request):
@@ -289,7 +294,7 @@ class UsersListView(ListView):
 class UserUpdateView(UpdateView):
     model = UserProfile
     template_name = 'admin_lte/pages/user_update_view.html'
-    form_class = UserProfileForm
+    form_class = UserProfileFormRestricted
     success_message = 'Success'
     success_url = reverse_lazy('admin_lte:users_list')
 
@@ -311,8 +316,50 @@ class UserDeleteView(DeleteView):
 
 
 def mailings_view(request):
+    if request.is_ajax():
+        text = request.POST['text']
+        choice_type = request.POST['choice_type']
+        users_id_list = request.POST['users_id_list'].split(',')
+        template_choice = request.POST['template_choice']
+
+        if template_choice == 'newTemplate':
+            files = request.FILES
+            template = EmailTemplate(file=files.get('html_file', None))
+            template.save()
+        else:
+            template = get_object_or_404(EmailTemplate, pk=template_choice)
+
+        template_id = str(template.id)
+
+        if choice_type == 'choice_all':
+            users = UserProfile.objects.filter(is_active=True)
+            emails = list(users.values_list('email', flat=True))
+            send_emails_from_admin.delay(emails, template_id, text)
+        elif choice_type == 'choice_selected':
+            users = UserProfile.objects.filter(is_active=True, pk__in=users_id_list)
+            emails = list(users.values_list('email', flat=True))
+            send_emails_from_admin.delay(emails, template_id, text)
+        else:
+            return JsonResponse({'status': 'error, invalid form data'}, safe=False, status=500)
+
+        return JsonResponse({'status': 'success'}, safe=False, status=200)
+
     mailing_form = MailingForm()
-    return render(request, 'admin_lte/pages/mailing.html', context={'mailing_form': mailing_form})
+    users_list = UserProfile.objects.all()
+    users_number = users_list.count()
+    templates_list = EmailTemplate.objects.all().order_by('-id')[:5][::-1]
+    context = {
+        'mailing_form': mailing_form,
+        'users_list': users_list,
+        'users_number': users_number,
+        'templates_list': templates_list
+    }
+    return render(request, 'admin_lte/pages/mailing.html', context=context)
+
+
+class EmailTemplateDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:mailings')
+    model = EmailTemplate
 
 
 def banners_view(request):

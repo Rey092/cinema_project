@@ -138,6 +138,13 @@ class UserProfileForm(ModelForm):
         return birthday
 
 
+class UserProfileFormRestricted(ModelForm):
+    class Meta(UserProfileForm.Meta):
+        model = UserProfile
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
 # class UserProfileFormRestricted(ModelForm):
 #     class Meta(UserProfileForm.Meta):
 #         model = UserProfile

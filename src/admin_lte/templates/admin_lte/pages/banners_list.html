@@ -44,11 +44,11 @@
                             <div class="card-body">
                                 <div class="row">
 
-                                    <div id="form_set">
+                                    <div id="form_set" class="row">
 
                                         {{ formset.management_form }}
                                         {% for form in formset.forms %}
-                                            <div class="col-2" style="display: inline-block; padding:5px;">
+                                            <div class="col-md-2 col-sm-4" style="display: inline-block; padding:5px;">
                                                 <img class="profile-user-img img-fluid"
                                                      style="width: 100%;"
                                                      src="{{ form.instance.image.url }}"
@@ -64,7 +64,7 @@
 
 
                                     <div id="empty_form" style="display:none">
-                                        <div class="col-2" style="display: inline-block">
+                                        <div class="col-md-2 col-sm-4" style="display: inline-block">
                                             <img class="profile-user-img img-fluid"
                                                  style="width: 100%;"
                                                  src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"

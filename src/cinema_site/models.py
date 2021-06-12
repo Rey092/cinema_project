@@ -170,8 +170,12 @@ class Contacts(models.Model):
 
 
 class EmailTemplate(models.Model):
-    file = models.FileField()
+    file = models.FileField(upload_to='email_template/')
     created = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def filename(self):
+        return self.file.name.split('/')[1]
 
 
 class Logger(models.Model):

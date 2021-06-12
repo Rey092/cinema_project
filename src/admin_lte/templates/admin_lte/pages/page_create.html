@@ -116,41 +116,41 @@
                                     <h2 class="card-title"><strong>Галерея картинок</strong></h2>
                                 </div>
 
-                                <div id="form_set">
-                                    <table>
-                                        <tr>
-                                            {{ formset.management_form }}
-                                            {% for form in formset.forms %}
 
-                                                <td>
-                                                    <div class="col-12" style="padding:10px;">
-                                                        <img class="profile-user-img img-fluid"
-                                                             style="width: 250px;"
-                                                             src="{{ form.instance.image.url }}"
-                                                             alt="User profile picture">
-                                                        <table class='no_error'>
-                                                            {{ form }}
-                                                        </table>
-                                                    </div>
-                                                </td>
-                                                {% if forloop.counter|divisibleby:3 %}
-                                                    </tr>
-                                                {% endif %}
+                                    <div id="form_set" class="row">
+                                        {{ formset.management_form }}
+                                        {% for form in formset.forms %}
 
-                                            {% endfor %}
-                                        </tr>
-                                    </table>
-                                </div>
+                                            <td>
+                                                <div class="col-md-4 col-sm-6" style="padding:10px;">
+                                                    <img class="profile-user-img img-fluid"
+                                                         style="width: 250px;"
+                                                         src="{{ form.instance.image.url }}"
+                                                         alt="picture">
+                                                    <table class='no_error'>
+                                                        {{ form }}
+                                                    </table>
+                                                </div>
+                                            </td>
+                                            {% if forloop.counter|divisibleby:3 %}
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
 
-                                <input type="button" value="Add More" id="add_more">
-
-                                <div id="empty_form" style="display:none">
-                                    <div style="display: inline-block">
-                                        <table class='no_error'>
-                                            {{ formset.empty_form }}
-                                        </table>
                                     </div>
-                                </div>
+                                    <input type="button" value="Add More" id="add_more">
+
+                                    <div id="empty_form" style="display:none">
+                                        <div class="col-md-4 col-sm-6" style="display: inline-block">
+                                            <img class="profile-user-img img-fluid"
+                                                 style="width: 100%;"
+                                                 src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                                                 alt="picture">
+                                            <table class='no_error'>
+                                                {{ formset.empty_form|crispy }}
+                                            </table>
+                                        </div>
+                                    </div>
 
                                 {#----Seo FORM start-----#}
                                 <!-- Content Header (Page header) -->

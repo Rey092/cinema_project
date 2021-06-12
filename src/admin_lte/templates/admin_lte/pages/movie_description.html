@@ -10,320 +10,310 @@
 {% endblock %}
 
 {% block content %}
-    <!-- Content Wrapper. Contains page content -->
-    <div class="content-wrapper">
+<!-- Content Wrapper. Contains page content -->
+<div class="content-wrapper">
 
-        <!-- Content Header (Page header) -->
-        <div class="content-header">
-            <div class="container-fluid">
-                <div class="row mb-2">
-                    <div class="col-sm-12">
-                        <h1 class="m-0" style="text-align: center">{{ movie.title }}</h1>
-                    </div><!-- /.col -->
-                </div><!-- /.row -->
-            </div><!-- /.container-fluid -->
-        </div>
-        <!-- /.content-header -->
+    <!-- Content Header (Page header) -->
+    <div class="content-header">
+        <div class="container-fluid">
+            <div class="row mb-2">
+                <div class="col-sm-12">
+                    <h1 class="m-0" style="text-align: center">{{ movie.title }}</h1>
+                </div><!-- /.col -->
+            </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+    </div>
+    <!-- /.content-header -->
 
-        <!-- Main content -->
-        <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-3">
+    <!-- Main content -->
+    <section class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-3">
 
-                        <!-- Profile Image -->
-                        <div class="card card-primary card-outline">
-                            <div class="card-body box-profile">
-                                <div class="text-center">
-                                    <img class="profile-user-img img-fluid" style="width: 250px;"
-                                         src="{{ movie.poster.url }}" alt="User profile picture">
-                                </div>
-
-                                <h3 class="profile-username text-center">{{ movie.title }}</h3>
-
-                                <p class="text-muted text-center">Software Engineer</p>
-
-                                <ul class="list-group list-group-unbordered mb-3">
-                                    <li class="list-group-item">
-                                        <b>Followers</b> <a class="float-right">1,322</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Following</b> <a class="float-right">543</a>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <b>Friends</b> <a class="float-right">13,287</a>
-                                    </li>
-                                </ul>
-
-                                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    <!-- Profile Image -->
+                    <div class="card card-primary card-outline">
+                        <div class="card-body box-profile">
+                            <div class="text-center">
+                                <img class="profile-user-img img-fluid" style="width: 250px;"
+                                     src="{{ movie.poster.url }}" alt="User profile picture">
                             </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
 
-                        <!-- About Me Box -->
-                        <div class="card card-primary">
+                            <h3 class="profile-username text-center">{{ movie.title }}</h3>
 
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <img src="" alt="">
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
-                    </div>
-                    <!-- /.col -->
-                    <div class="col-md-9">
-                        <div class="card card-primary">
-                            <div class="card-header">
-                                <h3 class="card-title">Изменить данные фильма</h3>
-                            </div>
-                            <!-- /.card-header -->
+                            <p class="text-muted text-center">Software Engineer</p>
 
-                            <!-- form start -->
-                            <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data">
-                                {% csrf_token %}
-                                <div class="card-body">
-                                    <div class="alert alert-danger">
-                                        <strong>{{ error|escape }}</strong>
-                                    </div>
+                            <ul class="list-group list-group-unbordered mb-3">
+                                <li class="list-group-item">
+                                    <b>Followers</b> <a class="float-right">1,322</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Following</b> <a class="float-right">543</a>
+                                </li>
+                                <li class="list-group-item">
+                                    <b>Friends</b> <a class="float-right">13,287</a>
+                                </li>
+                            </ul>
 
-                                    {% for error in form1.non_field_errors %}
-                                        <div class="alert alert-danger">
-                                            <strong>{{ error|escape }}</strong>
-                                        </div>
-                                    {% endfor %}
-
-                                    {% if form1.title.errors %}
-                                        {% for error in form1.title.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form1.title.label_tag }}</strong>
-                                        {{ form1.title }}
-                                    </div>
-
-                                    {% if form1.slug.errors %}
-                                        {% for error in form1.slug.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form1.slug.label_tag }}</strong>
-                                        {{ form1.slug }}
-                                    </div>
-
-                                    <strong>Форматы показа фильма:</strong>
-
-                                    {% if form1.is_2d.errors %}
-                                        {% for error in form1.is_2d.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if form1.is_3d.errors %}
-                                        {% for error in form1.is_3d.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    {% if form1.is_imax.errors %}
-                                        {% for error in form1.is_imax.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
-                                        <div class="custom-control custom-checkbox">
-                                            {{ form1.is_2d }}
-                                            <label class="custom-control-label" for="customCheckbox1">2D</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
-                                        <div class="custom-control custom-checkbox">
-                                            {{ form1.is_3d }}
-                                            <label class="custom-control-label" for="customCheckbox2">3D</label>
-                                        </div>
-                                    </div>
-                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
-                                        <div class="custom-control custom-checkbox">
-                                            {{ form1.is_imax }}
-                                            <label class="custom-control-label" for="customCheckbox3">IMAX</label>
-                                        </div>
-                                    </div>
-
-                                    {% if form1.description.errors %}
-                                        {% for error in form1.description.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form1.description.label_tag }}</strong>
-                                        {{ form1.description }}
-                                    </div>
-
-                                    {% if form1.trailer_url.errors %}
-                                        {% for error in form1.trailer_url.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form1.trailer_url.label_tag }}</strong>
-                                        {{ form1.trailer_url }}
-                                    </div>
-
-                                    {% if form1.release_date.errors %}
-                                        {% for error in form1.release_date.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form1.release_date.label_tag }}</strong>
-                                        {{ form1.release_date }}
-                                    </div>
-
-
-                                    {% if form1.is_active.errors %}
-                                        {% for error in form1.is_active.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group mb-2" style="display: inline-block;">
-                                        <div class="custom-control custom-checkbox">
-                                            {{ form1.is_active }}
-                                            <label class="custom-control-label" for="customCheckbox4">Фильм
-                                                активен</label>
-                                        </div>
-                                    </div>
-
-                                    {% if form1.poster.errors %}
-                                        {% for error in form1.poster.errors %}
-                                            <div class="alert alert-danger">
-                                                <strong>{{ error|escape }}</strong>
-                                            </div>
-                                        {% endfor %}
-                                    {% endif %}
-                                    <div class="form-group mb-2">
-                                        <strong>{{ form1.poster.label_tag }}</strong>
-                                        {{ form1.poster }}
-                                    </div>
-
-
-                                    <div class="card-header">
-                                        <h2 class="card-title"><strong>Галерея картинок</strong></h2>
-                                    </div>
-
-
-                                    <div id="form_set">
-                                        <table>
-                                            <tr>
-                                                {{ formset.management_form }}
-                                                {% for form in formset.forms %}
-
-                                                    <td>
-                                                        <div class="col-12" style="padding:10px;">
-                                                            <img class="profile-user-img img-fluid"
-                                                                 style="width: 250px;"
-                                                                 src="{{ form.instance.image.url }}"
-                                                                 alt="User profile picture">
-                                                            <table class='no_error'>
-                                                                {{ form }}
-                                                            </table>
-                                                        </div>
-                                                    </td>
-                                                    {% if forloop.counter|divisibleby:3 %}
-                                                        </tr>
-                                                    {% endif %}
-                                                {% endfor %}
-                                            </tr>
-                                        </table>
-
-                                    </div>
-                                    <input type="button" value="Add More" id="add_more">
-
-
-                                    <div id="empty_form" style="display:none">
-                                        <div style="display: inline-block">
-                                            <table class='no_error'>
-                                                {{ formset.empty_form }}
-                                            </table>
-                                        </div>
-                                    </div>
-
-                                    {#----Seo FORM start-----#}
-                                    <!-- Content Header (Page header) -->
-                                    <div class="content-header">
-                                        <div class="container-fluid">
-                                            <div class="row mb-2">
-                                                <div class="col-sm-12">
-                                                    <h1 class="m-0"
-                                                        style="text-align: center; font-weight: bold; font-size: 20px;">
-                                                        СЕО-Блок</h1>
-                                                </div><!-- /.col -->
-                                                <div class="">
-                                                </div><!-- /.col -->
-                                            </div><!-- /.row -->
-                                        </div><!-- /.container-fluid -->
-                                    </div>
-                                    <!-- /.content-header -->
-
-                                    {% for error in form2.non_field_errors %}
-                                        <div class="alert alert-danger">
-                                            <strong>{{ error|escape }}</strong>
-                                        </div>
-                                    {% endfor %}
-                                    {% for field in form2 %}
-                                        <div class="form-group mb-2">
-                                            {% if field.errors %}
-                                                {% for error in field.errors %}
-                                                    <div class="alert alert-danger">
-                                                        <strong>{{ error|escape }}</strong>
-                                                    </div>
-                                                {% endfor %}
-                                            {% endif %}
-                                            <strong>{{ field.label_tag }}</strong>
-                                            {{ field }}
-                                        </div>
-                                    {% endfor %}
-                                    {#----Seo FORM end-----#}
-                                </div>
-
-                                <div class="card-footer">
-                                    <button type="submit" class="btn btn-primary">Submit</button>
-                                </div>
-                            </form>
-                            <!-- form end -->
+                            <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
                         </div>
                         <!-- /.card-body -->
-
-
                     </div>
                     <!-- /.card -->
                 </div>
                 <!-- /.col -->
-            </div>
-            <!-- /.row -->
-        </section>
+                <div class="col-md-9">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Изменить данные фильма</h3>
+                        </div>
+                        <!-- /.card-header -->
 
-    </div>
-    <!-- /.content-wrapper -->
+                        <!-- form start -->
+                        <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="card-body">
+                                {% for error in form1.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+
+                                {% for error in form1.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+
+                                {% if form1.title.errors %}
+                                    {% for error in form1.title.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <strong>{{ form1.title.label_tag }}</strong>
+                                    {{ form1.title }}
+                                </div>
+
+                                {% if form1.slug.errors %}
+                                    {% for error in form1.slug.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <strong>{{ form1.slug.label_tag }}</strong>
+                                    {{ form1.slug }}
+                                </div>
+
+                                <strong>Форматы показа фильма:</strong>
+
+                                {% if form1.is_2d.errors %}
+                                    {% for error in form1.is_2d.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if form1.is_3d.errors %}
+                                    {% for error in form1.is_3d.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                {% if form1.is_imax.errors %}
+                                    {% for error in form1.is_imax.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form1.is_2d }}
+                                        <label class="custom-control-label" for="customCheckbox1">2D</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form1.is_3d }}
+                                        <label class="custom-control-label" for="customCheckbox2">3D</label>
+                                    </div>
+                                </div>
+                                <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form1.is_imax }}
+                                        <label class="custom-control-label" for="customCheckbox3">IMAX</label>
+                                    </div>
+                                </div>
+
+                                {% if form1.description.errors %}
+                                    {% for error in form1.description.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <strong>{{ form1.description.label_tag }}</strong>
+                                    {{ form1.description }}
+                                </div>
+
+                                {% if form1.trailer_url.errors %}
+                                    {% for error in form1.trailer_url.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+
+                                <div class="form-group mb-2">
+                                    <strong>{{ form1.trailer_url.label_tag }}</strong>
+                                    {{ form1.trailer_url }}
+                                </div>
+
+                                {% if form1.release_date.errors %}
+                                    {% for error in form1.release_date.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <strong>{{ form1.release_date.label_tag }}</strong>
+                                    {{ form1.release_date }}
+                                </div>
+
+
+                                {% if form1.is_active.errors %}
+                                    {% for error in form1.is_active.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2" style="display: inline-block;">
+                                    <div class="custom-control custom-checkbox">
+                                        {{ form1.is_active }}
+                                        <label class="custom-control-label" for="customCheckbox4">Фильм
+                                            активен</label>
+                                    </div>
+                                </div>
+
+                                {% if form1.poster.errors %}
+                                    {% for error in form1.poster.errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                {% endif %}
+                                <div class="form-group mb-2">
+                                    <strong>{{ form1.poster.label_tag }}</strong>
+                                    {{ form1.poster }}
+                                </div>
+
+
+                                <div class="card-header">
+                                    <h2 class="card-title"><strong>Галерея картинок</strong></h2>
+                                </div>
+
+
+                                <div id="form_set" class="row">
+                                    {{ formset.management_form }}
+                                    {% for form in formset.forms %}
+
+                                        <td>
+                                            <div class="col-md-4 col-sm-6" style="padding:10px;">
+                                                <img class="profile-user-img img-fluid"
+                                                     style="width: 250px;"
+                                                     src="{{ form.instance.image.url }}"
+                                                     alt="picture">
+                                                <table class='no_error'>
+                                                    {{ form }}
+                                                </table>
+                                            </div>
+                                        </td>
+                                        {% if forloop.counter|divisibleby:3 %}
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
+
+                                </div>
+                                <input type="button" value="Add More" id="add_more">
+
+                                <div id="empty_form" style="display:none">
+                                    <div class="col-md-4 col-sm-6" style="display: inline-block">
+                                        <img class="profile-user-img img-fluid"
+                                             style="width: 100%;"
+                                             src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                                             alt="picture">
+                                        <table class='no_error'>
+                                            {{ formset.empty_form|crispy }}
+                                        </table>
+                                    </div>
+                                </div>
+
+                                {#----Seo FORM start-----#}
+                                <!-- Content Header (Page header) -->
+                                <div class="content-header">
+                                    <div class="container-fluid">
+                                        <div class="row mb-2">
+                                            <div class="col-sm-12">
+                                                <h1 class="m-0"
+                                                    style="text-align: center; font-weight: bold; font-size: 20px;">
+                                                    СЕО-Блок</h1>
+                                            </div><!-- /.col -->
+                                            <div class="">
+                                            </div><!-- /.col -->
+                                        </div><!-- /.row -->
+                                    </div><!-- /.container-fluid -->
+                                </div>
+                                <!-- /.content-header -->
+
+                                {% for error in form2.non_field_errors %}
+                                    <div class="alert alert-danger">
+                                        <strong>{{ error|escape }}</strong>
+                                    </div>
+                                {% endfor %}
+                                {% for field in form2 %}
+                                    <div class="form-group mb-2">
+                                        {% if field.errors %}
+                                            {% for error in field.errors %}
+                                                <div class="alert alert-danger">
+                                                    <strong>{{ error|escape }}</strong>
+                                                </div>
+                                            {% endfor %}
+                                        {% endif %}
+                                        <strong>{{ field.label_tag }}</strong>
+                                        {{ field }}
+                                    </div>
+                                {% endfor %}
+                                {#----Seo FORM end-----#}
+                            </div>
+
+                            <div class="card-footer">
+                                <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+                        </form>
+                        <!-- form end -->
+                    </div>
+                    <!-- /.card-body -->
+
+
+                </div>
+                <!-- /.card -->
+            </div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+
+</div>
+<!-- /.content-wrapper -->
 {% endblock %}
 
 {% block scripts %}

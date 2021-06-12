@@ -196,7 +196,7 @@ class ArticleForm(ModelForm):
             'title': TextInput(attrs={
                 'required': 'required',
                 'class': 'form-control',
-                'placeholder': 'Введите заголовок новости',
+                'placeholder': 'Введите заголовок',
             }),
             'slug': TextInput(attrs={
                 'required': 'required',
@@ -240,7 +240,7 @@ class PageForm(ModelForm):
             'title': TextInput(attrs={
                 'required': 'required',
                 'class': 'form-control',
-                'placeholder': 'Введите заголовок новости',
+                'placeholder': 'Введите название страницы',
             }),
             'slug': TextInput(attrs={
                 'required': 'required',
