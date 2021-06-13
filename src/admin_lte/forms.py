@@ -1,15 +1,39 @@
-from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article, Page, Contacts, EmailTemplate
+from cinema_site.models import Cinema, Hall, Image, Movie, SeoData, Article, Page, Contacts, EmailTemplate, \
+    BackgroundImage
 from django.core.exceptions import ValidationError
 from django.forms import CheckboxInput, DateInput, FileInput, ModelForm, NumberInput, Textarea, TextInput, URLInput, \
     SlugField, ImageField, RadioSelect, ChoiceField, CharField
 
 
 class ImageForm(ModelForm):
-    model = Image
-    fields = ('image',)
-    labels = {
-        'image': 'Картинка'
-    }
+    # model = Image
+    # fields = ['image', ]
+    # labels = {
+    #     'image': 'Картинка'
+    # }
+
+    class Meta:
+        model = Image
+        fields = ['image', ]
+
+
+class BackgroundImageForm(ModelForm):
+    class Meta:
+        model = BackgroundImage
+        fields = ['bg_format', 'image', 'top_banners_is_active']
+        widgets = {
+            'bg_format': RadioSelect(attrs={
+                'required': 'required',
+            }),
+            'image': FileInput(attrs={
+                'class': 'form-control',
+            }),
+            'top_banners_is_active': CheckboxInput(attrs={
+                'name': 'switcher',
+                'class': 'custom-control-input',
+                'id': 'customSwitch3'
+            })
+        }
 
 
 class SeoDataForm(ModelForm):

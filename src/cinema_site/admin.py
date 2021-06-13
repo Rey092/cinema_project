@@ -2,7 +2,7 @@
 from django.contrib import admin
 
 from .models import Article, Cinema, Contacts, EmailTemplate, Gallery, Hall, Image, Movie, Page, \
-    Seance, SeoData, Ticket, Logger
+    Seance, SeoData, Ticket, Logger, BackgroundImage
 
 admin.site.register(SeoData)
 admin.site.register(Cinema)
@@ -17,3 +17,4 @@ admin.site.register(EmailTemplate)
 admin.site.register(Image)
 admin.site.register(Gallery)
 admin.site.register(Logger)
+admin.site.register(BackgroundImage)

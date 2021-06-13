@@ -38,4 +38,6 @@ urlpatterns = [
     path('mailings/<int:pk>', views.EmailTemplateDeleteView.as_view(), name='email_template_delete'),
 
     path('banners/', views.banners_view, name='banners'),
+    path('banners/delete/<int:pk>', views.BannerDeleteView.as_view(), name='banner_delete'),
+    path('banners/bg/delete/<int:pk>', views.BackgroundImageDeleteView.as_view(), name='bg_delete'),
 ]

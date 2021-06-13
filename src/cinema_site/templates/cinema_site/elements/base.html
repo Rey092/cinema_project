@@ -42,8 +42,13 @@
     <meta name="msapplication-TileImage" content="/ms-icon-144x144.png">
     <meta name="theme-color" content="#ffffff">
 </head>
-<body style="background:url({% static 'cinema_site/assets/img/jpeg/bg.jpg' %});">
-<img class="header_banner" src="{% static 'cinema_site/assets/img/jpeg/bg.jpg' %}" alt="">
+<body id="body">
+
+<div id="top_banners" class="carousel slide" data-ride="carousel">
+    <div id="carousel-inner" class="carousel-inner">
+    </div>
+</div>
+
 <div class="container">
     {% include "cinema_site/elements/navbar.html" %}
 </div>
@@ -55,9 +60,57 @@
 <footer>{% include "cinema_site/elements/footer.html" %}</footer>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script>
+    $.ajax({
+        type: 'get',
+        url: '{% url 'cinema_site:api_banners' %}',
+        enctype: '',
+        data: '',
+        success: function (data) {
+            console.log(data)
+            var top_banners = document.getElementById('carousel-inner')
+            var carousel_status = data['carousel_status']
+            var banner_url = data['banner']
+            var body = document.getElementById('body')
+            var bg_format = data['bg_format']
+
+            if (bg_format === 'photo_bg') {
+                body.style="background:url(" + banner_url + ")"
+            } else {
+                body.style="background-color: lightblue;"
+            }
+
+            if (carousel_status === true) {
+                if (data['images'].length >= 1) {
+                    for (let i = 0; i < data['images'].length; i++) {
+                        let carousel_element = document.createElement('div')
+                        carousel_element.setAttribute("class", "carousel-item");
+                        top_banners.appendChild(carousel_element)
+
+                        let img = document.createElement("img");
+                        carousel_element.appendChild(img)
+                        img.src = '/media/' + data['images'][i];
+                        img.alt = 'error';
+                        img.setAttribute("class", "d-block w-100 header_banner")
+                        if (i === 0) {
+                            carousel_element.setAttribute("class", "carousel-item active")
+                        }
+                    }
+                }
+            }
+        },
+        error: function (response) {
+            alert(response)
+        },
+        cache: false,
+        contentType: false,
+        processData: false,
+    });
+</script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns"
         crossorigin="anonymous"></script>
-
+<!-- overlayScrollbars -->
+<script src="{% static 'admin_lte/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js' %}"></script>
 </body>
 </html>

@@ -27,6 +27,19 @@ class Image(models.Model):
         return str(self.text) or ''
 
 
+class BackgroundImage(models.Model):
+    class Format(models.TextChoices):
+        photo_bg = 'photo_bg', _('Фон-фото')
+        simple_bg = 'simple_bg', _('Простой фон')
+
+    name = models.CharField(max_length=40, unique=True)
+    bg_format = models.CharField(max_length=10, choices=Format.choices, verbose_name='Формат фона', blank=False,
+                                 default='simple_bg')
+    image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'background')), blank=True,
+                              null=True)
+    top_banners_is_active = models.BooleanField(default=False)
+
+
 class SeoData(models.Model):
     title = models.CharField(max_length=40)
     url = models.URLField()

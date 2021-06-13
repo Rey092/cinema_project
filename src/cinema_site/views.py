@@ -4,17 +4,19 @@ from pprint import pprint
 
 from dateutil.utils import today
 from django.core import serializers
-from django.http import JsonResponse
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render
 from django.utils.datetime_safe import datetime
 from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
-from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article, Page, Contacts
+from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article, Page, Contacts, Gallery, \
+    BackgroundImage
 from cinema_site.services.booking_services import handle_booking_ajax
 from cinema_site.services.request_services import get_standard_request_handler
 from cinema_site.services.schedule_services import handle_schedule_ajax, localize_datetime_to_rus
 from cinema_site.services.standard_page_services import fill_context_for_standard_page_1
 from profiles.models import UserProfile
+from src.settings import MEDIA_URL
 
 
 class HomePageView(ListView):
@@ -296,3 +298,24 @@ class ContactsView(TemplateView):
         contacts = Contacts.objects.filter(is_active=True)
         context.update({'contacts': contacts, })
         return context
+
+
+def api_banners(request):
+    if request.is_ajax():
+        try:
+            gallery_inst = get_object_or_404(Gallery, name='top_banners_gallery')
+        except Http404:
+            gallery_inst = Gallery(name='top_banners_gallery')
+            gallery_inst.save()
+        images = list(Image.objects.filter(gallery=gallery_inst).values_list('image', flat=True))
+        banners_data, _ = BackgroundImage.objects.get_or_create(name='background_image')
+        carousel_status = banners_data.top_banners_is_active
+        if banners_data.image:
+            banner = banners_data.image.url
+        else:
+            banner = 'https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png'
+        bg_format = banners_data.bg_format
+
+        return JsonResponse({'images': images, 'carousel_status': carousel_status,
+                             'banner': banner, 'bg_format': bg_format}, status=200)
+    return Http404

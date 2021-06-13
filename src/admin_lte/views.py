@@ -13,7 +13,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse_lazy, reverse
 from django.utils.timezone import utc
 from cinema_site.models import Cinema, Hall, Movie, Article, Page, Contacts, Gallery, Image, Seance, Logger, \
-    EmailTemplate
+    EmailTemplate, BackgroundImage
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.datetime_safe import datetime
 from django.views.generic import ListView, DeleteView, UpdateView
@@ -24,7 +24,7 @@ from admin_lte.services.forms_services import create_forms, get_objects, save_fo
     save_new_images_to_gallery, validate_forms, create_objects, save_objects, get_url_path, get_article_qs
 
 from .forms import CinemaForm, HallForm, MovieForm, SeoDataForm, ArticleForm, PageForm, RestrictedPageForm, \
-    ContactsForm, MailingForm, ImageForm
+    ContactsForm, MailingForm, ImageForm, BackgroundImageForm
 from .tasks import send_emails_from_admin
 
 
@@ -362,23 +362,45 @@ class EmailTemplateDeleteView(DeleteView):
 
 
 def banners_view(request):
-    try:
-        gallery_inst = get_object_or_404(Gallery, name='top_banners_gallery')
-    except Http404:
-        gallery_inst = Gallery(name='top_banners_gallery')
-        gallery_inst.save()
+    gallery_inst, _ = Gallery.objects.get_or_create(name='top_banners_gallery')
+    background_image, _ = BackgroundImage.objects.get_or_create(name='background_image')
+    image_form = BackgroundImageForm(request.POST or None, request.FILES or None, prefix='image_form',
+                                     instance=background_image)
 
     gallery = Image.objects.filter(gallery=gallery_inst)
     formset_factory = modelformset_factory(Image, form=ImageForm, fields={'image', }, extra=0)
     formset = formset_factory(request.POST or None, request.FILES or None, prefix='formset', queryset=gallery)
 
     if request.method == 'POST':
-        forms_valid_status = validate_forms(formset=formset)
+        forms_valid_status = validate_forms(image_form, formset=formset)
 
         if forms_valid_status:
-            save_forms(formset)
+            save_objects(background_image)
+            save_forms(image_form, formset)
             save_new_images_to_gallery(None, request, gallery=gallery_inst)
 
             return redirect('admin_lte:banners')
 
-    return render(request, 'admin_lte/pages/banners_list.html', context={'formset': formset})
+    context = {
+        'formset': formset,
+        'image_form': image_form,
+        'current_image': background_image
+    }
+
+    return render(request, 'admin_lte/pages/banners_list.html', context=context)
+
+
+class BackgroundImageDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:banners')
+    model = BackgroundImage
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+
+class BannerDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:banners')
+    model = Image
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
