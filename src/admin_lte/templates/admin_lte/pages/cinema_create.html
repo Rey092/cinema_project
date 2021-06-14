@@ -1,0 +1,274 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    AdminLTE 3 | Starter
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">{{ movie.title }}</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Создать кинотеатр</h3>
+                            </div>
+                            <!-- /.card-header -->
+
+                            <!-- form start -->
+                            <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data"
+                                  novalidate>
+                                {% csrf_token %}
+                                <div class="card-body">
+
+                                    <!-- Form1 -->
+                                    {% for error in form1.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                    {% for field in form1 %}
+                                        <div class="form-group mb-2">
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <strong>{{ field.label_tag }}</strong>
+                                            {{ field }}
+                                        </div>
+                                    {% endfor %}
+                                    <!-- ./Form1 end -->
+
+
+                                    <div class="card-header">
+                                        <h2 class="card-title"><strong>Галерея картинок</strong></h2>
+                                    </div>
+
+
+
+                                    <div id="form_set" class="row">
+                                        {{ formset.management_form }}
+                                        {% for form in formset.forms %}
+
+                                            <td>
+                                                <div class="col-md-4 col-sm-6" style="padding:10px;">
+                                                    <img class="profile-user-img img-fluid"
+                                                         style="width: 250px;"
+                                                         src="{{ form.instance.image.url }}"
+                                                         alt="picture">
+                                                    <table class='no_error'>
+                                                        {{ form }}
+                                                    </table>
+                                                </div>
+                                            </td>
+                                            {% if forloop.counter|divisibleby:3 %}
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+
+                                    </div>
+                                    <input type="button" value="Add More" id="add_more">
+
+                                    <div id="empty_form" style="display:none">
+                                        <div class="col-md-4 col-sm-6" style="display: inline-block">
+                                            <img class="profile-user-img img-fluid"
+                                                 style="width: 100%;"
+                                                 src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                                                 alt="picture">
+                                            <table class='no_error'>
+                                                {{ formset.empty_form|crispy }}
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    {#----Hall FORM start-----#}
+                                    <!-- Content Header (Page header) -->
+                                    <div class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-12">
+                                                    <h1 class="m-0"
+                                                        style="text-align: center; font-weight: bold; font-size: 20px;">
+                                                        Залы</h1>
+                                                </div><!-- /.col -->
+                                                <div class="">
+                                                </div><!-- /.col -->
+                                            </div><!-- /.row -->
+                                        </div><!-- /.container-fluid -->
+                                    </div>
+                                    <!-- /.content-header -->
+
+                                    <!-- Table Halls -->
+                                    <div class="row">
+                                        <div class="col-lg-9 mx-auto">
+                                            <div class="card border-0 shadow">
+                                                <div class="table-title">
+                                                    <div class=""
+                                                         style="display: flex; justify-content: flex-end; padding-top:10px; padding-right: 10px;">
+                                                        <a href="#addEmployeeModal" class="btn btn-success"
+                                                           data-toggle="modal">
+                                                            <span>Добавить новый зал</span></a>
+                                                    </div>
+                                                </div>
+                                                <div class="card-body p-2">
+
+                                                    <!-- Responsive table -->
+                                                    <div class="table-responsive">
+                                                        <table class="table m-0">
+                                                            <thead>
+                                                            <tr>
+                                                                <th style="text-align: center" scope="col">Название
+                                                                    зала
+                                                                </th>
+                                                                <th style="text-align: center" scope="col">Дата
+                                                                    создания
+                                                                </th>
+                                                                <th style="text-align: center" scope="col">Управление
+                                                                </th>
+                                                            </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            {% for hall in halls %}
+                                                                <tr>
+                                                                    <td style="text-align: center;">Зал
+                                                                        №{{ hall.hall_number }}</td>
+                                                                    <td style="text-align: center;">{{ hall.created }}</td>
+                                                                    <td style="text-align: center;">
+                                                                        <!-- Call to action buttons -->
+                                                                        <ul class="list-inline m-0">
+                                                                            <li class="list-inline-item">
+                                                                                <a href="{% url 'admin_lte:hall_description' cinema.slug hall.hall_number %}">
+                                                                                    <button class="btn btn-success btn-sm rounded-0"
+                                                                                            type="button"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Edit"><i
+                                                                                            class="fa fa-edit"></i>
+                                                                                    </button>
+                                                                                </a>
+                                                                            </li>
+                                                                            <li class="list-inline-item">
+                                                                                <button class="btn btn-danger btn-sm rounded-0"
+                                                                                        type="button"
+                                                                                        data-toggle="tooltip"
+                                                                                        data-placement="top"
+                                                                                        title="Delete"><i
+                                                                                        class="fa fa-trash"></i>
+                                                                                </button>
+                                                                            </li>
+                                                                        </ul>
+                                                                    </td>
+                                                                </tr>
+                                                            {% endfor %}
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Table Halls END -->
+
+
+                                    {#----Seo FORM start-----#}
+                                    <!-- Content Header (Page header) -->
+                                    <div class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-12">
+                                                    <h1 class="m-0"
+                                                        style="text-align: center; font-weight: bold; font-size: 20px;">
+                                                        СЕО-Блок</h1>
+                                                </div><!-- /.col -->
+                                                <div class="">
+                                                </div><!-- /.col -->
+                                            </div><!-- /.row -->
+                                        </div><!-- /.container-fluid -->
+                                    </div>
+                                    <!-- /.content-header -->
+
+                                    {% for error in form2.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                    {% for field in form2 %}
+                                        <div class="form-group mb-2">
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <strong>{{ field.label_tag }}</strong>
+                                            {{ field }}
+                                        </div>
+                                    {% endfor %}
+
+                                    {#----Seo FORM end-----#}
+                                </div>
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                                </div>
+                            </form>
+                            <!-- form end -->
+                        </div>
+                        <!-- /.card-body -->
+
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+    <!-- 'Add new form' button handler -->
+    <script>
+        $('#add_more').click(function () {
+            const form_idx = $('#id_form-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            form_idx.eq(parseInt(form_idx) + 1);
+        });
+    </script>
+{% endblock %}

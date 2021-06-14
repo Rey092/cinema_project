@@ -143,6 +143,23 @@ def cinema_description_view(request, slug):
                            'halls': halls})
 
 
+def cinema_create_view(request):
+    cinema, gallery_images, gallery_inst, seo_inst = create_objects(Cinema)
+    cinema_form, seo_data_form, formset = create_forms(cinema, CinemaForm, gallery_images, request)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(cinema_form, seo_data_form, formset=formset)
+        if forms_valid_status:
+            save_objects(seo_inst, gallery_inst, cinema)
+            save_forms(cinema_form, seo_data_form, formset)
+            save_new_images_to_gallery(cinema, request)
+
+            return redirect('admin_lte:cinemas_list')
+
+    return render(request, 'admin_lte/pages/cinema_create.html',
+                  context={'form1': cinema_form, 'form2': seo_data_form, 'formset': formset})
+
+
 def hall_description_view(request, slug, hall_number):
     cinema, gallery = get_objects(Cinema, slug, trailer=False)
     hall = get_object_or_404(Hall, cinema=cinema, hall_number=hall_number)

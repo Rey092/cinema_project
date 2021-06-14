@@ -1,6 +1,6 @@
 from django.utils.datetime_safe import date
 from admin_lte.forms import ImageForm, SeoDataForm, ArticleForm
-from cinema_site.models import Image, Article, Gallery, SeoData, Page, Movie
+from cinema_site.models import Image, Article, Gallery, SeoData, Page, Movie, Cinema
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 
@@ -96,6 +96,8 @@ def create_objects(obj_class, mode=None):
         obj = Page(is_active=True, is_basic=False, created=date.today(), gallery=gallery_inst, seo=seo_inst)
     elif obj_class == Movie:
         obj = Movie(gallery=gallery_inst, seo=seo_inst)
+    elif obj_class == Cinema:
+        obj = Cinema(gallery=gallery_inst, seo=seo_inst)
     else:
         raise TypeError("Function \'create_objects\' is applied to an inappropriate Class")
     return obj, gallery_images, gallery_inst, seo_inst
