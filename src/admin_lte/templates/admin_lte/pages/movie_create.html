@@ -1,0 +1,300 @@
+{% extends "admin_lte/elements/base.html" %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    AdminLTE 3 | Starter
+{% endblock %}
+
+{% block head %}
+{% endblock %}
+
+{% block content %}
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+
+        <!-- Content Header (Page header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-12">
+                        <h1 class="m-0" style="text-align: center">{{ movie.title }}</h1>
+                    </div><!-- /.col -->
+                </div><!-- /.row -->
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- /.content-header -->
+
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card card-primary">
+                            <div class="card-header">
+                                <h3 class="card-title">Создать фильм</h3>
+                            </div>
+                            <!-- /.card-header -->
+
+                            <!-- form start -->
+                            <form method="POST" id="quickForm" novalidate="novalidate" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="card-body">
+                                    {% for error in form1.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+
+                                    {% for error in form1.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+
+                                    {% if form1.title.errors %}
+                                        {% for error in form1.title.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.title.label_tag }}</strong>
+                                        {{ form1.title }}
+                                    </div>
+
+                                    {% if form1.slug.errors %}
+                                        {% for error in form1.slug.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.slug.label_tag }}</strong>
+                                        {{ form1.slug }}
+                                    </div>
+
+                                    <strong>Форматы показа фильма:</strong>
+
+                                    {% if form1.is_2d.errors %}
+                                        {% for error in form1.is_2d.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if form1.is_3d.errors %}
+                                        {% for error in form1.is_3d.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    {% if form1.is_imax.errors %}
+                                        {% for error in form1.is_imax.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_2d }}
+                                            <label class="custom-control-label" for="customCheckbox1">2D</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_3d }}
+                                            <label class="custom-control-label" for="customCheckbox2">3D</label>
+                                        </div>
+                                    </div>
+                                    <div class="form-group mb-2 movie_type" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_imax }}
+                                            <label class="custom-control-label" for="customCheckbox3">IMAX</label>
+                                        </div>
+                                    </div>
+
+                                    {% if form1.description.errors %}
+                                        {% for error in form1.description.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.description.label_tag }}</strong>
+                                        {{ form1.description }}
+                                    </div>
+
+                                    {% if form1.trailer_url.errors %}
+                                        {% for error in form1.trailer_url.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.trailer_url.label_tag }}</strong>
+                                        {{ form1.trailer_url }}
+                                    </div>
+
+                                    {% if form1.release_date.errors %}
+                                        {% for error in form1.release_date.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.release_date.label_tag }}</strong>
+                                        {{ form1.release_date }}
+                                    </div>
+
+
+                                    {% if form1.is_active.errors %}
+                                        {% for error in form1.is_active.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2" style="display: inline-block;">
+                                        <div class="custom-control custom-checkbox">
+                                            {{ form1.is_active }}
+                                            <label class="custom-control-label" for="customCheckbox4">Фильм
+                                                активен</label>
+                                        </div>
+                                    </div>
+
+                                    {% if form1.poster.errors %}
+                                        {% for error in form1.poster.errors %}
+                                            <div class="alert alert-danger">
+                                                <strong>{{ error|escape }}</strong>
+                                            </div>
+                                        {% endfor %}
+                                    {% endif %}
+                                    <div class="form-group mb-2">
+                                        <strong>{{ form1.poster.label_tag }}</strong>
+                                        {{ form1.poster }}
+                                    </div>
+
+
+                                    <div class="card-header">
+                                        <h2 class="card-title"><strong>Галерея картинок</strong></h2>
+                                    </div>
+
+
+                                    <div id="form_set" class="row">
+                                        {{ formset.management_form }}
+                                        {% for form in formset.forms %}
+                                            <td>
+                                                <div class="col-md-4 col-sm-6" style="padding:10px;">
+                                                    <img class="profile-user-img img-fluid"
+                                                         style="width: 250px;"
+                                                         src="{{ form.instance.image.url }}"
+                                                         alt="picture">
+                                                    <table class='no_error'>
+                                                        {{ form }}
+                                                    </table>
+                                                </div>
+                                            </td>
+                                            {% if forloop.counter|divisibleby:3 %}
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+
+                                    <input type="button" value="Add More" id="add_more">
+
+                                    <div id="empty_form" style="display:none">
+                                        <div class="col-md-4 col-sm-6" style="display: inline-block">
+                                            <img class="profile-user-img img-fluid"
+                                                 style="width: 100%;"
+                                                 src="https://i.pinimg.com/originals/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.png"
+                                                 alt="picture">
+                                            <table class='no_error'>
+                                                {{ formset.empty_form|crispy }}
+                                            </table>
+                                        </div>
+                                    </div>
+
+                                    {#----Seo FORM start-----#}
+                                    <!-- Content Header (Page header) -->
+                                    <div class="content-header">
+                                        <div class="container-fluid">
+                                            <div class="row mb-2">
+                                                <div class="col-sm-12">
+                                                    <h1 class="m-0"
+                                                        style="text-align: center; font-weight: bold; font-size: 20px;">
+                                                        СЕО-Блок</h1>
+                                                </div><!-- /.col -->
+                                                <div class="">
+                                                </div><!-- /.col -->
+                                            </div><!-- /.row -->
+                                        </div><!-- /.container-fluid -->
+                                    </div>
+                                    <!-- /.content-header -->
+
+                                    {% for error in form2.non_field_errors %}
+                                        <div class="alert alert-danger">
+                                            <strong>{{ error|escape }}</strong>
+                                        </div>
+                                    {% endfor %}
+                                    {% for field in form2 %}
+                                        <div class="form-group mb-2">
+                                            {% if field.errors %}
+                                                {% for error in field.errors %}
+                                                    <div class="alert alert-danger">
+                                                        <strong>{{ error|escape }}</strong>
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                            <strong>{{ field.label_tag }}</strong>
+                                            {{ field }}
+                                        </div>
+                                    {% endfor %}
+                                    {#----Seo FORM end-----#}
+                                </div>
+
+                                <div class="card-footer">
+                                    <button type="submit" class="btn btn-primary">Submit</button>
+                                </div>
+                            </form>
+                            <!-- form end -->
+                        </div>
+                        <!-- /.card-body -->
+
+
+                    </div>
+                    <!-- /.card -->
+                </div>
+                <!-- /.col -->
+            </div>
+            <!-- /.row -->
+        </section>
+
+    </div>
+    <!-- /.content-wrapper -->
+{% endblock %}
+
+{% block scripts %}
+    <!-- jQuery -->
+    <script src="{% static 'admin_lte/plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'admin_lte/plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'admin_lte/assets/js/adminlte.min.js' %}"></script>
+    <!-- 'Add new form' button handler -->
+    <script>
+        $('#add_more').click(function () {
+            const form_idx = $('#id_form-TOTAL_FORMS').val();
+            $('#form_set').append($('#empty_form').html().replace(/__prefix__/g, form_idx));
+            form_idx.eq(parseInt(form_idx) + 1);
+        });
+    </script>
+{% endblock %}

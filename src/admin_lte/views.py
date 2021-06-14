@@ -48,7 +48,7 @@ def admin_lte_home(request):
         })
     seance_data_json = json.dumps(seance_data)
 
-    logs = Logger.objects.values('referer').exclude(referer=None).annotate(the_count=Count('referer'))\
+    logs = Logger.objects.values('referer').exclude(referer=None).annotate(the_count=Count('referer')) \
         .order_by('-the_count')
     logs_data_json = json.dumps(list(logs[0:5]))
 
@@ -79,7 +79,6 @@ class MoviesView(ListView):
 
 def movie_description_view(request, slug):
     movie, gallery, video_url = get_objects(Movie, slug)
-
     movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery, request)
 
     if request.method == 'POST':
@@ -93,6 +92,27 @@ def movie_description_view(request, slug):
 
     return render(request, 'admin_lte/pages/movie_description.html',
                   context={'movie': movie, 'form1': movie_form, 'form2': seo_data_form, 'formset': formset})
+
+
+def movie_create_view(request):
+    movie, gallery_images, gallery_inst, seo_inst = create_objects(Movie)
+    movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery_images, request)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(movie_form, seo_data_form, formset=formset)
+        print(forms_valid_status)
+        print(1, movie_form.errors)
+        print(2, seo_data_form.errors)
+        print(3, formset.errors)
+        if forms_valid_status:
+            save_objects(seo_inst, gallery_inst, movie)
+            save_forms(movie_form, seo_data_form, formset)
+            save_new_images_to_gallery(movie, request)
+
+            return redirect('admin_lte:movies_list')
+
+    return render(request, 'admin_lte/pages/movie_create.html',
+                  context={'form1': movie_form, 'form2': seo_data_form, 'formset': formset})
 
 
 class CinemasListView(ListView):

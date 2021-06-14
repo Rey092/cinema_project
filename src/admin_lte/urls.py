@@ -6,6 +6,7 @@ app_name = 'admin_lte'
 urlpatterns = [
     path('', views.admin_lte_home, name='admin_lte_home'),
     path('movies/', views.MoviesView.as_view(), name='movies_list'),
+    path('movies/create/', views.movie_create_view, name='movie_create'),
     path('movies/<slug:slug>/', views.movie_description_view, name='movie_description'),
 
     path('cinemas/', views.CinemasListView.as_view(), name='cinemas_list'),

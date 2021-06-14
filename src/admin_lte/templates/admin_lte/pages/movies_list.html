@@ -30,6 +30,13 @@
                 <div class="row">
                     <div class="card card-success" style="margin: auto;">
                         <div class="card-body">
+                            <div style="padding-bottom: 16px;display: flex;justify-content: right;">
+                                <a href="{% url 'admin_lte:movie_create' %}">
+                                    <button type="button" class="btn btn-block btn-info">
+                                        Добавить фильм
+                                    </button>
+                                </a>
+                            </div>
                             <div class="row" style="margin: auto;">
                                 {% for movie in object_list.now %}
                                     <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
