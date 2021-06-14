@@ -1,4 +1,5 @@
 {% extends "admin_lte/elements/base.html" %}
+{% load crispy_forms_filters %}
 {% load static %}
 {% load crispy_forms_tags %}
 
@@ -192,6 +193,7 @@
                                     <div id="form_set" class="row">
                                         {{ formset.management_form }}
                                         {% for form in formset.forms %}
+
                                             <td>
                                                 <div class="col-md-4 col-sm-6" style="padding:10px;">
                                                     <img class="profile-user-img img-fluid"
@@ -207,6 +209,7 @@
                                                 </tr>
                                             {% endif %}
                                         {% endfor %}
+
                                     </div>
 
                                     <input type="button" value="Add More" id="add_more">

@@ -96,14 +96,15 @@ def movie_description_view(request, slug):
 
 def movie_create_view(request):
     movie, gallery_images, gallery_inst, seo_inst = create_objects(Movie)
-    movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery_images, request)
+    # movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery_images, request)
+
+    formset_factory = modelformset_factory(Image, form=ImageForm, fields={'image', }, extra=0)
+    movie_form = MovieForm(request.POST or None, request.FILES or None, prefix='form1', instance=movie)
+    seo_data_form = SeoDataForm(request.POST or None, prefix='form2', instance=movie.seo)
+    formset = formset_factory(request.POST or None, request.FILES or None, prefix='formset', queryset=gallery_images)
 
     if request.method == 'POST':
         forms_valid_status = validate_forms(movie_form, seo_data_form, formset=formset)
-        print(forms_valid_status)
-        print(1, movie_form.errors)
-        print(2, seo_data_form.errors)
-        print(3, formset.errors)
         if forms_valid_status:
             save_objects(seo_inst, gallery_inst, movie)
             save_forms(movie_form, seo_data_form, formset)
