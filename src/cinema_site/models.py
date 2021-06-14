@@ -24,7 +24,7 @@ class Image(models.Model):
     text = models.CharField(max_length=300, null=True, blank=True)
 
     def __str__(self):
-        return str(self.text) or ''
+        return str(self.image.url) or ''
 
 
 class BackgroundImage(models.Model):
@@ -78,6 +78,9 @@ class Hall(models.Model):
     gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
     seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='hall_seo')
     cinema = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True, related_name='hall_cinema')
+
+    def __str__(self):
+        return self.hall_number
 
 
 class Movie(models.Model):

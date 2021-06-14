@@ -193,23 +193,16 @@
                                     <div id="form_set" class="row">
                                         {{ formset.management_form }}
                                         {% for form in formset.forms %}
-
-                                            <td>
-                                                <div class="col-md-4 col-sm-6" style="padding:10px;">
-                                                    <img class="profile-user-img img-fluid"
-                                                         style="width: 250px;"
-                                                         src="{{ form.instance.image.url }}"
-                                                         alt="picture">
-                                                    <table class='no_error'>
-                                                        {{ form }}
-                                                    </table>
-                                                </div>
-                                            </td>
-                                            {% if forloop.counter|divisibleby:3 %}
-                                                </tr>
-                                            {% endif %}
+                                            <div class="col-md-4 col-sm-6" style="padding:10px;">
+                                                <img class="profile-user-img img-fluid"
+                                                     style="width: 250px;"
+                                                     src="{{ form.instance.image.url }}"
+                                                     alt="picture">
+                                                <table class='no_error'>
+                                                    {{ form }}
+                                                </table>
+                                            </div>
                                         {% endfor %}
-
                                     </div>
 
                                     <input type="button" value="Add More" id="add_more">

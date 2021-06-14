@@ -1,6 +1,6 @@
 from django.utils.datetime_safe import date
 from admin_lte.forms import ImageForm, SeoDataForm, ArticleForm
-from cinema_site.models import Image, Article, Gallery, SeoData, Page, Movie, Cinema
+from cinema_site.models import Image, Article, Gallery, SeoData, Page, Movie, Cinema, Hall
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404
 
@@ -11,6 +11,7 @@ def get_article_qs(mode):
 
 def save_new_images_to_gallery(obj, request, gallery=None):
     undefined_images = request.FILES.getlist('formset-undefined-image')
+
     if undefined_images:
         images = []
 
@@ -19,6 +20,7 @@ def save_new_images_to_gallery(obj, request, gallery=None):
                 gallery_image = Image(image=image, gallery=gallery)
             else:
                 gallery_image = Image(image=image, gallery=obj.gallery)
+
             images.append(gallery_image)
 
         Image.objects.bulk_create(images)
@@ -86,7 +88,7 @@ def get_objects(obj_class, slug, qs=None, trailer=True):
         return obj, gallery
 
 
-def create_objects(obj_class, mode=None):
+def create_objects(obj_class, mode=None, slug=None):
     gallery_inst = Gallery()
     seo_inst = SeoData()
     gallery_images = Image.objects.filter(gallery=gallery_inst)
@@ -98,6 +100,9 @@ def create_objects(obj_class, mode=None):
         obj = Movie(gallery=gallery_inst, seo=seo_inst)
     elif obj_class == Cinema:
         obj = Cinema(gallery=gallery_inst, seo=seo_inst)
+    elif obj_class == Hall:
+        cinema = get_object_or_404(Cinema, slug=slug)
+        obj = Hall(gallery=gallery_inst, seo=seo_inst, cinema=cinema)
     else:
         raise TypeError("Function \'create_objects\' is applied to an inappropriate Class")
     return obj, gallery_images, gallery_inst, seo_inst

@@ -10,17 +10,18 @@ urlpatterns = [
     path('movies/<slug:slug>/', views.movie_description_view, name='movie_description'),
 
     path('cinemas/', views.CinemasListView.as_view(), name='cinemas_list'),
-    path('cinemas/create', views.cinema_create_view, name='cinema_create'),
+    path('cinemas/create/', views.cinema_create_view, name='cinema_create'),
     path('cinemas/<slug:slug>/', views.cinema_description_view, name='cinema_description'),
+    path('cinemas/<slug:slug>/create_hall/', views.hall_create_view, name='hall_create'),
     path('cinemas/<slug:slug>/<int:hall_number>/', views.hall_description_view, name='hall_description'),
 
     path('news/', views.ArticleListView.as_view(), name='news_list'),
-    path('news/create', views.article_create_view, name='news_create'),
+    path('news/create/', views.article_create_view, name='news_create'),
     path('news/<slug:slug>/', views.article_description_view, name='news_description'),
     path('news/<slug:slug>/delete/', views.ArticleDeleteView.as_view(), name='news_delete'),
 
     path('events/', views.ArticleListView.as_view(), name='events_list'),
-    path('events/create', views.article_create_view, name='event_create'),
+    path('events/create/', views.article_create_view, name='event_create'),
     path('events/<slug:slug>/', views.article_description_view, name='event_description'),
     path('events/<slug:slug>/delete/', views.ArticleDeleteView.as_view(), name='event_delete'),
 
@@ -34,12 +35,12 @@ urlpatterns = [
 
     path('users/', views.UsersListView.as_view(), name='users_list'),
     path('users/<int:pk>/', views.UserUpdateView.as_view(), name='user_description'),
-    path('users/<int:pk>/delete', views.UserDeleteView.as_view(), name='user_delete'),
+    path('users/<int:pk>/delete/', views.UserDeleteView.as_view(), name='user_delete'),
 
     path('mailings/', views.mailings_view, name='mailings'),
-    path('mailings/<int:pk>', views.EmailTemplateDeleteView.as_view(), name='email_template_delete'),
+    path('mailings/<int:pk>/', views.EmailTemplateDeleteView.as_view(), name='email_template_delete'),
 
     path('banners/', views.banners_view, name='banners'),
-    path('banners/delete/<int:pk>', views.BannerDeleteView.as_view(), name='banner_delete'),
-    path('banners/bg/delete/<int:pk>', views.BackgroundImageDeleteView.as_view(), name='bg_delete'),
+    path('banners/delete/<int:pk>/', views.BannerDeleteView.as_view(), name='banner_delete'),
+    path('banners/bg/delete/<int:pk>/', views.BackgroundImageDeleteView.as_view(), name='bg_delete'),
 ]

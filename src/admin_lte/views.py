@@ -160,23 +160,44 @@ def cinema_create_view(request):
                   context={'form1': cinema_form, 'form2': seo_data_form, 'formset': formset})
 
 
+def hall_create_view(request, slug):
+    hall, gallery_images, gallery_inst, seo_inst = create_objects(Hall, slug=slug)
+    hall_form, seo_data_form, formset = create_forms(hall, HallForm, gallery_images, request)
+
+    if request.method == 'POST':
+        forms_valid_status = validate_forms(hall_form, seo_data_form, formset=formset)
+        print(forms_valid_status)
+        if forms_valid_status:
+            save_objects(seo_inst, gallery_inst, hall)
+            save_forms(hall_form, seo_data_form, formset)
+            save_new_images_to_gallery(hall, request)
+
+            return redirect('admin_lte:cinema_description', slug=slug)
+
+    return render(request, 'admin_lte/pages/hall_create.html',
+                  context={'form1': hall_form, 'form2': seo_data_form, 'formset': formset})
+
+
 def hall_description_view(request, slug, hall_number):
-    cinema, gallery = get_objects(Cinema, slug, trailer=False)
+    cinema = get_object_or_404(Cinema, slug=slug)
     hall = get_object_or_404(Hall, cinema=cinema, hall_number=hall_number)
+    gallery = Image.objects.filter(gallery=hall.gallery)
 
     hall_form, seo_data_form, formset = create_forms(hall, HallForm, gallery, request)
 
     if request.method == 'POST':
+
         forms_valid_status = validate_forms(hall_form, seo_data_form, formset=formset)
 
         if forms_valid_status:
             save_forms(hall_form, seo_data_form, formset)
             save_new_images_to_gallery(hall, request)
 
-            return redirect('admin_lte:hall_description', slug=cinema.slug, hall_number=hall.hall_number)
+            return redirect('admin_lte:hall_description', slug=slug, hall_number=hall_number)
 
     return render(request, 'admin_lte/pages/hall_description.html',
                   context={'hall': hall, 'form1': hall_form, 'form2': seo_data_form, 'formset': formset})
+# '
 
 
 class ArticleListView(ListView):

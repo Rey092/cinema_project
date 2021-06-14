@@ -81,34 +81,25 @@
                                     {% endfor %}
                                     <!-- ./Form1 end -->
 
-
                                     <div class="card-header">
                                         <h2 class="card-title"><strong>Галерея картинок</strong></h2>
                                     </div>
 
-
-
                                     <div id="form_set" class="row">
                                         {{ formset.management_form }}
                                         {% for form in formset.forms %}
-
-                                            <td>
-                                                <div class="col-md-4 col-sm-6" style="padding:10px;">
-                                                    <img class="profile-user-img img-fluid"
-                                                         style="width: 250px;"
-                                                         src="{{ form.instance.image.url }}"
-                                                         alt="picture">
-                                                    <table class='no_error'>
-                                                        {{ form }}
-                                                    </table>
-                                                </div>
-                                            </td>
-                                            {% if forloop.counter|divisibleby:3 %}
-                                                </tr>
-                                            {% endif %}
+                                            <div class="col-md-4 col-sm-6" style="padding:10px;">
+                                                <img class="profile-user-img img-fluid"
+                                                     style="width: 250px;"
+                                                     src="{{ form.instance.image.url }}"
+                                                     alt="picture">
+                                                <table class='no_error'>
+                                                    {{ form }}
+                                                </table>
+                                            </div>
                                         {% endfor %}
-
                                     </div>
+
                                     <input type="button" value="Add More" id="add_more">
 
                                     <div id="empty_form" style="display:none">
@@ -147,9 +138,10 @@
                                                 <div class="table-title">
                                                     <div class=""
                                                          style="display: flex; justify-content: flex-end; padding-top:10px; padding-right: 10px;">
-                                                        <a href="#addEmployeeModal" class="btn btn-success"
-                                                           data-toggle="modal">
-                                                            <span>Добавить новый зал</span></a>
+                                                        <a href="{% url 'admin_lte:hall_create' cinema.slug %}">
+                                                            <button type="button" class="btn btn-block btn-info">
+                                                                Добавить новый зал
+                                                            </button></a>
                                                     </div>
                                                 </div>
                                                 <div class="card-body p-2">
