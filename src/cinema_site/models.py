@@ -152,7 +152,7 @@ class Article(models.Model):
 class Page(models.Model):
     title = models.CharField(max_length=40)
     slug = models.SlugField(unique=True)
-    description = models.TextField()
+    description = models.TextField(null=True, blank=True)
     phone1 = PhoneNumberField(null=True, blank=True)
     phone2 = PhoneNumberField(null=True, blank=True)
     is_basic = models.BooleanField(default=True)
