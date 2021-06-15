@@ -15,8 +15,11 @@ run:
 	$(MANAGE) runserver 127.0.0.1:8001
 
 gunicorn-run:
+	$(MANAGE) makemigrations --no-input
+	$(MANAGE) migrate --no-input
 	#cd $(PROJECT_DIR)/scr && gunicorn -w 4 -b 0.0.0.0:$(WSGI_PORT) src.wsgi --timeout 30 --log-level debug --max-requests 10000 --reload
-	gunicorn -w 4 -b 0.0.0.0:$(WSGI_PORT) scr.src.wsgi:Application --timeout 30 --log-level debug --max-requests 10000 --reload
+	#gunicorn -w 4 -b 0.0.0.0:$(WSGI_PORT) src.src.wsgi:Application --timeout 30 --log-level debug --max-requests 10000 --reload
+	PYTHONPATH=`pwd`/src gunicorn src.wsgi:application -b 0.0.0.0:8000 --reload
 
 gen-users:
 	$(MANAGE) gen_users
