@@ -57,7 +57,7 @@ services:
       - "6379:6379"
 
   celery:
-    command: "celery -A src worker --autoscale=4,2 -l info --queue=fila1"
+    command: "celery -A src/src worker --autoscale=4,2 -l info --queue=fila1"
     depends_on:
       - web
       - redis
