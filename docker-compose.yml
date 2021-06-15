@@ -56,6 +56,16 @@ services:
     ports:
       - "6379:6379"
 
+  celery:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: "celery -A src worker --autoscale=4,2 -l info --queue=fila1"
+    depends_on:
+      - web
+      - redis
+    restart: always
+
 volumes:
   static_volume:
   media_volume:

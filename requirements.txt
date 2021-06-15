@@ -18,5 +18,5 @@ six==1.14.0
 psycopg2-binary==2.8.6
 gunicorn
 django-decorator-include
-Celery
+celery
 redis
