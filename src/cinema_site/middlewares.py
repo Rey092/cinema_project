@@ -22,7 +22,7 @@ class LogMiddleware:
         except AttributeError:
             referer = None
 
-        ignore_elements = ['/media', '/admin', 'favicon']
+        ignore_elements = ['/media', '/admin', 'api', 'favicon']
         if not any(element in path for element in ignore_elements):
             log_request.delay(time_execution, path, user_ip, utm, referer)
 

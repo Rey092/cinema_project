@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block head %}
+    <link rel="stylesheet" href="{% static 'cinema_site/assets/css/close_statement.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% block content %}
@@ -42,19 +43,23 @@
                                 {% for cinema in object_list %}
                                     <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
                                         <div class="card mb-2 bg-gradient-dark">
-                                            <a href="{% url 'admin_lte:cinema_description' cinema.slug %}">
-                                                <img class="card-img-top" style="width: 100%; height: 300px;"
-                                                     src="{{ cinema.banner.url }}"
-                                                     alt="Dist Photo 1">
-                                                <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                                    <div>
-                                                        <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
+                                            <div class="parent">
+                                                <a href="{% url 'admin_lte:cinema_description' cinema.slug %}">
+                                                    <img class="card-img-top" style="width: 100%; height: 300px;"
+                                                         src="{{ cinema.banner.url }}"
+                                                         alt="Dist Photo 1">
+                                                    <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                        <div>
+                                                            <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
                                                             bold"
-                                                            class="card-title text-primary
+                                                                class="card-title text-primary
                                                             text-white">{{ cinema.name }}</h5>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                                <a href="{% url 'admin_lte:cinema_delete' cinema.slug %}"
+                                                   class="close"></a>
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}

@@ -15,6 +15,7 @@
     <!-- Theme style -->
     <link rel="stylesheet" href="{% static 'admin_lte/assets/css/adminlte.min.css' %}">
     <link rel="stylesheet" href="{% static 'admin_lte/assets/css/adminlte-additional.css' %}">
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.bootstrap-v4.min.css">
     {% block head %}{% endblock %}
 </head>
 
@@ -35,6 +36,21 @@
 {% include "admin_lte/elements/control_sidebar.html" %}
 {% include "admin_lte/elements/footer.html" %}
 {% block scripts %}{% endblock %}
+<script src="https://kendo.cdn.telerik.com/2018.2.620/js/kendo.all.min.js"></script>
+<script>
+    $('#id_form1-publication').kendoDatePicker({
+        start: 'decade',
+        depth: 'day',
+        max: new Date(),
+        min: new Date(1900, 01, 01)
+    })
+    $('#id_form1-release_date').kendoDatePicker({
+        start: 'decade',
+        depth: 'day',
+        max: new Date(),
+        min: new Date(1900, 01, 01)
+    })
+</script>
 
 </body>
 </html>

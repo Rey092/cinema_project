@@ -18,7 +18,7 @@ class Gallery(models.Model):
 
 class Image(models.Model):
     image = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images')))
-    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, null=True)
 
     url = models.URLField(null=True, blank=True)
     text = models.CharField(max_length=300, null=True, blank=True)
@@ -59,8 +59,8 @@ class Cinema(models.Model):
     banner = models.ImageField(
         upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'images', 'cinemas', str(name), 'banners')))
 
-    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True)
-    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
+    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE, null=True)
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, null=True)
 
 
 class Hall(models.Model):
@@ -75,9 +75,9 @@ class Hall(models.Model):
     layout = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'halls', 'layouts')))
     banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'halls', 'banners')))
 
-    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
-    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='hall_seo')
-    cinema = models.ForeignKey(Cinema, on_delete=models.SET_NULL, null=True, related_name='hall_cinema')
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, null=True)
+    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE, null=True, related_name='hall_seo')
+    cinema = models.ForeignKey(Cinema, on_delete=models.CASCADE, null=True, related_name='hall_cinema')
 
     def __str__(self):
         return self.hall_number
@@ -96,8 +96,8 @@ class Movie(models.Model):
 
     poster = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'movies', 'posters')))
 
-    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
-    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='movie_seo')
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, null=True)
+    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE, null=True, related_name='movie_seo')
 
     def __str__(self):
         return self.title
@@ -113,8 +113,8 @@ class Seance(models.Model):
     price = models.IntegerField()
     time = models.DateTimeField()
 
-    movie = models.ForeignKey(Movie, on_delete=models.SET_NULL, null=True, related_name='seance_movie')
-    hall = models.ForeignKey(Hall, on_delete=models.SET_NULL, null=True, related_name='seance_hall')
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE, null=True, related_name='seance_movie')
+    hall = models.ForeignKey(Hall, on_delete=models.CASCADE, null=True, related_name='seance_hall')
 
 
 class Ticket(models.Model):
@@ -125,8 +125,8 @@ class Ticket(models.Model):
     seat_place = models.IntegerField()
     is_paid = models.BooleanField(default=False)
 
-    seance = models.ForeignKey(Seance, on_delete=models.SET_NULL, null=True, related_name='ticket_seance')
-    buyer = models.ForeignKey(UserProfile, on_delete=models.SET_NULL, null=True, related_name='ticket_buyer')
+    seance = models.ForeignKey(Seance, on_delete=models.CASCADE, null=True, related_name='ticket_seance')
+    buyer = models.ForeignKey(UserProfile, on_delete=models.CASCADE, null=True, related_name='ticket_buyer')
 
 
 class Article(models.Model):
@@ -145,8 +145,8 @@ class Article(models.Model):
 
     banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'articles', 'banners')))
 
-    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
-    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='article_seo')
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, null=True)
+    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE, null=True, related_name='article_seo')
 
     def __str__(self):
         return self.title
@@ -164,8 +164,8 @@ class Page(models.Model):
 
     banner = models.ImageField(upload_to=UploadToPathAndRename(os.path.join(MEDIA_ROOT, 'pages', 'banners')))
 
-    gallery = models.ForeignKey(Gallery, on_delete=models.SET_NULL, null=True)
-    seo = models.ForeignKey(SeoData, on_delete=models.SET_NULL, null=True, related_name='page_seo')
+    gallery = models.ForeignKey(Gallery, on_delete=models.CASCADE, null=True)
+    seo = models.ForeignKey(SeoData, on_delete=models.CASCADE, null=True, related_name='page_seo')
 
     def __str__(self):
         return self.title

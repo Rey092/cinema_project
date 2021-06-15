@@ -77,6 +77,14 @@ class MoviesView(ListView):
         return queryset
 
 
+class MovieDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:movies_list')
+    model = Movie
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+
 def movie_description_view(request, slug):
     movie, gallery, video_url = get_objects(Movie, slug)
     movie_form, seo_data_form, formset = create_forms(movie, MovieForm, gallery, request)
@@ -143,6 +151,14 @@ def cinema_description_view(request, slug):
                            'halls': halls})
 
 
+class CinemaDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:cinemas_list')
+    model = Cinema
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
+
+
 def cinema_create_view(request):
     cinema, gallery_images, gallery_inst, seo_inst = create_objects(Cinema)
     cinema_form, seo_data_form, formset = create_forms(cinema, CinemaForm, gallery_images, request)
@@ -176,6 +192,14 @@ def hall_create_view(request, slug):
 
     return render(request, 'admin_lte/pages/hall_create.html',
                   context={'form1': hall_form, 'form2': seo_data_form, 'formset': formset})
+
+
+class HallDeleteView(DeleteView):
+    success_url = reverse_lazy('admin_lte:cinemas_list')
+    model = Hall
+
+    def get(self, request, *args, **kwargs):
+        return self.post(request, *args, **kwargs)
 
 
 def hall_description_view(request, slug, hall_number):

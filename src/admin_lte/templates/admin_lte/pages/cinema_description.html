@@ -141,7 +141,8 @@
                                                         <a href="{% url 'admin_lte:hall_create' cinema.slug %}">
                                                             <button type="button" class="btn btn-block btn-info">
                                                                 Добавить новый зал
-                                                            </button></a>
+                                                            </button>
+                                                        </a>
                                                     </div>
                                                 </div>
                                                 <div class="card-body p-2">
@@ -182,13 +183,15 @@
                                                                                 </a>
                                                                             </li>
                                                                             <li class="list-inline-item">
-                                                                                <button class="btn btn-danger btn-sm rounded-0"
-                                                                                        type="button"
-                                                                                        data-toggle="tooltip"
-                                                                                        data-placement="top"
-                                                                                        title="Delete"><i
-                                                                                        class="fa fa-trash"></i>
-                                                                                </button>
+                                                                                <a href="{% url 'admin_lte:hall_delete' hall.id %}">
+                                                                                    <button class="btn btn-danger btn-sm rounded-0"
+                                                                                            type="button"
+                                                                                            data-toggle="tooltip"
+                                                                                            data-placement="top"
+                                                                                            title="Delete"><i
+                                                                                            class="fa fa-trash"></i>
+                                                                                    </button>
+                                                                                </a>
                                                                             </li>
                                                                         </ul>
                                                                     </td>

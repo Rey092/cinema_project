@@ -7,10 +7,13 @@ urlpatterns = [
     path('', views.admin_lte_home, name='admin_lte_home'),
     path('movies/', views.MoviesView.as_view(), name='movies_list'),
     path('movies/create/', views.movie_create_view, name='movie_create'),
+    path('movies/delete/<slug:slug>/', views.MovieDeleteView.as_view(), name='movie_delete'),
     path('movies/<slug:slug>/', views.movie_description_view, name='movie_description'),
 
     path('cinemas/', views.CinemasListView.as_view(), name='cinemas_list'),
     path('cinemas/create/', views.cinema_create_view, name='cinema_create'),
+    path('cinemas/delete/<slug:slug>/', views.CinemaDeleteView.as_view(), name='cinema_delete'),
+    path('cinemas/delete_hall/<int:pk>/', views.HallDeleteView.as_view(), name='hall_delete'),
     path('cinemas/<slug:slug>/', views.cinema_description_view, name='cinema_description'),
     path('cinemas/<slug:slug>/create_hall/', views.hall_create_view, name='hall_create'),
     path('cinemas/<slug:slug>/<int:hall_number>/', views.hall_description_view, name='hall_description'),

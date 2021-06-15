@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block head %}
+    <link rel="stylesheet" href="{% static 'cinema_site/assets/css/close_statement.css' %}?{% now 'U' %}">
 {% endblock %}
 
 {% block content %}
@@ -39,23 +40,31 @@
                             </div>
                             <div class="row" style="margin: auto;">
                                 {% for movie in object_list.now %}
-                                    <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
+
+                                    <div class="col-md-12 col-lg-6 col-xl-3 parent" style="padding:20px;">
                                         <div class="card mb-2 bg-gradient-dark">
-                                            <a href="{% url 'admin_lte:movie_description' movie.slug %}">
-                                                <img class="card-img-top" style="width: 100%; height: auto;"
-                                                     src="{{ movie.poster.url }}"
-                                                     alt="Dist Photo 1">
-                                                <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                                    <div>
-                                                        <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
+                                            <div class="parent">
+                                                <a href="{% url 'admin_lte:movie_description' movie.slug %}">
+                                                    <img class="card-img-top" style="width: 100%; height: auto;"
+                                                         src="{{ movie.poster.url }}"
+                                                         alt="Dist Photo 1">
+                                                    <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                        <div>
+                                                            <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
                                                             bold"
-                                                            class="card-title text-primary
+                                                                class="card-title text-primary
                                                             text-white">{{ movie.title }}</h5>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                                <a href="{% url 'admin_lte:movie_delete' movie.slug %}"
+                                                   class="close"></a>
+                                            </div>
                                         </div>
                                     </div>
+
+
+
                                 {% endfor %}
                             </div>
                         </div>
@@ -95,19 +104,23 @@
                                 {% for movie in object_list.soon %}
                                     <div class="col-md-12 col-lg-6 col-xl-3" style="padding:20px;">
                                         <div class="card mb-2 bg-gradient-dark">
-                                            <a href="{% url 'admin_lte:movie_description' movie.slug %}">
-                                                <img class="card-img-top" style="width: 100%; height: auto;"
-                                                     src="{{ movie.poster.url }}"
-                                                     alt="Dist Photo 1">
-                                                <div class="card-img-overlay d-flex flex-column justify-content-end">
-                                                    <div>
-                                                        <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
+                                            <div class="parent">
+                                                <a href="{% url 'admin_lte:movie_description' movie.slug %}">
+                                                    <img class="card-img-top" style="width: 100%; height: auto;"
+                                                         src="{{ movie.poster.url }}"
+                                                         alt="Dist Photo 1">
+                                                    <div class="card-img-overlay d-flex flex-column justify-content-end">
+                                                        <div>
+                                                            <h5 style="background-color: rgba(0,0,0,0.84); font-weight:
                                                             bold"
-                                                            class="card-title text-primary
+                                                                class="card-title text-primary
                                                             text-white">{{ movie.title }}</h5>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </a>
+                                                </a>
+                                                <a href="{% url 'admin_lte:movie_delete' movie.slug %}"
+                                                   class="close"></a>
+                                            </div>
                                         </div>
                                     </div>
                                 {% endfor %}

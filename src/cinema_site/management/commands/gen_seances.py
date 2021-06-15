@@ -11,7 +11,7 @@ from cinema_site.models import Seance, Movie, Hall
 class Command(BaseCommand):
     def handle(self, *args, **options):
         fake = Faker()
-        for _ in range(200):
+        for _ in range(400):
             try:
                 Seance(
                     seance_format=random.choice(['3D', '2D', 'IMAX']),

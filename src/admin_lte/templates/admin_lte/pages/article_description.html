@@ -7,6 +7,7 @@
 {% endblock %}
 
 {% block head %}
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.2.620/styles/kendo.bootstrap-v4.min.css">
 {% endblock %}
 
 {% block content %}
@@ -63,7 +64,7 @@
                             <!-- /.card-body -->
                         </div>
                         <!-- /.card -->
-                        
+
                     </div>
                     <!-- /.col -->
                     <div class="col-md-9">
@@ -180,7 +181,6 @@
                                     </div>
 
 
-
                                     <div id="form_set" class="row">
                                         {{ formset.management_form }}
                                         {% for form in formset.forms %}
@@ -293,4 +293,6 @@
             form_idx.eq(parseInt(form_idx) + 1);
         });
     </script>
+
+
 {% endblock %}

@@ -41,6 +41,21 @@ services:
       - media_volume:/usr/src/app/src/media
     restart: "on-failure"
 
+  redis:
+    image: redis
+    container_name: redis_server
+    tty: true
+    stdin_open: true
+    restart: always
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=1234
+#      - RABBITMQ_DEFAULT_PASS=12341234
+#      - RABBITMQ_DEFAULT_HOST=14312432314
+#    env_file:
+#      - .env
+    ports:
+      - "6379:6379"
+
 volumes:
   static_volume:
   media_volume:
