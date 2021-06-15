@@ -22,6 +22,9 @@ RUN pip install -r requirements.txt
 RUN ["python", "src/manage.py", "collectstatic"]
 
 # make entrypoint
-COPY ./entrypoint.sh .
-RUN ["chmod", "+x", "/usr/src/app/entrypoint.sh"]
-ENTRYPOINT ["sh", "/usr/src/app/entrypoint.sh"]
+#RUN ["python", "src/manage.py", "makemigrations", "--no-input"]
+#RUN ["python", "src/manage.py", "migrate", "--no-input"]
+#RUN ["gunicorn", "--pythonpath", "src", "src.wsgi:application", "-b", "0.0.0.0:8000", "--reload"]
+#COPY ./entrypoint.sh .
+#RUN ["chmod", "+x", "/usr/src/app/entrypoint.sh"]
+#ENTRYPOINT ["sh", "/usr/src/app/entrypoint.sh"]

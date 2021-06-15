@@ -28,6 +28,7 @@ services:
       - "8000:8000"
     expose:
       - "8000"
+    command: make gunicorn-run
 
   nginx:
     build:
@@ -47,12 +48,13 @@ services:
     image: "redis:alpine"
 
   celery:
-    build: .
-    command: "make worker"
+    restart: always
+    build:
+      context: .
+    command: make worker
     depends_on:
       - web
       - redis
-    restart: always
 
 volumes:
   static_volume:
