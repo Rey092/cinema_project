@@ -22,8 +22,10 @@ services:
       - media_volume:/usr/src/app/src/media
 #    depends_on:
 #      - postgresdb
+    depends_on:
+      - redis
     ports:
-    - "8000:8000"
+      - "8000:8000"
     expose:
       - "8000"
 
@@ -33,7 +35,7 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - web
-#      - postgresdb
+      - redis
     ports:
       - "80:80"
     volumes:
@@ -42,22 +44,11 @@ services:
     restart: "on-failure"
 
   redis:
-    image: redis
-    container_name: redis_server
-    tty: true
-    stdin_open: true
-    restart: always
-#    environment:
-#      - RABBITMQ_DEFAULT_USER=1234
-#      - RABBITMQ_DEFAULT_PASS=12341234
-#      - RABBITMQ_DEFAULT_HOST=14312432314
-#    env_file:
-#      - .env
-    ports:
-      - "6379:6379"
+    image: "redis:alpine"
 
   celery:
-    command: "celery -A src/src worker --autoscale=4,2 -l info --queue=fila1"
+    build: .
+    command: "make worker"
     depends_on:
       - web
       - redis
