@@ -55,6 +55,8 @@ services:
     depends_on:
       - web
       - redis
+    ports:
+      - "587:587"
 
 volumes:
   static_volume:

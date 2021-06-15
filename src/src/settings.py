@@ -178,7 +178,7 @@ LOGOUT_REDIRECT_URL = reverse_lazy('cinema_site:home_page')
 # GMAIL
 # https://www.google.com/settings/security/lesssecureapps
 EMAIL_HOST_USER = 'worker2plsdontban@gmail.com'
-EMAIL_HOST_PASSWORD = 'xt,ehfnjh-0'
+EMAIL_HOST_PASSWORD = 'ifmodzaisqsaapcr'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
