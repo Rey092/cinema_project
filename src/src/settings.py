@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-mpx$21@g@2dh@8e^sr5qfwnn89mr&)v*4^n+g7q*7%el)gbuc6'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 INTERNAL_IPS = ['127.0.0.1', ]
@@ -95,16 +95,16 @@ WSGI_APPLICATION = 'src.wsgi.application'
 
 DATABASES = {
     'default': {
-        # 'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': 'cinema_project_db',
-        # 'USER': 'postgres',
-        # 'PASSWORD': 'postgres',
-        # 'HOST': 'postgresdb',
-        # 'PORT': 5432,
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+# 'NAME': 'cinema_project_db',
+# 'USER': 'postgres_admin',
+# 'PASSWORD': 'postgres',
+# 'HOST': 'postgresdb',
+# 'PORT': 5432,
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -138,10 +138,9 @@ USE_L10N = True
 USE_TZ = True
 
 # Celery Config
-# CELERY_BROKEN_URL = 'amqp://localhost'
-BROKER_URL = 'redis://redis:6379'
-CELERY_RESULT_BACKEND = 'redis://redis:6379'
-CELERY_BACKEND_URL = 'redis://redis:6379'
+BROKER_URL = 'redis://localhost:6379'
+CELERY_RESULT_BACKEND = 'redis://localhost:6379'
+CELERY_BACKEND_URL = 'redis://localhost:6379'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'
@@ -177,10 +176,10 @@ LOGOUT_REDIRECT_URL = reverse_lazy('cinema_site:home_page')
 
 # GMAIL
 # https://www.google.com/settings/security/lesssecureapps
-EMAIL_HOST_USER = 'worker2plsdontban@gmail.com'
-EMAIL_HOST_PASSWORD = 'ifmodzaisqsaapcr'
+EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'worker2plsdontban@gmail.com'
+EMAIL_HOST_PASSWORD = 'ifmodzaisqsaapcr'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER

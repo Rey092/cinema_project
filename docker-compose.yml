@@ -20,6 +20,7 @@ services:
       - .:/app:rw # map data and files from parent directory in host to microservice directory in docker container
       - static_volume:/usr/src/app/static
       - media_volume:/usr/src/app/src/media
+      - db_volume:/usr/src/app/src
 #    depends_on:
 #      - postgresdb
     depends_on:
@@ -46,11 +47,15 @@ services:
 
   redis:
     image: "redis:alpine"
+    volumes:
+      - db_volume:/usr/src/app/src
 
   celery:
     restart: always
     build:
       context: .
+    volumes:
+      - db_volume:/usr/src/app/src
     command: make worker
     depends_on:
       - web
@@ -61,3 +66,4 @@ services:
 volumes:
   static_volume:
   media_volume:
+  db_volume:
