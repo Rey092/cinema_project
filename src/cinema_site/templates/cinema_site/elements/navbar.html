@@ -12,8 +12,12 @@
                 <div class="col-md-9">
                     <div class="row">
                         <div class="col-md-3" style="padding: 7px">
-                            <input class="form-control mr-sm-2" type="search" placeholder="Search"
-                                   aria-label="Search">
+
+                            <form method="GET" action="{% url 'cinema_site:search' %}" id="searchform">
+    <input class="searchfield" id="searchbox" name="q" type="text" value="{{ request.GET.q }}" placeholder="Search..."/>
+</form>
+{#                            <input class="form-control mr-sm-2" type="search" placeholder="Search"#}
+{#                                   aria-label="Search">#}
                         </div>
                         <div class="col-md-6" style="padding: 7px">
                             <a href="#" class="fa fa-facebook"></a>
@@ -75,17 +79,17 @@
                                             <a class="dropdown-item" href="{% url 'cinema_site:contacts_view' %}">Контакты</a>
                                         </div>
                                     </li>
-                                    <li class="nav-item dropdown main-nav-item">
-                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"
-                                           role="button" data-toggle="dropdown" aria-haspopup="true"
-                                           aria-expanded="false">
-                                            Рус
-                                        </a>
-                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                            <a class="dropdown-item" href="#">Рус</a>
-                                            <a class="dropdown-item" href="#">Англ</a>
-                                        </div>
-                                    </li>
+{#                                    <li class="nav-item dropdown main-nav-item">#}
+{#                                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown"#}
+{#                                           role="button" data-toggle="dropdown" aria-haspopup="true"#}
+{#                                           aria-expanded="false">#}
+{#                                            Рус#}
+{#                                        </a>#}
+{#                                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">#}
+{#                                            <a class="dropdown-item" href="#">Рус</a>#}
+{#                                            <a class="dropdown-item" href="#">Англ</a>#}
+{#                                        </div>#}
+{#                                    </li>#}
                                     {% if user.is_authenticated %}
                                         <li class="nav-item main-nav-item">
                                             <a class="nav-link" href="{% url 'profiles:user_profile' %}">Профиль</a>

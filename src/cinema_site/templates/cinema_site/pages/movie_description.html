@@ -79,11 +79,11 @@
                             <div class="card" style="padding: 30px">
                                 <h1>{{ movie.title }}</h1>
                                 <p></p>
-                                <div style="font-size: 20px" class="movie-page-block__desc">
+                                <div style="font-size: 20px; word-break: break-word" align="justify" class="movie-page-block__desc">
                                     <p><strong>Не забувай про маску.</strong></p>
                                     <p>Вона потрібна усім гостям, навіть наймолодшим.</p>
 
-                                    {{ movie.description }}
+                                    {{ movie.description|linebreaks }}
 
                                     <p><strong>Ми заблокували частину місць у залі, щоб забезпечити
                                         дистанцію

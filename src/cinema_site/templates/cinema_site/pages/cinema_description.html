@@ -65,18 +65,17 @@
                                      alt="error">
                             </div>
                         </div>
-
                     </div>
 
                     <div style="background-color: #e0edf6; padding-bottom: 3px; display: flex;" class="col-8">
                         <div class="main-body" style="padding: 0; margin-left: auto; margin-right: auto;">
                             <div style="padding: 10px; width: 100%; " class="card">
                                 <h1 class="movie_today">Кинотеатр {{ cinema.name }}</h1>
-                                <p style="font-size: 20px">{{ cinema.description }}
+                                <p style="font-size: 20px">{{ cinema.description|linebreaks }}
                                 </p>
                                 <div style="font-size: 20px" class="movie-page-block__desc">
                                     <p><strong>Не забувай про маску.</strong></p>
-                                    <p>{{ cinema.conditions }}</p>
+                                    <p>{{ cinema.conditions|linebreaks }}</p>
                                 </div>
                                 <div class="card">
                                     <div class="banner-container">

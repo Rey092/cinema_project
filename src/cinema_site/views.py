@@ -3,10 +3,13 @@ from datetime import tzinfo, timezone, timedelta
 from pprint import pprint
 
 from dateutil.utils import today
+from django.contrib.auth.decorators import login_required
 from django.core import serializers
-from django.http import JsonResponse, Http404
-from django.shortcuts import get_object_or_404, render
+from django.http import JsonResponse, Http404, HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import reverse_lazy
 from django.utils.datetime_safe import datetime
+from django.utils.decorators import method_decorator
 from django.utils.timezone import utc
 from django.views.generic import ListView, TemplateView, UpdateView, DetailView
 from cinema_site.models import Movie, Image, Seance, Cinema, Hall, Ticket, Article, Page, Contacts, Gallery, \
@@ -96,6 +99,7 @@ class MovieDescriptionView(DetailView):
         return context
 
 
+@method_decorator(login_required(login_url='/login'), name='dispatch')
 class MovieBookingView(DetailView):
     """Single movie booking. url: 'movies/<slug:movie_slug>/booking/'."""
 
@@ -319,3 +323,14 @@ def api_banners(request):
         return JsonResponse({'images': images, 'carousel_status': carousel_status,
                              'banner': banner, 'bg_format': bg_format}, status=200)
     return Http404
+
+
+def search_view(request):
+    search = request.GET.get('q')
+    if search:
+        qs = Movie.objects.filter(is_active=True)
+        for movie in qs:
+            if search.lower() in movie.title.lower():
+                return redirect('cinema_site:movie_description', slug=movie.slug)
+    else:
+        return redirect('cinema_site:home_page')

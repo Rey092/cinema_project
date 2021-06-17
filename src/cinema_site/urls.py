@@ -34,5 +34,7 @@ urlpatterns = [
     path('mobile-app-info/', views.MobileAppInfoView.as_view(), name='mobile_app_info'),
     path('contacts/', views.ContactsView.as_view(), name='contacts_view'),
 
+    path('search/', views.search_view, name='search'),
+
     path('api/api_banners', views.api_banners, name='api_banners')
 ]
